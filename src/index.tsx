@@ -10,10 +10,14 @@ import '@aws-amplify/ui-react/styles.css';
 
 Amplify.configure(awsExports);
 
+//hi
+
 function App({ user }: { user: any }) {
   const { signOut } = useAuthenticator((context) => [context.user]);
   const [navigationOpen, setNavigationOpen] = React.useState(false);
   const [isLoading, setLoading] = useState(false);
+
+
 
   return (
     <AwsUI.AppLayout
