@@ -55,7 +55,7 @@ function App({ user }: { user: any }) {
 }
 
 const components = {
-  
+
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -63,12 +63,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Authenticator.Provider>
       <Authenticator
         signUpAttributes={[
-          'address',
-          'birthdate',
-          'email',
-          'gender',
           'name',
-          'phone_number',
+          'email',
         ]}
         components={{
           SignUp: {
@@ -80,12 +76,15 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
                   {/* Re-use default `Authenticator.SignUp.FormFields` */}
                   <Authenticator.SignUp.FormFields />
 
-                  <SelectField name="gender" label ="Sex">
-                    <option value ="Male">Male</option>
-                    <option value ="Female">Female</option>
+                  <SelectField name="role" label="roles">
+                    <option value="Physician">Physician</option>
+                    <option value="PhysicianAssisstant">Physician Assisstant</option>
+                    <option value="Nurse">Nurse</option>
+                    <option value="Pharmacist">Pharmacist</option>
+                    <option value="LabTechnician">Lab Technician</option>
                   </SelectField>
 
-                  <TextField name="address" label="Address" type="text" />
+                  {/* <TextField name="address" label="Address" type="text" /> */}
 
                   {/* Append & require Terms & Conditions field to sign up  */}
                   <CheckboxField
