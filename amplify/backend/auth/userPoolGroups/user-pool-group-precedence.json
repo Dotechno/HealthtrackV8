@@ -1,0 +1,26 @@
+[
+  {
+    "groupName": "Physician",
+    "precedence": 1
+  },
+  {
+    "groupName": "PhysicianAssisstant",
+    "precedence": 2
+  },
+  {
+    "groupName": "Nurse",
+    "precedence": 3
+  },
+  {
+    "groupName": "Pharmacist",
+    "precedence": 4
+  },
+  {
+    "groupName": "LabTechnician",
+    "precedence": 5
+  },
+  {
+    "groupName": "admin",
+    "precedence": 6
+  }
+]

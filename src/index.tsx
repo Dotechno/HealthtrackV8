@@ -55,7 +55,7 @@ function App({ user }: { user: any }) {
 }
 
 const components = {
-  
+
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -63,12 +63,12 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <Authenticator.Provider>
       <Authenticator
         signUpAttributes={[
-          'address',
-          'birthdate',
           'email',
-          'gender',
-          'name',
-          'phone_number',
+
+          //   // Unwanted fields can be removed from the sign up form:
+          //   // 'gender',
+          //   // 'address',
+          //   // 'birthdate',
         ]}
         components={{
           SignUp: {
@@ -77,15 +77,24 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
 
               return (
                 <>
+                  {/* https://ui.docs.amplify.aws/react/components/textfield */}
+                  <TextField
+                    name="username"
+                    descriptiveText="Please enter your username"
+                    label="Username"
+                    errorMessage={validationErrors.username as string}
+                  />
+
                   {/* Re-use default `Authenticator.SignUp.FormFields` */}
                   <Authenticator.SignUp.FormFields />
 
-                  <SelectField name="gender" label ="Sex">
-                    <option value ="Male">Male</option>
-                    <option value ="Female">Female</option>
+                  <SelectField name="role" label="Roles">
+                    <option value="Physician">Physician</option>
+                    <option value="PhysicianAssisstant">Physician Assisstant</option>
+                    <option value="Nurse">Nurse</option>
+                    <option value="Pharmacist">Pharmacist</option>
+                    <option value="LabTechnician">Lab Technician</option>
                   </SelectField>
-
-                  <TextField name="address" label="Address" type="text" />
 
                   {/* Append & require Terms & Conditions field to sign up  */}
                   <CheckboxField
@@ -104,5 +113,5 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         {({ user }) => <App user={user} />}
       </Authenticator>
     </Authenticator.Provider>
-  </React.StrictMode>
+  </React.StrictMode >
 );
