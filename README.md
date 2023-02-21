@@ -2,14 +2,16 @@
 ## Installation
 
 Clone the front and backend project
-```
-please don't create a folder to git clone. Just clone repo to path. such as my folder: C:\Users\kenzh\Work,
 
+*Please don't create a folder to git clone. Just clone repo to path. such as charlie's directory structure: C:\Users\kenzh\Work,*
+```bash
 git clone https://github.com/Dotechno/HealthtrackV8
 cd HealthtrackV8
 
-please when you amplify pull into folder, please amplify to HealthTracker V8 folder
+```
 
+*Please when you amplify pull into folder, please amplify to HealthTracker V8 folder*
+```bash
 amplify pull --appId dd1gmnh1dmpn6 --envName dev
 ```
 
@@ -20,17 +22,17 @@ yarn install
 yarn start
 ```
 
-## Deployment
+## Deployment FAQ
 ### Vscode not running script disable:
-![not](./files/script.png)
+![Script errors](./files/script.png)
 
-### Solution:
+### Solution: [Reference](https://github.com/Microsoft/vscode-python/issues/2559)
   1. open window powershell
-  2. Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
-  3. Get-ExecutionPolicy
-  4.Get-ExecutionPolicy -LIST
+  2. `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+  3. `Get-ExecutionPolicy`
+  4. `Get-ExecutionPolicy -LIST`
 
-  Website: https://github.com/Microsoft/vscode-python/issues/2559
+  
 
 ### Create an account:
 
@@ -41,8 +43,7 @@ If you have problem,
 ---------
 
 ### Error: Amplify has not been configure correctly.
-![Fine](./files/amplify.png)
-        
+![Amplify Errors](./files/amplify.png)
         
 ### Solution: [Stackoverflow](https://stackoverflow.com/questions/63605779/autherror-error-amplify-has-not-been-configured-correctly#comment115783887_63605780)
     1. npm un aws-amplify @aws-amplify/ui-react
