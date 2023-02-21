@@ -9,7 +9,11 @@ function Nurse({ user }: { user: any }) {
 
   console.log(user);
 
-  return <AwsUI.AppLayout navigation={<></>} content={<>Technician View</>} />;
+  return (<AwsUI.AppLayout 
+              navigation={<></>} 
+              content={<>Technician View</>} />
+              
+            )
 }
 
 export default Nurse;
