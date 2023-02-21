@@ -16,10 +16,9 @@ import Technician from './view/technician/Technician';
 import Pharmacist from './view/pharmacist/Pharmacist';
 import Physician from './view/physician/Physician';
 import PhysicianAssistant from './view/physicianassistant/PhysicianAssistant';
+import Admin from './view/admin/admin';
 
 Amplify.configure(awsExports);
-
-
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -62,27 +61,22 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         {({ user }): any => {
           // Get the custom role attribute
           // console.log(JSON.stringify(user));
-          console.log(typeof(user?.attributes?.['custom:role']));
-          switch(user?.attributes?.['custom:role'] as string) {
-            case 'Nurse': 
+          console.log(typeof user?.attributes?.['custom:role']);
+          switch (user?.attributes?.['custom:role'] as string) {
+            case 'admin':
+              return <Admin user={user} />;
+            case 'Nurse':
               return <Nurse user={user} />;
-              break;
-            case 'LabTechnician': 
+            case 'LabTechnician':
               return <Technician user={user} />;
-              break;
             case 'Pharmacist':
               return <Pharmacist user={user} />;
-              break;
             case 'Physician':
               return <Physician user={user} />;
-              break;
             case 'PhysicianAssistant':
               return <PhysicianAssistant user={user} />;
-              break;
-            
           }
-      
-      }}
+        }}
       </Authenticator>
     </Authenticator.Provider>
   </React.StrictMode>
