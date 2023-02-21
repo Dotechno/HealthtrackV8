@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 
-
+amplify
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
