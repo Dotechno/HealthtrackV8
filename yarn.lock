@@ -6092,6 +6092,11 @@ rbush@^3.0.1:
   dependencies:
     quickselect "^2.0.0"
 
+react-appointment-picker@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/react-appointment-picker/-/react-appointment-picker-3.2.1.tgz#df93185a0b4d19e1b8200c6c15419b9e63be82ec"
+  integrity sha512-JWBsFl69eYoCENkunx3unXamhVMKT7Pye7sgzyAKO2bF+q5QlpLWyKGP0O8vKlyi0fO24N6UdTidf9s20G4rJQ==
+
 react-clientside-effect@^1.2.5:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/react-clientside-effect/-/react-clientside-effect-1.2.6.tgz#29f9b14e944a376b03fb650eed2a754dd128ea3a"

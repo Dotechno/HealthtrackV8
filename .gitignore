@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Matt
+secret.json
+yarn.lock
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -23,13 +27,16 @@ dist-ssr
 *.sln
 *.sw?
 
+.secret-*
+**.sample
+
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
 amplify/.config/local-*
 amplify/logs
 amplify/mock-data
-amplify/mock-api-resources
 amplify/backend/amplify-meta.json
+amplify/backend/awscloudformation
 amplify/backend/.temp
 build/
 dist/
@@ -41,6 +48,4 @@ amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
-.secret-*
-**.sample
 #amplify-do-not-edit-end

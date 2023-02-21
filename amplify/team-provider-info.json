@@ -12,15 +12,15 @@
       "AmplifyAppId": "dd1gmnh1dmpn6"
     },
     "categories": {
+      "auth": {
+        "htauth": {},
+        "userPoolGroups": {}
+      },
       "hosting": {
         "amplifyhosting": {
           "appId": "dd1gmnh1dmpn6",
           "type": "cicd"
         }
-      },
-      "auth": {
-        "htauth": {},
-        "userPoolGroups": {}
       }
     }
   }

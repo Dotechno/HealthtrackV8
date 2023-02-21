@@ -1,117 +1,50 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom/client';
 import awsExports from './aws-exports';
 import './index.css';
-import * as AwsUI from '@awsui/components-react';
 import { Amplify } from 'aws-amplify';
-import { CheckboxField, SelectField, TextField, useAuthenticator } from '@aws-amplify/ui-react';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
+import Nurse from './view/nurse/Nurse';
+import Pharmacist from './view/pharmacist/Pharmacist';
+import Physician from './view/physician/Physician';
+import PhysicianAssistant from './view/physicianassistant/PhysicianAssistant';
+import Admin from './view/admin/admin';
+import customSignUpFields from './components/authenticator/FormFields';
 
 Amplify.configure(awsExports);
 
-function App({ user }: { user: any }) {
-  const { signOut } = useAuthenticator((context) => [context.user]);
-  const [navigationOpen, setNavigationOpen] = React.useState(false);
-  const [isLoading, setLoading] = useState(false);
-
-  return (
-    <AwsUI.AppLayout
-      navigation={<></>}
-      content={
-        <AwsUI.ContentLayout
-          header={
-            <AwsUI.SpaceBetween size="m">
-              <AwsUI.Header
-                variant="h1"
-                info={<AwsUI.Link>Info</AwsUI.Link>}
-                description="This is a generic description used in the header."
-                actions={
-                  <AwsUI.Button onClick={signOut} variant="primary">
-                    Sign Out
-                  </AwsUI.Button>
-                }
-              >
-                Healthtrack
-              </AwsUI.Header>
-
-              <AwsUI.Alert>This is a generic alert.</AwsUI.Alert>
-            </AwsUI.SpaceBetween>
-          }
-        >
-          <AwsUI.Container
-            header={
-              <AwsUI.Header variant="h2" description="Container description">
-                Container header
-              </AwsUI.Header>
-            }
-          >
-            {`Your email is ${user.attributes.email}`}
-          </AwsUI.Container>
-        </AwsUI.ContentLayout>
-      }
-    />
-  );
-}
-
 const components = {
-
+  SignUp: { FormFields: customSignUpFields },
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Authenticator.Provider>
       <Authenticator
-        signUpAttributes={[
-          'email',
+        components={components}
+      >
+        {({ user }): any => {
 
-          //   // Unwanted fields can be removed from the sign up form:
-          //   // 'gender',
-          //   // 'address',
-          //   // 'birthdate',
-        ]}
-        components={{
-          SignUp: {
-            FormFields() {
-              const { validationErrors } = useAuthenticator();
-
-              return (
-                <>
-                  {/* https://ui.docs.amplify.aws/react/components/textfield */}
-                  <TextField
-                    name="username"
-                    descriptiveText="Please enter your username"
-                    label="Username"
-                    errorMessage={validationErrors.username as string}
-                  />
-
-                  {/* Re-use default `Authenticator.SignUp.FormFields` */}
-                  <Authenticator.SignUp.FormFields />
-
-                  <SelectField name="role" label="Roles">
-                    <option value="Physician">Physician</option>
-                    <option value="PhysicianAssisstant">Physician Assisstant</option>
-                    <option value="Nurse">Nurse</option>
-                    <option value="Pharmacist">Pharmacist</option>
-                    <option value="LabTechnician">Lab Technician</option>
-                  </SelectField>
-
-                  {/* Append & require Terms & Conditions field to sign up  */}
-                  <CheckboxField
-                    errorMessage={validationErrors.acknowledgement as string}
-                    hasError={!!validationErrors.acknowledgement}
-                    name="acknowledgement"
-                    value="yes"
-                    label="I agree with the Terms & Conditions"
-                  />
-                </>
-              );
-            }
+          // Get the custom role attribute
+          // console.log(JSON.stringify(user));
+          console.log(typeof user?.attributes?.['custom:role']);
+          switch (user?.attributes?.['custom:role'] as string) {
+            case 'admin':
+              return <Admin user={user} />;
+            case 'Nurse':
+              return <Nurse user={user} />;
+            case 'LabTechnician':
+              return <Technician user={user} />;
+            case 'Pharmacist':
+              return <Pharmacist user={user} />;
+            case 'Physician':
+              return <Physician user={user} />;
+            case 'PhysicianAssistant':
+              return <PhysicianAssistant user={user} />;
           }
         }}
-      >
-        {({ user }) => <App user={user} />}
       </Authenticator>
     </Authenticator.Provider>
-  </React.StrictMode >
+  </React.StrictMode>
 );
