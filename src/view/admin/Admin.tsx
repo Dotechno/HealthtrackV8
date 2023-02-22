@@ -37,7 +37,7 @@ function Admin({ user }: { user: any }) {
   function switchView() {
     switch (page) {
       case 'nurse':
-        return <Nurse user={user} />;
+        return <Nurse user={user} /> as JSX.Element;
       case 'technician':
         return <Technician user={user} />;
       case 'pharmacist':
@@ -48,12 +48,15 @@ function Admin({ user }: { user: any }) {
         return <PhysicianAssistant user={user} />;
     }
   }
-
+  function handleNurse(){
+    console.log(page)
+    setPage('nurse')
+  }
   return (
     <AwsUI.AppLayout
       navigation={
         <>
-          <Link onClick={() => setPage('nurse')}>Nurse View</Link>
+          <Link onClick={handleNurse}>Nurse View</Link>
           <br />
           <Link onClick={() => setPage('technician')}>Technician View</Link>
           <br />

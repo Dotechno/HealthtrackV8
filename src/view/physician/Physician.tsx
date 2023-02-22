@@ -1,4 +1,4 @@
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { useAuthenticator, View } from '@aws-amplify/ui-react';
 import React, { useEffect, useState } from 'react';
 import * as AwsUI from '@awsui/components-react';
 import * as AmpUI from '@aws-amplify/ui-react';
@@ -447,7 +447,16 @@ function Physician({ user }: { user: AmplifyUser }) {
         <AwsUI.AppLayout
             navigationOpen={navigationOpen}
             onNavigationChange={() => setNavigationOpen(!navigationOpen)}
-            navigation={<></>}
+            navigation={<> <View className="Account">
+            Account: {user?.attributes?.email}
+            <br />
+            {/* Role: {user?.attributes?['custom:role'] as String} */}
+          </View>
+
+          <AwsUI.Button className="Signout" onClick={signOut}>
+            {' '}
+            Sign out{' '}
+          </AwsUI.Button></>}
             content={
                 <>
                     <AwsUI.Button onClick={signOut}>Sign Out</AwsUI.Button>
