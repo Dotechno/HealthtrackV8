@@ -29,14 +29,15 @@ function Scheduler({ isDate, year, month, monday, i }: SchedulerProps) {
         // addCb changes the color of the box to green
         addCb(day, number, time, id);
 
-        
 
         let newWeek = [...currentWeek];
         for (let i = 0; i < newWeek.length; i++) {
             for (let j = 0; j < newWeek[i].length; j++) {
                 if (newWeek[i][j].id === id) {
                     newWeek[i][j].isSelected = true;
+
                     // newWeek[i][j].isReserved = true;
+
                 }
             }
         }

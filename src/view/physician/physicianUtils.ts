@@ -17,14 +17,16 @@ export const IsLeapYear = (year: number) => {
     return year % 100 === 0 ? year % 400 === 0 : year % 4 === 0;
 }
 
-// export const GetMonday = (year:number, month:number, day:number) => {
-//     let yr, mo, dy;
-//     switch(month) {
-//         case 1:
-//             if (day > 31) {
-//                 mo = 2;
-//                 dy = day - 31;
-//             }
-//     }
-//     return {yr, mo, dy}
-// }
+
+export const GetMonday = (year:number, month:number, day:number) => {
+    let yr, mo, dy;
+    switch(month) {
+        case 1:
+            if (day > 31) {
+                mo = 2;
+                dy = day - 31;
+            }
+    }
+    return {yr, mo, dy}
+}
+

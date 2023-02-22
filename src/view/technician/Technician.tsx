@@ -9,7 +9,7 @@ function Technician({ user }: { user: any }) {
   const [navigationOpen, setNavigationOpen] = React.useState(false);
   const [isLoading, setLoading] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
-
+  console.log(user)
   return (
     <AwsUI.AppLayout
       navigation={<>
@@ -25,7 +25,7 @@ function Technician({ user }: { user: any }) {
       </>}
       content={
               <>
-
+              <button onClick={signOut}>Sign Out</button>
               </>
       }
       tools={

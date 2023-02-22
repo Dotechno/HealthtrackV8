@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 import ReactDOM from 'react-dom/client';
 import awsExports from './aws-exports';
 import './index.css';
 import { Amplify } from 'aws-amplify';
-import { Authenticator } from '@aws-amplify/ui-react';
+import { Authenticator, useAuthenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import Nurse from './view/nurse/Nurse';
 import Pharmacist from './view/pharmacist/Pharmacist';
 import Physician from './view/physician/Physician';
 import PhysicianAssistant from './view/physicianassistant/PhysicianAssistant';
-import Admin from './view/admin/admin';
 import customSignUpFields from './components/authenticator/FormFields';
+import Admin from './view/admin/Admin';
+import Technician from './view/technician/Technician';
+import type { AmplifyUser } from '@aws-amplify/ui';
+
+import { AuthEventData } from '@aws-amplify/ui';
 
 Amplify.configure(awsExports);
 
 const components = {
   SignUp: { FormFields: customSignUpFields },
+}
+
+interface HealthtrackUser {
+  user?: AmplifyUser;
+  signOut?: (event?: AuthEventData) => void;
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
@@ -24,11 +33,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Authenticator
         components={components}
       >
-        {({ user }): any => {
+        {({ user }:HealthtrackUser):any =>  {
 
           // Get the custom role attribute
-          // console.log(JSON.stringify(user));
-          console.log(typeof user?.attributes?.['custom:role']);
           switch (user?.attributes?.['custom:role'] as string) {
             case 'admin':
               return <Admin user={user} />;
@@ -39,7 +46,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
             case 'Pharmacist':
               return <Pharmacist user={user} />;
             case 'Physician':
-              return <Physician user={user} />;
+              return <Physician user={user as AmplifyUser} />;
             case 'PhysicianAssistant':
               return <PhysicianAssistant user={user} />;
           }
