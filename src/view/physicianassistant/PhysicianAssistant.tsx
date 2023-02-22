@@ -1,13 +1,7 @@
-<<<<<<< Updated upstream
-import { Button, useAuthenticator, View } from "@aws-amplify/ui-react";
+import { Button, View, useAuthenticator } from "@aws-amplify/ui-react";
 import React, { useRef, useState } from "react";
 import * as AwsUI from "@awsui/components-react";
-=======
-import { useAuthenticator, View } from '@aws-amplify/ui-react';
-import React, { useRef, useState } from 'react';
-import * as AwsUI from '@awsui/components-react';
-import { Button } from '@awsui/components-react';
->>>>>>> Stashed changes
+import '../../styles/Navigation.css';
 
 function PhysicianAssistant({ user }: { user: any }) {
   const { signOut } = useAuthenticator((context) => [context.user]);
@@ -16,50 +10,31 @@ function PhysicianAssistant({ user }: { user: any }) {
 
   console.log(user);
 
-<<<<<<< Updated upstream
     console.log(user)
   
   
     return (
       <AwsUI.AppLayout
-        navigation={<>
-          <View className ="One">
-           Accout: {user.attributes.email}
-          <br/>
+      navigation={<>
+        <View className ="Account">
+          Account: {user.attributes.email}
+        <br/>
           Role: {user.attributes['custom:role']}
-          </View>
+        </View>
     
 
-           <Button className = "Signout" onClick = {signOut}> Sign out </Button>
-        
-        </>}
+        <Button className = "Signout" onClick = {signOut}> Sign out </Button>
+      
+      </>}
+
         content={
             <>Physician Assistant View</>
         }
       />
     );
-  }
-=======
-  return (
-    <AwsUI.AppLayout
-      navigation={
-        <>
-          <View className="Account_Profile">
-            Accout: {user.attributes.email}
-            <br />
-            Role: {user.attributes['custom:role']}
-          </View>
->>>>>>> Stashed changes
-
-          <Button className="Signout" onClick={signOut}>
-            {' '}
-            Sign out{' '}
-          </Button>
-        </>
-      }
-      content={<>Physician Assistant View</>}
-    />
-  );
+  
 }
 
 export default PhysicianAssistant;
+
+
