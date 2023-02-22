@@ -1,8 +1,4 @@
-
-import { Button, useAuthenticator, View } from '@aws-amplify/ui-react';
-import { AppointmentPicker } from 'react-appointment-picker';
-import { AppointmentAttributesType } from 'react-appointment-picker';
-import '../../styles/Navigation.css';
+import { useAuthenticator, View } from '@aws-amplify/ui-react';
 import React, { useEffect, useState } from 'react';
 import * as AwsUI from '@awsui/components-react';
 import * as AmpUI from '@aws-amplify/ui-react';
@@ -451,18 +447,16 @@ function Physician({ user }: { user: AmplifyUser }) {
         <AwsUI.AppLayout
             navigationOpen={navigationOpen}
             onNavigationChange={() => setNavigationOpen(!navigationOpen)}
-            navigation={ <>
-        <View className="Account">
-          Account: {user.attributes.email}
-          <br />
-          Role: {user.attributes['custom:role']}
-        </View>
+            navigation={<> <View className="Account">
+            Account: {user?.attributes?.email}
+            <br />
+            {/* Role: {user?.attributes?['custom:role'] as String} */}
+          </View>
 
-
-
-
-<Button className = "Signout" onClick = {signOut}> Sign out </Button>
-</>}
+          <AwsUI.Button className="Signout" onClick={signOut}>
+            {' '}
+            Sign out{' '}
+          </AwsUI.Button></>}
             content={
                 <>
                     <AwsUI.Button onClick={signOut}>Sign Out</AwsUI.Button>
@@ -498,7 +492,6 @@ function Physician({ user }: { user: AmplifyUser }) {
             }
         />
     );
-
 }
 
 export default Physician;
