@@ -12,6 +12,7 @@ function Physician({ user }: { user: any }) {
   const [navigationOpen, setNavigationOpen] = React.useState(false);
   const [isLoading, setLoading] = useState(false);
 
+<<<<<<< Updated upstream
   const addAppointment = (appointment: {
     id: number | string;
     number: number | string;
@@ -35,6 +36,66 @@ function Physician({ user }: { user: any }) {
         <Button className = "Signout" onClick = {signOut}> Sign out </Button>
       
       </>}
+=======
+  const handleCheckboxChange = ({ detail }: any) => {
+    setIsDate(detail.checked);
+  };
+
+  async function addAppointmentCallback({
+    addedAppointment: { day, number, time, id },
+    addCb,
+  }: any): Promise<any> {
+    // addCb changes the color of the box to green
+    addCb(day, number, time, id);
+
+    let newWeek = [...week];
+    for (let i = 0; i < newWeek.length; i++) {
+      for (let j = 0; j < newWeek[i].length; j++) {
+        if (newWeek[i][j].id === id) {
+          newWeek[i][j].isSelected = true;
+        }
+      }
+    }
+    setWeek(newWeek);
+  }
+
+  async function removeAppointmentCallback(
+    { day, number, time, id }: any,
+    removeCb: (arg0: any, arg1: any) => void
+  ): Promise<any> {
+    //removeCb changes the color of the box
+    removeCb(day, number);
+    let newWeek = [...week];
+
+    for (let i = 0; i < newWeek.length; i++) {
+      for (let j = 0; j < newWeek[i].length; j++) {
+        if (newWeek[i][j].id === id && newWeek[i][j].isSelected === true) {
+          newWeek[i][j].isSelected = false;
+        }
+      }
+    }
+    setWeek(newWeek);
+  }
+
+  return (
+    <AwsUI.AppLayout
+      navigationOpen={navigationOpen}
+      onNavigationChange={() => setNavigationOpen(!navigationOpen)}
+      navigation={
+        <>
+          <AwsUI.View className="Account_Profile">
+            Accout: {user.attributes.email}
+            <br />
+            Role: {user.attributes['custom:role']}
+          </AwsUI.View>
+
+          <Button className="Signout" onClick={signOut}>
+            {' '}
+            Sign out{' '}
+          </Button>
+        </>
+      }
+>>>>>>> Stashed changes
       content={
         <>
         
