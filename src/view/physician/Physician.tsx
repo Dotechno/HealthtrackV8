@@ -1,4 +1,4 @@
-import { useAuthenticator } from '@aws-amplify/ui-react';
+import { Button, useAuthenticator, View } from '@aws-amplify/ui-react';
 import React, { useRef, useState } from 'react';
 import * as AwsUI from '@awsui/components-react';
 import { AppointmentPicker } from 'react-appointment-picker';
@@ -24,10 +24,20 @@ function Physician({ user }: { user: any }) {
 
   return (
     <AwsUI.AppLayout
-      navigation={<></>}
+      navigation={<>
+        <View className ="One">
+        Accout: {user.attributes.email}
+        <br/>
+        Role: {user.attributes['custom:role']}
+        </View>
+    
+
+        <Button className = "Signout" onClick = {signOut}> Sign out </Button>
+      
+      </>}
       content={
         <>
-        <button onClick={signOut}>Sign Out</button>
+        
           <AppointmentPicker
 
             days={days as AppointmentAttributesType[][]}
