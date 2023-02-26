@@ -8,10 +8,10 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Prescription } from "../models";
+import { Todo } from "../../util/models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function PrescriptionCreateForm(props) {
+export default function TodoCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -24,24 +24,20 @@ export default function PrescriptionCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    dosage: "",
     description: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [dosage, setDosage] = React.useState(initialValues.dosage);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
-    setDosage(initialValues.dosage);
     setDescription(initialValues.description);
     setErrors({});
   };
   const validations = {
-    name: [],
-    dosage: [],
+    name: [{ type: "Required" }],
     description: [],
   };
   const runValidationTasks = async (
@@ -70,7 +66,6 @@ export default function PrescriptionCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          dosage,
           description,
         };
         const validationResponses = await Promise.all(
@@ -101,7 +96,7 @@ export default function PrescriptionCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Prescription(modelFields));
+          await DataStore.save(new Todo(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -114,12 +109,12 @@ export default function PrescriptionCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PrescriptionCreateForm")}
+      {...getOverrideProps(overrides, "TodoCreateForm")}
       {...rest}
     >
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -127,7 +122,6 @@ export default function PrescriptionCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              dosage,
               description,
             };
             const result = onChange(modelFields);
@@ -144,32 +138,6 @@ export default function PrescriptionCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Dosage"
-        isRequired={false}
-        isReadOnly={false}
-        value={dosage}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              dosage: value,
-              description,
-            };
-            const result = onChange(modelFields);
-            value = result?.dosage ?? value;
-          }
-          if (errors.dosage?.hasError) {
-            runValidationTasks("dosage", value);
-          }
-          setDosage(value);
-        }}
-        onBlur={() => runValidationTasks("dosage", dosage)}
-        errorMessage={errors.dosage?.errorMessage}
-        hasError={errors.dosage?.hasError}
-        {...getOverrideProps(overrides, "dosage")}
-      ></TextField>
-      <TextField
         label="Description"
         isRequired={false}
         isReadOnly={false}
@@ -179,7 +147,6 @@ export default function PrescriptionCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              dosage,
               description: value,
             };
             const result = onChange(modelFields);

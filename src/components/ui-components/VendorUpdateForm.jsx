@@ -14,7 +14,7 @@ import {
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Vendor } from "../models";
+import { Vendor } from "../../util/models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 export default function VendorUpdateForm(props) {

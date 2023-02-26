@@ -2,16 +2,25 @@ import { useAuthenticator, View } from '@aws-amplify/ui-react';
 import React, { useEffect, useState } from 'react';
 import * as AwsUI from '@awsui/components-react';
 import * as AmpUI from '@aws-amplify/ui-react';
-import { calendar } from './mockData';
+import { calendar } from '../util/schedulerMockData';
 import type { AmplifyUser } from '@aws-amplify/ui';
 import {
     CancelableEventHandler,
     ClickDetail,
 } from '@awsui/components-react/internal/events';
-import Scheduler from './Scheduler';
-import { getCurrentMonday, IsLeapYear } from './physicianUtils';
+import Scheduler from '../components/physician/Scheduler';
+import {
+    getCurrentMonday,
+    IsLeapYear,
+} from '../components/physician/physicianUtils';
+import { Navigation } from '../components/navigation/Navigation';
 
-function Physician({ user }: { user: AmplifyUser }) {
+export interface PhysicianProps {
+    user?: AmplifyUser;
+}
+
+
+function Physician({ user }: PhysicianProps) {
     const { signOut } = useAuthenticator((context) => [context.user]);
     const [navigationOpen, setNavigationOpen] = useState(false);
     const [isDate, setIsDate] = useState(false);
@@ -25,210 +34,214 @@ function Physician({ user }: { user: AmplifyUser }) {
     function handleShiftWeekLeft():
         | CancelableEventHandler<ClickDetail>
         | undefined {
-        
-        if(weekCounter-1 < 0)return
+        if (weekCounter - 1 < 0) return;
         setWeekCounter(weekCounter - 1);
 
         let year = new Date().getFullYear();
         let isLeapYear: boolean = IsLeapYear(year);
 
-        switch(month){
+        switch (month) {
             //January
             case 0:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(31);
                     setMonth(11);
                     setYear(year - 1);
-                    if(new Date(year-1, 11, 31).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 11, 31 - i).getDay() === 1){
+                    if (new Date(year - 1, 11, 31).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 11, 31 - i).getDay() === 1) {
                                 setDay(31 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //February
             case 1:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(31);
                     setMonth(0);
-                    if(new Date(year, 0, 31).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 0, 31 - i).getDay() === 1){
+                    if (new Date(year, 0, 31).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 0, 31 - i).getDay() === 1) {
                                 setDay(31 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //March
             case 2:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(isLeapYear ? 29 : 28);
                     setMonth(1);
-                    if(new Date(year, 1, isLeapYear ? 29 : 28).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 1, isLeapYear ? 29 : 28 - i).getDay() === 1){
+                    if (
+                        new Date(year, 1, isLeapYear ? 29 : 28).getDay() !== 1
+                    ) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (
+                                new Date(
+                                    year,
+                                    1,
+                                    isLeapYear ? 29 : 28 - i
+                                ).getDay() === 1
+                            ) {
                                 setDay(isLeapYear ? 29 : 28 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //April
             case 3:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(31);
                     setMonth(2);
-                    if(new Date(year, 2, 31).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 2, 31 - i).getDay() === 1){
+                    if (new Date(year, 2, 31).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 2, 31 - i).getDay() === 1) {
                                 setDay(31 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //May
             case 4:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(30);
                     setMonth(3);
-                    if(new Date(year, 3, 30).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 3, 30 - i).getDay() === 1){
+                    if (new Date(year, 3, 30).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 3, 30 - i).getDay() === 1) {
                                 setDay(30 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //June
             case 5:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(31);
                     setMonth(4);
-                    if(new Date(year, 4, 31).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 4, 31 - i).getDay() === 1){
+                    if (new Date(year, 4, 31).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 4, 31 - i).getDay() === 1) {
                                 setDay(31 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //July
             case 6:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(30);
                     setMonth(5);
-                    if(new Date(year, 5, 30).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 5, 30 - i).getDay() === 1){
+                    if (new Date(year, 5, 30).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 5, 30 - i).getDay() === 1) {
                                 setDay(30 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //August
             case 7:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(31);
                     setMonth(6);
-                    if(new Date(year, 6, 31).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 6, 31 - i).getDay() === 1){
+                    if (new Date(year, 6, 31).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 6, 31 - i).getDay() === 1) {
                                 setDay(31 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //September
             case 8:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(31);
                     setMonth(7);
-                    if(new Date(year, 7, 31).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 7, 31 - i).getDay() === 1){
+                    if (new Date(year, 7, 31).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 7, 31 - i).getDay() === 1) {
                                 setDay(31 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //October
             case 9:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(30);
                     setMonth(8);
-                    if(new Date(year, 8, 30).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 8, 30 - i).getDay() === 1){
+                    if (new Date(year, 8, 30).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 8, 30 - i).getDay() === 1) {
                                 setDay(30 - i);
                             }
                         }
-                    } 
-                }else{
+                    }
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //November
             case 10:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(31);
                     setMonth(9);
-                    if(new Date(year, 9, 31).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 9, 31 - i).getDay() === 1){
+                    if (new Date(year, 9, 31).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 9, 31 - i).getDay() === 1) {
                                 setDay(31 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
             //December
             case 11:
-                if(day - 7 < 1){
+                if (day - 7 < 1) {
                     setDay(30);
                     setMonth(10);
-                    if(new Date(year, 10, 30).getDay() !== 1){
-                        for(let i = 1; i <= 6; i++){
-                            if(new Date(year, 10, 30 - i).getDay() === 1){
+                    if (new Date(year, 10, 30).getDay() !== 1) {
+                        for (let i = 1; i <= 6; i++) {
+                            if (new Date(year, 10, 30 - i).getDay() === 1) {
                                 setDay(30 - i);
                             }
                         }
                     }
-                }else{
+                } else {
                     setDay(day - 7);
                 }
                 return;
-
-
-
         }
 
         return;
@@ -236,11 +249,10 @@ function Physician({ user }: { user: AmplifyUser }) {
     function handleShiftWeekRight():
         | CancelableEventHandler<ClickDetail>
         | undefined {
-          
-          //Changes the index in our calendar to the next week 
-          if(weekCounter+1 > 7)return
-          setWeekCounter(weekCounter + 1);
-        
+        //Changes the index in our calendar to the next week
+        if (weekCounter + 1 > 7) return;
+        setWeekCounter(weekCounter + 1);
+
         let year = new Date().getFullYear();
         let isLeapYear: boolean = IsLeapYear(year);
 
@@ -440,23 +452,20 @@ function Physician({ user }: { user: AmplifyUser }) {
         }
     }
     useEffect(() => {
-        console.log(`UE month: ${month} day: ${day} year: ${year} weekCounter: ${weekCounter}`);
+        console.log(
+            `UE month: ${month} day: ${day} year: ${year} weekCounter: ${weekCounter}`
+        );
     }, [day, month, year, weekCounter]);
 
     return (
         <AwsUI.AppLayout
             navigationOpen={navigationOpen}
             onNavigationChange={() => setNavigationOpen(!navigationOpen)}
-            navigation={<> <View className="Account">
-            Account: {user?.attributes?.email}
-            <br />
-            {/* Role: {user?.attributes?['custom:role'] as String} */}
-          </View>
-
-          <AwsUI.Button className="Signout" onClick={signOut}>
-            {' '}
-            Sign out{' '}
-          </AwsUI.Button></>}
+            navigation={
+                <>
+                    <Navigation signOut={signOut}/>
+                </>
+            }
             content={
                 <>
                     <AwsUI.Button onClick={signOut}>Sign Out</AwsUI.Button>

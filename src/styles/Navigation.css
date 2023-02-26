@@ -1,16 +1,13 @@
-.Account{
+.Account {
     color: black;
     margin-top: 50px;
 }
 
-.amplify-autocomplete.Search{
+.amplify-autocomplete.Search {
     margin-top: 20px;
-
-
 }
 
-.title{
-color:black;
-font-size: large;
-
+.title {
+    color: black;
+    font-size: large;
 }

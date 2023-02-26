@@ -7,7 +7,7 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Client } from "../models";
+import { Client } from "../../util/models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;

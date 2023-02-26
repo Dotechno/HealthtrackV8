@@ -3,7 +3,7 @@ import {
     AppointmentPicker,
     AppointmentAttributesType,
 } from 'react-appointment-picker';
-import { calendar } from './mockData';
+import { calendar } from '../../util/schedulerMockData';
 
 interface SchedulerProps {
     isDate: boolean;

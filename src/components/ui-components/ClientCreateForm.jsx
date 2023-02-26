@@ -8,7 +8,7 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Client } from "../models";
+import { Client } from "../../util/models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 export default function ClientCreateForm(props) {
