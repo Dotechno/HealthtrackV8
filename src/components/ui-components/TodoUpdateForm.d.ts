@@ -7,38 +7,35 @@
 import * as React from "react";
 import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
-import { Prescription } from "../models";
+import { Todo } from "../../util/models";
 export declare type ValidationResponse = {
     hasError: boolean;
     errorMessage?: string;
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
-export declare type PrescriptionUpdateFormInputValues = {
+export declare type TodoUpdateFormInputValues = {
     name?: string;
-    dosage?: string;
     description?: string;
 };
-export declare type PrescriptionUpdateFormValidationValues = {
+export declare type TodoUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
-    dosage?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
-export declare type PrescriptionUpdateFormOverridesProps = {
-    PrescriptionUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
+export declare type TodoUpdateFormOverridesProps = {
+    TodoUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    dosage?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
-export declare type PrescriptionUpdateFormProps = React.PropsWithChildren<{
-    overrides?: PrescriptionUpdateFormOverridesProps | undefined | null;
+export declare type TodoUpdateFormProps = React.PropsWithChildren<{
+    overrides?: TodoUpdateFormOverridesProps | undefined | null;
 } & {
     id?: string;
-    prescription?: Prescription;
-    onSubmit?: (fields: PrescriptionUpdateFormInputValues) => PrescriptionUpdateFormInputValues;
-    onSuccess?: (fields: PrescriptionUpdateFormInputValues) => void;
-    onError?: (fields: PrescriptionUpdateFormInputValues, errorMessage: string) => void;
-    onChange?: (fields: PrescriptionUpdateFormInputValues) => PrescriptionUpdateFormInputValues;
-    onValidate?: PrescriptionUpdateFormValidationValues;
+    todo?: Todo;
+    onSubmit?: (fields: TodoUpdateFormInputValues) => TodoUpdateFormInputValues;
+    onSuccess?: (fields: TodoUpdateFormInputValues) => void;
+    onError?: (fields: TodoUpdateFormInputValues, errorMessage: string) => void;
+    onChange?: (fields: TodoUpdateFormInputValues) => TodoUpdateFormInputValues;
+    onValidate?: TodoUpdateFormValidationValues;
 } & React.CSSProperties>;
-export default function PrescriptionUpdateForm(props: PrescriptionUpdateFormProps): React.ReactElement;
+export default function TodoUpdateForm(props: TodoUpdateFormProps): React.ReactElement;

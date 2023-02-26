@@ -8,13 +8,13 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Prescription } from "../models";
+import { Todo } from "../../util/models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function PrescriptionUpdateForm(props) {
+export default function TodoUpdateForm(props) {
   const {
     id: idProp,
-    prescription,
+    todo,
     onSuccess,
     onError,
     onSubmit,
@@ -25,39 +25,32 @@ export default function PrescriptionUpdateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    dosage: "",
     description: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [dosage, setDosage] = React.useState(initialValues.dosage);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = prescriptionRecord
-      ? { ...initialValues, ...prescriptionRecord }
+    const cleanValues = todoRecord
+      ? { ...initialValues, ...todoRecord }
       : initialValues;
     setName(cleanValues.name);
-    setDosage(cleanValues.dosage);
     setDescription(cleanValues.description);
     setErrors({});
   };
-  const [prescriptionRecord, setPrescriptionRecord] =
-    React.useState(prescription);
+  const [todoRecord, setTodoRecord] = React.useState(todo);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp
-        ? await DataStore.query(Prescription, idProp)
-        : prescription;
-      setPrescriptionRecord(record);
+      const record = idProp ? await DataStore.query(Todo, idProp) : todo;
+      setTodoRecord(record);
     };
     queryData();
-  }, [idProp, prescription]);
-  React.useEffect(resetStateValues, [prescriptionRecord]);
+  }, [idProp, todo]);
+  React.useEffect(resetStateValues, [todoRecord]);
   const validations = {
-    name: [],
-    dosage: [],
+    name: [{ type: "Required" }],
     description: [],
   };
   const runValidationTasks = async (
@@ -86,7 +79,6 @@ export default function PrescriptionUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          dosage,
           description,
         };
         const validationResponses = await Promise.all(
@@ -118,7 +110,7 @@ export default function PrescriptionUpdateForm(props) {
             }
           });
           await DataStore.save(
-            Prescription.copyOf(prescriptionRecord, (updated) => {
+            Todo.copyOf(todoRecord, (updated) => {
               Object.assign(updated, modelFields);
             })
           );
@@ -131,12 +123,12 @@ export default function PrescriptionUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PrescriptionUpdateForm")}
+      {...getOverrideProps(overrides, "TodoUpdateForm")}
       {...rest}
     >
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -144,7 +136,6 @@ export default function PrescriptionUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              dosage,
               description,
             };
             const result = onChange(modelFields);
@@ -161,32 +152,6 @@ export default function PrescriptionUpdateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Dosage"
-        isRequired={false}
-        isReadOnly={false}
-        value={dosage}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              dosage: value,
-              description,
-            };
-            const result = onChange(modelFields);
-            value = result?.dosage ?? value;
-          }
-          if (errors.dosage?.hasError) {
-            runValidationTasks("dosage", value);
-          }
-          setDosage(value);
-        }}
-        onBlur={() => runValidationTasks("dosage", dosage)}
-        errorMessage={errors.dosage?.errorMessage}
-        hasError={errors.dosage?.hasError}
-        {...getOverrideProps(overrides, "dosage")}
-      ></TextField>
-      <TextField
         label="Description"
         isRequired={false}
         isReadOnly={false}
@@ -196,7 +161,6 @@ export default function PrescriptionUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name,
-              dosage,
               description: value,
             };
             const result = onChange(modelFields);
@@ -223,7 +187,7 @@ export default function PrescriptionUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || prescription)}
+          isDisabled={!(idProp || todo)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -235,7 +199,7 @@ export default function PrescriptionUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || prescription) ||
+              !(idProp || todo) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
