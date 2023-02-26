@@ -5,7 +5,7 @@
  **************************************************************************/
 
 export { default as studioTheme } from "./studioTheme";
-export { default as PrescriptionCreateForm } from "./PrescriptionCreateForm";
-export { default as PrescriptionUpdateForm } from "./PrescriptionUpdateForm";
-export { default as ClientCreateForm } from "./ClientCreateForm";
-export { default as ClientUpdateForm } from "./ClientUpdateForm";
+export { default as VendorCreateForm } from "./VendorCreateForm";
+export { default as VendorUpdateForm } from "./VendorUpdateForm";
+export { default as TodoCreateForm } from "./TodoCreateForm";
+export { default as TodoUpdateForm } from "./TodoUpdateForm";

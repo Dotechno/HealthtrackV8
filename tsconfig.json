@@ -8,7 +8,7 @@
       "target": "ESNext",
       "useDefineForClassFields": true,
       "skipLibCheck": true,
-      "esModuleInterop": false,
+      "esModuleInterop": true,
       "module": "ESNext",
       "noEmit": true,
       "allowSyntheticDefaultImports": true,
