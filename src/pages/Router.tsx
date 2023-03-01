@@ -8,7 +8,15 @@ import Technician from './Technician';
 import Pharmacist from './Pharmacist';
 import Physician from './Physician';
 import { Link } from 'react-router-dom';
-import { ColumnLayout, Container, Header } from '@awsui/components-react';
+
+import Patient from './Patients';
+
+import {
+    Container,
+    Header,
+    ColumnLayout,
+    Button,
+} from '@cloudscape-design/components';
 
 const components = {
     SignUp: { FormFields: customSignUpFields },
@@ -24,8 +32,11 @@ function Nav() {
         <div>
             <Container
                 header={
-                    <Header variant="h2" description="Container description">
-                        Container title
+                    <Header
+                        variant="h2"
+                        description="header description placeholder"
+                    >
+                        Header Placeholder
                     </Header>
                 }
             >
@@ -35,6 +46,7 @@ function Nav() {
                     <Link to="/technician">Technician</Link>
                     <Link to="/physicianassistant">Physician Assistant</Link>
                     <Link to="/pharmacist">Pharmacist</Link>
+                    <Link to="/nurse/patient">Patient</Link>
                 </ColumnLayout>
             </Container>
         </div>
@@ -68,6 +80,10 @@ export function Router({ user }: RouterProps) {
                             <Route
                                 path="/physicianassistant"
                                 element={<Physician user={user} />}
+                            />
+                            <Route
+                                path="/nurse/patient"
+                                element={<Patient />}
                             />
                         </Routes>
                     )}

@@ -1,31 +1,32 @@
 import {
     Autocomplete,
-    Button,
     Heading,
     useAuthenticator,
-    View,
 } from '@aws-amplify/ui-react';
 import React, { useState } from 'react';
-import * as AwsUI from '@awsui/components-react';
-import '../styles/Navigation.css';
 import type { AmplifyUser } from '@aws-amplify/ui';
 import { Navigation } from '../components/navigation/Navigation';
+import '../styles/base.scss'
+import { AppLayout } from '@cloudscape-design/components';
 
 export interface NurseProps {
     user?: AmplifyUser;
 }
 
+
+
 function Nurse({ user }: NurseProps) {
     const { signOut } = useAuthenticator((context) => [context.user]);
     const [navigationOpen, setNavigationOpen] = useState(false);
-    console.log(user);
+    console.log(user?.attributes);
 
     return (
         <>
-            <AwsUI.AppLayout
+            <AppLayout
+                headerSelector='#header'
                 navigation={
                     <>
-                        <Navigation signOut={signOut}/>
+                        <Navigation signOut={signOut} user={user}/>
                     </>
                 }
                 content={
