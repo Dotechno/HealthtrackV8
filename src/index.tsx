@@ -6,27 +6,24 @@ import { Amplify } from 'aws-amplify';
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import customSignUpFields from './components/authenticator/FormFields';
-import type { AmplifyUser } from '@aws-amplify/ui';
+import type { AmplifyUser, AuthEventData } from '@aws-amplify/ui';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { AuthEventData } from '@aws-amplify/ui';
+
 import { Router } from './pages/Router';
 import Nurse from './pages/Nurse';
 import Physician from './pages/Physician';
 import Admin from './pages/Admin';
 import PhysicianAssistant from './pages/PhysicianAssistant';
 import Pharmacist from './pages/Pharmacist';
-
+import Patient from './pages/Patients';
+import '@cloudscape-design/global-styles/index.css';
 
 Amplify.configure(awsExports);
 
-// const components = {
-//     SignUp: { FormFields: customSignUpFields },
-// };
-
-interface HealthtrackUser {
-    user?: AmplifyUser;
-    signOut?: (event?: AuthEventData) => void;
-}
+// interface HealthtrackUser {
+//     user?: AmplifyUser;
+//     signOut?: (event?: AuthEventData) => void;
+// }
 
 const router = createBrowserRouter([
     {
@@ -56,7 +53,12 @@ const router = createBrowserRouter([
           {
             path:'/admin',
             element: <Admin/>,
+          },
+          {
+            path:'/nurse/patient',
+            element: <Patient/>,
           }
+
         ]
     },
 ]);
@@ -66,19 +68,3 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <RouterProvider router={router}/>
     </React.StrictMode>
 );
-
-// // Get the custom role attribute
-// switch (user?.attributes?.['custom:role'] as string) {
-//   case 'admin':
-//     return <Admin user={user} />;
-//   case 'Nurse':
-//     return <Nurse user={user} />;
-//   case 'LabTechnician':
-//     return <Technician user={user} />;
-//   case 'Pharmacist':
-//     return <Pharmacist user={user} />;
-//   case 'Physician':
-//     return <Physician user={user as AmplifyUser} />;
-//   case 'PhysicianAssistant':
-//     return <PhysicianAssistant user={user} />;
-// }

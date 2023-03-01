@@ -4,13 +4,13 @@ import {
     useAuthenticator,
 } from '@aws-amplify/ui-react';
 import React, { useState } from 'react';
-import * as AwsUI from '@awsui/components-react';
 import Nurse from './Nurse';
 import Pharmacist from './Pharmacist';
 import Physician from './Physician';
 import PhysicianAssistant from './PhysicianAssistant';
 import Technician from './Technician';
 import type { AmplifyUser, AuthEventData } from '@aws-amplify/ui';
+import { AppLayout } from '@cloudscape-design/components';
 
 export interface AdminProps {
     user?: AmplifyUser;
@@ -42,7 +42,7 @@ function Admin({ user }:AdminProps) {
         setPage('nurse');
     }
     return (
-        <AwsUI.AppLayout
+        <AppLayout
             navigation={
                 <>
                     <Link onClick={handleNurse}>Nurse View</Link>

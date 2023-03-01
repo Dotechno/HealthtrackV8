@@ -1,8 +1,8 @@
 import { Button, useAuthenticator, View } from '@aws-amplify/ui-react';
 import React, { useRef, useState } from 'react';
-import * as AwsUI from '@awsui/components-react';
 import { Navigation } from '../components/navigation/Navigation';
 import type { AmplifyUser, AuthEventData } from '@aws-amplify/ui';
+import { AppLayout } from '@cloudscape-design/components';
 
 export interface PharmacistProps {
   user?: AmplifyUser;
@@ -16,7 +16,7 @@ function Pharmacist({ user }: PharmacistProps) {
 
 
   return (
-    <AwsUI.AppLayout
+    <AppLayout
       navigation={
         <>
           <Navigation signOut={signOut} />

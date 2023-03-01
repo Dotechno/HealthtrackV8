@@ -6,15 +6,21 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Prescription } from "../../util/models";
+import { Vendor } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function PrescriptionUpdateForm(props) {
+export default function VendorUpdateForm(props) {
   const {
     id: idProp,
-    prescription,
+    vendor,
     onSuccess,
     onError,
     onSubmit,
@@ -24,41 +30,46 @@ export default function PrescriptionUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    dosage: "",
-    description: "",
+    vendorName: "",
+    vendorAddress: "",
+    typeOfEquipment: "",
+    preferredVendor: false,
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [dosage, setDosage] = React.useState(initialValues.dosage);
-  const [description, setDescription] = React.useState(
-    initialValues.description
+  const [vendorName, setVendorName] = React.useState(initialValues.vendorName);
+  const [vendorAddress, setVendorAddress] = React.useState(
+    initialValues.vendorAddress
+  );
+  const [typeOfEquipment, setTypeOfEquipment] = React.useState(
+    initialValues.typeOfEquipment
+  );
+  const [preferredVendor, setPreferredVendor] = React.useState(
+    initialValues.preferredVendor
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = prescriptionRecord
-      ? { ...initialValues, ...prescriptionRecord }
+    const cleanValues = vendorRecord
+      ? { ...initialValues, ...vendorRecord }
       : initialValues;
-    setName(cleanValues.name);
-    setDosage(cleanValues.dosage);
-    setDescription(cleanValues.description);
+    setVendorName(cleanValues.vendorName);
+    setVendorAddress(cleanValues.vendorAddress);
+    setTypeOfEquipment(cleanValues.typeOfEquipment);
+    setPreferredVendor(cleanValues.preferredVendor);
     setErrors({});
   };
-  const [prescriptionRecord, setPrescriptionRecord] =
-    React.useState(prescription);
+  const [vendorRecord, setVendorRecord] = React.useState(vendor);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp
-        ? await DataStore.query(Prescription, idProp)
-        : prescription;
-      setPrescriptionRecord(record);
+      const record = idProp ? await DataStore.query(Vendor, idProp) : vendor;
+      setVendorRecord(record);
     };
     queryData();
-  }, [idProp, prescription]);
-  React.useEffect(resetStateValues, [prescriptionRecord]);
+  }, [idProp, vendor]);
+  React.useEffect(resetStateValues, [vendorRecord]);
   const validations = {
-    name: [],
-    dosage: [],
-    description: [],
+    vendorName: [],
+    vendorAddress: [],
+    typeOfEquipment: [],
+    preferredVendor: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -85,9 +96,10 @@ export default function PrescriptionUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          dosage,
-          description,
+          vendorName,
+          vendorAddress,
+          typeOfEquipment,
+          preferredVendor,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -118,7 +130,7 @@ export default function PrescriptionUpdateForm(props) {
             }
           });
           await DataStore.save(
-            Prescription.copyOf(prescriptionRecord, (updated) => {
+            Vendor.copyOf(vendorRecord, (updated) => {
               Object.assign(updated, modelFields);
             })
           );
@@ -131,87 +143,117 @@ export default function PrescriptionUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PrescriptionUpdateForm")}
+      {...getOverrideProps(overrides, "VendorUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
+        label="Vendor name"
         isRequired={false}
         isReadOnly={false}
-        value={name}
+        value={vendorName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
-              dosage,
-              description,
+              vendorName: value,
+              vendorAddress,
+              typeOfEquipment,
+              preferredVendor,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.vendorName ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.vendorName?.hasError) {
+            runValidationTasks("vendorName", value);
           }
-          setName(value);
+          setVendorName(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("vendorName", vendorName)}
+        errorMessage={errors.vendorName?.errorMessage}
+        hasError={errors.vendorName?.hasError}
+        {...getOverrideProps(overrides, "vendorName")}
       ></TextField>
       <TextField
-        label="Dosage"
+        label="Vendor address"
         isRequired={false}
         isReadOnly={false}
-        value={dosage}
+        value={vendorAddress}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              dosage: value,
-              description,
+              vendorName,
+              vendorAddress: value,
+              typeOfEquipment,
+              preferredVendor,
             };
             const result = onChange(modelFields);
-            value = result?.dosage ?? value;
+            value = result?.vendorAddress ?? value;
           }
-          if (errors.dosage?.hasError) {
-            runValidationTasks("dosage", value);
+          if (errors.vendorAddress?.hasError) {
+            runValidationTasks("vendorAddress", value);
           }
-          setDosage(value);
+          setVendorAddress(value);
         }}
-        onBlur={() => runValidationTasks("dosage", dosage)}
-        errorMessage={errors.dosage?.errorMessage}
-        hasError={errors.dosage?.hasError}
-        {...getOverrideProps(overrides, "dosage")}
+        onBlur={() => runValidationTasks("vendorAddress", vendorAddress)}
+        errorMessage={errors.vendorAddress?.errorMessage}
+        hasError={errors.vendorAddress?.hasError}
+        {...getOverrideProps(overrides, "vendorAddress")}
       ></TextField>
       <TextField
-        label="Description"
+        label="Type of equipment"
         isRequired={false}
         isReadOnly={false}
-        value={description}
+        value={typeOfEquipment}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              dosage,
-              description: value,
+              vendorName,
+              vendorAddress,
+              typeOfEquipment: value,
+              preferredVendor,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.typeOfEquipment ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.typeOfEquipment?.hasError) {
+            runValidationTasks("typeOfEquipment", value);
           }
-          setDescription(value);
+          setTypeOfEquipment(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("typeOfEquipment", typeOfEquipment)}
+        errorMessage={errors.typeOfEquipment?.errorMessage}
+        hasError={errors.typeOfEquipment?.hasError}
+        {...getOverrideProps(overrides, "typeOfEquipment")}
       ></TextField>
+      <SwitchField
+        label="Preferred vendor"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={preferredVendor}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              vendorName,
+              vendorAddress,
+              typeOfEquipment,
+              preferredVendor: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.preferredVendor ?? value;
+          }
+          if (errors.preferredVendor?.hasError) {
+            runValidationTasks("preferredVendor", value);
+          }
+          setPreferredVendor(value);
+        }}
+        onBlur={() => runValidationTasks("preferredVendor", preferredVendor)}
+        errorMessage={errors.preferredVendor?.errorMessage}
+        hasError={errors.preferredVendor?.hasError}
+        {...getOverrideProps(overrides, "preferredVendor")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -223,7 +265,7 @@ export default function PrescriptionUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || prescription)}
+          isDisabled={!(idProp || vendor)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -235,7 +277,7 @@ export default function PrescriptionUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || prescription) ||
+              !(idProp || vendor) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

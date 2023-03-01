@@ -1,19 +1,18 @@
-import { useAuthenticator, View } from '@aws-amplify/ui-react';
+import { Icon, useAuthenticator, View } from '@aws-amplify/ui-react';
 import React, { useEffect, useState } from 'react';
-import * as AwsUI from '@awsui/components-react';
 import * as AmpUI from '@aws-amplify/ui-react';
 import { calendar } from '../util/schedulerMockData';
 import type { AmplifyUser } from '@aws-amplify/ui';
-import {
-    CancelableEventHandler,
-    ClickDetail,
-} from '@awsui/components-react/internal/events';
 import Scheduler from '../components/physician/Scheduler';
 import {
     getCurrentMonday,
     IsLeapYear,
 } from '../components/physician/physicianUtils';
 import { Navigation } from '../components/navigation/Navigation';
+import '../styles/base.scss';
+import { CancelableEventHandler, ClickDetail } from '@cloudscape-design/components/internal/events';
+import { AppLayout, Button } from '@cloudscape-design/components';
+
 
 export interface PhysicianProps {
     user?: AmplifyUser;
@@ -457,8 +456,10 @@ function Physician({ user }: PhysicianProps) {
         );
     }, [day, month, year, weekCounter]);
 
+    
     return (
-        <AwsUI.AppLayout
+        <AppLayout
+            headerSelector='#header'
             navigationOpen={navigationOpen}
             onNavigationChange={() => setNavigationOpen(!navigationOpen)}
             navigation={
@@ -468,7 +469,7 @@ function Physician({ user }: PhysicianProps) {
             }
             content={
                 <>
-                    <AwsUI.Button onClick={signOut}>Sign Out</AwsUI.Button>
+                    <Button onClick={signOut}>Sign Out</Button>
 
                     <AmpUI.Flex
                         direction="row"
@@ -478,16 +479,16 @@ function Physician({ user }: PhysicianProps) {
                         wrap="nowrap"
                         gap="1rem"
                     >
-                        <AwsUI.Button onClick={handleShiftWeekLeft}>
-                            <AwsUI.Icon name="caret-left-filled" />
-                        </AwsUI.Button>
+                        <Button onClick={handleShiftWeekLeft}>
+                            <Icon name="caret-left-filled" />
+                        </Button>
                         <AmpUI.SwitchField
                             label={`${isDate ? 'Showing Day' : 'Showing Date'}`}
                             onChange={() => setIsDate(!isDate)}
                         />
-                        <AwsUI.Button onClick={handleShiftWeekRight}>
-                            <AwsUI.Icon name="caret-right-filled" />
-                        </AwsUI.Button>
+                        <Button onClick={handleShiftWeekRight}>
+                            <Icon name="caret-right-filled" />
+                        </Button>
                     </AmpUI.Flex>
 
                     <Scheduler

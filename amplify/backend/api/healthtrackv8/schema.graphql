@@ -1,3 +1,34 @@
+type MedicalEncounter @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  encounterDateTime: String
+  practitionerTypeSeen: String
+  patientComplaints: String
+  vitalSigns: String
+  practionerNotes: String
+  labOrders: String
+  pharmacyOrders: String
+  diagnosis: String
+  treatmentPlan: String
+  referralToSpecialists: String
+  recommendedFollowUp: String
+  dataTimeEncounterSubmitted: String
+  employeeIDWhoSubmitted: String
+  patientID: ID! @index(name: "byPatient")
+}
+
+type Patient @model @auth(rules: [{allow: private}]) {
+  id: ID!
+  patientName: String
+  telelphoneNumber: String
+  insuranceCarrierID: String
+  dateOfBirth: String
+  gender: String
+  primaryCarePhysician: String
+  listCurrentMedications: String
+  listScheduledAppointments: String
+  MedicalEncounters: [MedicalEncounter] @hasMany(indexName: "byPatient", fields: ["id"])
+}
+
 type Vendor @model @auth(rules: [{allow: private}]) {
   id: ID!
   vendorName: String

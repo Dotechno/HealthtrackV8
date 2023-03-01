@@ -6,12 +6,18 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Todo } from "../../util/models";
+import { Vendor } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function TodoCreateForm(props) {
+export default function VendorCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -23,22 +29,34 @@ export default function TodoCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    description: "",
+    vendorName: "",
+    vendorAddress: "",
+    typeOfEquipment: "",
+    preferredVendor: false,
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [description, setDescription] = React.useState(
-    initialValues.description
+  const [vendorName, setVendorName] = React.useState(initialValues.vendorName);
+  const [vendorAddress, setVendorAddress] = React.useState(
+    initialValues.vendorAddress
+  );
+  const [typeOfEquipment, setTypeOfEquipment] = React.useState(
+    initialValues.typeOfEquipment
+  );
+  const [preferredVendor, setPreferredVendor] = React.useState(
+    initialValues.preferredVendor
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
+    setVendorName(initialValues.vendorName);
+    setVendorAddress(initialValues.vendorAddress);
+    setTypeOfEquipment(initialValues.typeOfEquipment);
+    setPreferredVendor(initialValues.preferredVendor);
     setErrors({});
   };
   const validations = {
-    name: [{ type: "Required" }],
-    description: [],
+    vendorName: [],
+    vendorAddress: [],
+    typeOfEquipment: [],
+    preferredVendor: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -65,8 +83,10 @@ export default function TodoCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          description,
+          vendorName,
+          vendorAddress,
+          typeOfEquipment,
+          preferredVendor,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -96,7 +116,7 @@ export default function TodoCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Todo(modelFields));
+          await DataStore.save(new Vendor(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -109,59 +129,117 @@ export default function TodoCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoCreateForm")}
+      {...getOverrideProps(overrides, "VendorCreateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
-        isReadOnly={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name: value,
-              description,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Description"
+        label="Vendor name"
         isRequired={false}
         isReadOnly={false}
-        value={description}
+        value={vendorName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              description: value,
+              vendorName: value,
+              vendorAddress,
+              typeOfEquipment,
+              preferredVendor,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.vendorName ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.vendorName?.hasError) {
+            runValidationTasks("vendorName", value);
           }
-          setDescription(value);
+          setVendorName(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("vendorName", vendorName)}
+        errorMessage={errors.vendorName?.errorMessage}
+        hasError={errors.vendorName?.hasError}
+        {...getOverrideProps(overrides, "vendorName")}
       ></TextField>
+      <TextField
+        label="Vendor address"
+        isRequired={false}
+        isReadOnly={false}
+        value={vendorAddress}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              vendorName,
+              vendorAddress: value,
+              typeOfEquipment,
+              preferredVendor,
+            };
+            const result = onChange(modelFields);
+            value = result?.vendorAddress ?? value;
+          }
+          if (errors.vendorAddress?.hasError) {
+            runValidationTasks("vendorAddress", value);
+          }
+          setVendorAddress(value);
+        }}
+        onBlur={() => runValidationTasks("vendorAddress", vendorAddress)}
+        errorMessage={errors.vendorAddress?.errorMessage}
+        hasError={errors.vendorAddress?.hasError}
+        {...getOverrideProps(overrides, "vendorAddress")}
+      ></TextField>
+      <TextField
+        label="Type of equipment"
+        isRequired={false}
+        isReadOnly={false}
+        value={typeOfEquipment}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              vendorName,
+              vendorAddress,
+              typeOfEquipment: value,
+              preferredVendor,
+            };
+            const result = onChange(modelFields);
+            value = result?.typeOfEquipment ?? value;
+          }
+          if (errors.typeOfEquipment?.hasError) {
+            runValidationTasks("typeOfEquipment", value);
+          }
+          setTypeOfEquipment(value);
+        }}
+        onBlur={() => runValidationTasks("typeOfEquipment", typeOfEquipment)}
+        errorMessage={errors.typeOfEquipment?.errorMessage}
+        hasError={errors.typeOfEquipment?.hasError}
+        {...getOverrideProps(overrides, "typeOfEquipment")}
+      ></TextField>
+      <SwitchField
+        label="Preferred vendor"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={preferredVendor}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              vendorName,
+              vendorAddress,
+              typeOfEquipment,
+              preferredVendor: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.preferredVendor ?? value;
+          }
+          if (errors.preferredVendor?.hasError) {
+            runValidationTasks("preferredVendor", value);
+          }
+          setPreferredVendor(value);
+        }}
+        onBlur={() => runValidationTasks("preferredVendor", preferredVendor)}
+        errorMessage={errors.preferredVendor?.errorMessage}
+        hasError={errors.preferredVendor?.hasError}
+        {...getOverrideProps(overrides, "preferredVendor")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

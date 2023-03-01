@@ -1,9 +1,10 @@
 import { Button, View, useAuthenticator } from '@aws-amplify/ui-react';
 import React, { useRef, useState } from 'react';
-import * as AwsUI from '@awsui/components-react';
+
 
 import type { AmplifyUser, AuthEventData } from '@aws-amplify/ui';
 import { Navigation } from '../components/navigation/Navigation';
+import { AppLayout } from '@cloudscape-design/components';
 
 export interface PhysicianAssistantProps {
     user?: AmplifyUser;
@@ -16,7 +17,7 @@ function PhysicianAssistant({ user }: PhysicianAssistantProps) {
     const [isLoading, setLoading] = useState(false);
 
     return (
-        <AwsUI.AppLayout
+        <AppLayout
             navigation={
                 <>
                    <Navigation signOut={signOut}/>
