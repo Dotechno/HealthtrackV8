@@ -36,6 +36,7 @@ import { useCollection } from '@cloudscape-design/collection-hooks';
 import { DataStore } from 'aws-amplify';
 import { Patient as AllPatients } from '../models';
 import { PatientCreateForm } from '../ui-components';
+import { PatientCreateFormInputValues } from 'src/ui-components/PatientCreateForm';
 
 export const getTextFilterCounterText = (count: number) =>
     `${count} ${count === 1 ? 'match' : 'matches'}`;
@@ -318,13 +319,7 @@ function useDisclaimerFlashbarItem(
         dismissLabel: 'Dismiss message',
         onDismiss: () => onDismiss(id),
         statusIconAriaLabel: 'info',
-        content: (
-            <>
-                This demo is an example of Cloudscape Design System patterns and
-                components, and may not reflect the current patterns and
-                components of AWS services.
-            </>
-        ),
+        content: <>This is a demo Flashbar item</>,
         id,
     };
 }
@@ -416,6 +411,7 @@ interface FullPageHeaderProps extends HeaderProps {
     extraActions?: React.ReactNode;
     selectedItemsCount: number;
     onInfoLinkClick?: () => void;
+    onCreatePatientClick?: () => void;
 }
 
 export function FullPageHeader({
@@ -423,15 +419,15 @@ export function FullPageHeader({
     createButtonText = 'Create patient',
     extraActions = null,
     selectedItemsCount,
+    onCreatePatientClick,
     onInfoLinkClick,
     ...props
 }: FullPageHeaderProps) {
     const isOnlyOneSelected = selectedItemsCount === 1;
-    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     return (
         <Header
-            // id='header'
             variant="awsui-h1-sticky"
             info={
                 onInfoLinkClick && (
@@ -465,12 +461,7 @@ export function FullPageHeader({
                     <Button
                         data-testid="header-btn-create"
                         variant="primary"
-                        onClick={() => {
-                            setIsModalOpen((isModalOpen) => {
-                                console.log(isModalOpen);
-                                return !isModalOpen;
-                            });
-                        }}
+                        onClick={onCreatePatientClick}
                     >
                         {createButtonText}
                     </Button>
@@ -478,22 +469,7 @@ export function FullPageHeader({
             }
             {...props}
         >
-            <Modal
-                visible={isModalOpen}
-                onDismiss={() => setIsModalOpen(false)}
-                closeAriaLabel="Close modal"
-                footer={
-                    <Box float="right">
-                        <SpaceBetween direction="horizontal" size="xs">
-                            <Button variant="link">Cancel</Button>
-                            <Button variant="primary">Ok</Button>
-                        </SpaceBetween>
-                    </Box>
-                }
-                header="Create Patient Form"
-            >
-                <PatientCreateForm />
-            </Modal>
+           
 
             {title}
         </Header>
@@ -502,8 +478,10 @@ export function FullPageHeader({
 
 function DetailsCards({
     loadHelpPanelContent,
+    onCreatePatientClick
 }: {
     loadHelpPanelContent: () => void;
+    onCreatePatientClick: () => void;
 }) {
     const [loading, setLoading] = useState(true);
     const [distributions, setDistributions] = useState([]);
@@ -561,6 +539,7 @@ function DetailsCards({
                         collectionProps.selectedItems
                     )}
                     onInfoLinkClick={loadHelpPanelContent}
+                    onCreatePatientClick={onCreatePatientClick}
                 />
             }
             filter={
@@ -745,23 +724,46 @@ export const ToolsContent = () => (
     </HelpPanel>
 );
 
+type handleCreatePatientSubmitType = (fields: PatientCreateFormInputValues) => Promise<PatientCreateFormInputValues>
+
 export function Patient(props: PatientProps) {
     const [toolsOpen, setToolsOpen] = useState(false);
+    const [successNotification, setSuccessNotification] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const appLayout = useRef<any>();
+
+    const handleCreatePatient = () =>{
+        setIsModalOpen(true);
+    }
+
+    const handleCreatePatientSubmit = ( fields:PatientCreateFormInputValues):PatientCreateFormInputValues =>{
+        setIsModalOpen(false);
+        setSuccessNotification(true);
+        return fields
+    }
 
     return (
         <CustomAppLayout
             ref={appLayout}
-            navigation={<Navigation activeHref="#/distributions" />}
-            notifications={<Notifications successNotification={true} />}
+            navigation={<Navigation activeHref={window.location.href} />}
+            notifications={
+                <Notifications successNotification={successNotification} />
+            }
             breadcrumbs={<Breadcrumbs />}
             content={
-                <DetailsCards
-                    loadHelpPanelContent={() => {
-                        setToolsOpen(true);
-                        appLayout?.current?.focusToolsClose();
-                    }}
-                />
+                <>
+                    <Modal visible={isModalOpen} onDismiss={()=>setIsModalOpen(false)}>
+                        <PatientCreateForm onSubmit={handleCreatePatientSubmit}/>
+                        
+                    </Modal>
+                    <DetailsCards
+                        loadHelpPanelContent={() => {
+                            setToolsOpen(true);
+                            appLayout?.current?.focusToolsClose();
+                        }}
+                        onCreatePatientClick={handleCreatePatient}
+                    />
+                </>
             }
             contentType="cards"
             tools={<ToolsContent />}
