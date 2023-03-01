@@ -24,7 +24,7 @@ export default function PatientCreateForm(props) {
   } = props;
   const initialValues = {
     patientName: "",
-    telelphoneNumber: "",
+    telephoneNumber: "",
     insuranceCarrierID: "",
     dateOfBirth: "",
     gender: "",
@@ -35,8 +35,8 @@ export default function PatientCreateForm(props) {
   const [patientName, setPatientName] = React.useState(
     initialValues.patientName
   );
-  const [telelphoneNumber, setTelelphoneNumber] = React.useState(
-    initialValues.telelphoneNumber
+  const [telephoneNumber, setTelephoneNumber] = React.useState(
+    initialValues.telephoneNumber
   );
   const [insuranceCarrierID, setInsuranceCarrierID] = React.useState(
     initialValues.insuranceCarrierID
@@ -56,7 +56,7 @@ export default function PatientCreateForm(props) {
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setPatientName(initialValues.patientName);
-    setTelelphoneNumber(initialValues.telelphoneNumber);
+    setTelephoneNumber(initialValues.telephoneNumber);
     setInsuranceCarrierID(initialValues.insuranceCarrierID);
     setDateOfBirth(initialValues.dateOfBirth);
     setGender(initialValues.gender);
@@ -67,7 +67,7 @@ export default function PatientCreateForm(props) {
   };
   const validations = {
     patientName: [],
-    telelphoneNumber: [],
+    telephoneNumber: [],
     insuranceCarrierID: [],
     dateOfBirth: [],
     gender: [],
@@ -101,7 +101,7 @@ export default function PatientCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           patientName,
-          telelphoneNumber,
+          telephoneNumber,
           insuranceCarrierID,
           dateOfBirth,
           gender,
@@ -163,7 +163,7 @@ export default function PatientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               patientName: value,
-              telelphoneNumber,
+              telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender,
@@ -185,16 +185,16 @@ export default function PatientCreateForm(props) {
         {...getOverrideProps(overrides, "patientName")}
       ></TextField>
       <TextField
-        label="Telelphone number"
+        label="Telephone number"
         isRequired={false}
         isReadOnly={false}
-        value={telelphoneNumber}
+        value={telephoneNumber}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               patientName,
-              telelphoneNumber: value,
+              telephoneNumber: value,
               insuranceCarrierID,
               dateOfBirth,
               gender,
@@ -203,17 +203,17 @@ export default function PatientCreateForm(props) {
               listScheduledAppointments,
             };
             const result = onChange(modelFields);
-            value = result?.telelphoneNumber ?? value;
+            value = result?.telephoneNumber ?? value;
           }
-          if (errors.telelphoneNumber?.hasError) {
-            runValidationTasks("telelphoneNumber", value);
+          if (errors.telephoneNumber?.hasError) {
+            runValidationTasks("telephoneNumber", value);
           }
-          setTelelphoneNumber(value);
+          setTelephoneNumber(value);
         }}
-        onBlur={() => runValidationTasks("telelphoneNumber", telelphoneNumber)}
-        errorMessage={errors.telelphoneNumber?.errorMessage}
-        hasError={errors.telelphoneNumber?.hasError}
-        {...getOverrideProps(overrides, "telelphoneNumber")}
+        onBlur={() => runValidationTasks("telephoneNumber", telephoneNumber)}
+        errorMessage={errors.telephoneNumber?.errorMessage}
+        hasError={errors.telephoneNumber?.hasError}
+        {...getOverrideProps(overrides, "telephoneNumber")}
       ></TextField>
       <TextField
         label="Insurance carrier id"
@@ -225,7 +225,7 @@ export default function PatientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               patientName,
-              telelphoneNumber,
+              telephoneNumber,
               insuranceCarrierID: value,
               dateOfBirth,
               gender,
@@ -258,7 +258,7 @@ export default function PatientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               patientName,
-              telelphoneNumber,
+              telephoneNumber,
               insuranceCarrierID,
               dateOfBirth: value,
               gender,
@@ -289,7 +289,7 @@ export default function PatientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               patientName,
-              telelphoneNumber,
+              telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender: value,
@@ -320,7 +320,7 @@ export default function PatientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               patientName,
-              telelphoneNumber,
+              telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender,
@@ -353,7 +353,7 @@ export default function PatientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               patientName,
-              telelphoneNumber,
+              telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender,
@@ -386,7 +386,7 @@ export default function PatientCreateForm(props) {
           if (onChange) {
             const modelFields = {
               patientName,
-              telelphoneNumber,
+              telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender,

@@ -19,7 +19,7 @@ type MedicalEncounter @model @auth(rules: [{allow: private}]) {
 type Patient @model @auth(rules: [{allow: private}]) {
   id: ID!
   patientName: String
-  telelphoneNumber: String
+  telephoneNumber: String
   insuranceCarrierID: String
   dateOfBirth: String
   gender: String

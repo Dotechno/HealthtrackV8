@@ -1,11 +1,11 @@
-import { Card, useAuthenticator } from '@aws-amplify/ui-react';
+import { useAuthenticator } from '@aws-amplify/ui-react';
 import React, { useState } from 'react';
 
 import { Navigation } from '../components/navigation/Navigation';
 import { DataStore } from '@aws-amplify/datastore';
 import { MedicalEncounter, Patient } from '../models';
 import PatientCreateForm from '../ui-components/PatientCreateForm';
-import { AppLayout } from '@cloudscape-design/components';
+import { AppLayout, Button } from '@cloudscape-design/components';
 
 function Technician({ user }: { user: any }) {
     const { signOut } = useAuthenticator((context) => [context.user]);
@@ -20,7 +20,7 @@ function Technician({ user }: { user: any }) {
         await DataStore.save(
             new Patient({
                 patientName: 'Lorem ipsum dolor sit amet',
-                telelphoneNumber: 'Lorem ipsum dolor sit amet',
+                telephoneNumber: 'Lorem ipsum dolor sit amet',
                 insuranceCarrierID: 'Lorem ipsum dolor sit amet',
                 dateOfBirth: 'Lorem ipsum dolor sit amet',
                 gender: 'Lorem ipsum dolor sit amet',
@@ -38,7 +38,7 @@ function Technician({ user }: { user: any }) {
         console.log(patients);
     };
 
-    const queryCharliePatient = async () => {};
+    
 
     return (
         <AppLayout
@@ -46,7 +46,8 @@ function Technician({ user }: { user: any }) {
             content={
                 <>
                     <PatientCreateForm />
-                    <button onClick={queryAllPatient}>Query Patient</button>
+                    <Button onClick={queryAllPatient}>Query Patient</Button>
+                    
                 </>
             }
             tools={<>Tools panel</>}

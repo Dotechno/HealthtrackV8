@@ -153,7 +153,7 @@ export const getPatient = /* GraphQL */ `
     getPatient(id: $id) {
       id
       patientName
-      telelphoneNumber
+      telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender
@@ -182,7 +182,7 @@ export const listPatients = /* GraphQL */ `
       items {
         id
         patientName
-        telelphoneNumber
+        telephoneNumber
         insuranceCarrierID
         dateOfBirth
         gender
@@ -216,7 +216,7 @@ export const syncPatients = /* GraphQL */ `
       items {
         id
         patientName
-        telelphoneNumber
+        telephoneNumber
         insuranceCarrierID
         dateOfBirth
         gender

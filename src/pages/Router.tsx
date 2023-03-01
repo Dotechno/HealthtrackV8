@@ -10,7 +10,7 @@ import Physician from './Physician';
 import { Link } from 'react-router-dom';
 
 import Patient from './Patients';
-import style from '../styles/base.scss';
+
 import {
     Container,
     Header,

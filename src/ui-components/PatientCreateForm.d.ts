@@ -14,7 +14,7 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type PatientCreateFormInputValues = {
     patientName?: string;
-    telelphoneNumber?: string;
+    telephoneNumber?: string;
     insuranceCarrierID?: string;
     dateOfBirth?: string;
     gender?: string;
@@ -24,7 +24,7 @@ export declare type PatientCreateFormInputValues = {
 };
 export declare type PatientCreateFormValidationValues = {
     patientName?: ValidationFunction<string>;
-    telelphoneNumber?: ValidationFunction<string>;
+    telephoneNumber?: ValidationFunction<string>;
     insuranceCarrierID?: ValidationFunction<string>;
     dateOfBirth?: ValidationFunction<string>;
     gender?: ValidationFunction<string>;
@@ -36,7 +36,7 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type PatientCreateFormOverridesProps = {
     PatientCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     patientName?: PrimitiveOverrideProps<TextFieldProps>;
-    telelphoneNumber?: PrimitiveOverrideProps<TextFieldProps>;
+    telephoneNumber?: PrimitiveOverrideProps<TextFieldProps>;
     insuranceCarrierID?: PrimitiveOverrideProps<TextFieldProps>;
     dateOfBirth?: PrimitiveOverrideProps<TextFieldProps>;
     gender?: PrimitiveOverrideProps<TextFieldProps>;

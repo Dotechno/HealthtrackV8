@@ -1,13 +1,41 @@
 import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
-
 import { v4 as uuid4 } from 'uuid';
 import styles from '../styles/styles.module.scss';
 import '../styles/base.scss';
-import { AppLayout, Box, BreadcrumbGroup, Button, Cards, CollectionPreferences, Container, Flashbar, FlashbarProps, Header, HeaderProps, HelpPanel, Icon, Link, LinkProps, Pagination, PaginationProps, SideNavigation, SideNavigationProps, SpaceBetween, StatusIndicator, TableProps, TextFilter } from '@cloudscape-design/components';
-import { CancelableEventHandler, ClickDetail } from '@cloudscape-design/components/internal/events';
+import {
+    AppLayout,
+    Box,
+    BreadcrumbGroup,
+    Button,
+    Cards,
+    CollectionPreferences,
+    Container,
+    Flashbar,
+    FlashbarProps,
+    Header,
+    HeaderProps,
+    HelpPanel,
+    Icon,
+    Link,
+    LinkProps,
+    Modal,
+    Pagination,
+    PaginationProps,
+    SideNavigation,
+    SideNavigationProps,
+    SpaceBetween,
+    StatusIndicator,
+    TableProps,
+    TextFilter,
+} from '@cloudscape-design/components';
+import {
+    CancelableEventHandler,
+    ClickDetail,
+} from '@cloudscape-design/components/internal/events';
 import { useCollection } from '@cloudscape-design/collection-hooks';
-// import calendar from '../util/mockPatientData.json'
-
+import { DataStore } from 'aws-amplify';
+import { Patient as AllPatients } from '../models';
+import { PatientCreateForm } from '../ui-components';
 
 export const getTextFilterCounterText = (count: number) =>
     `${count} ${count === 1 ? 'match' : 'matches'}`;
@@ -27,7 +55,7 @@ export const distributionTableAriaLabels: TableProps.AriaLabels<{
 }> = {
     ...baseTableAriaLabels,
     itemSelectionLabel: (data, row) => `select ${row.id}`,
-    selectionGroupLabel: 'Distribution selection',
+    selectionGroupLabel: 'Patient selection',
 };
 export const getHeaderCounterText = (
     items: ReadonlyArray<unknown>,
@@ -39,15 +67,8 @@ export const getHeaderCounterText = (
 };
 
 class DataProvider {
-    getData(name: string) {
-        return fetch(`./src/util/mockPatientData.json`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Response error: ${response.status}`);
-                }
-                return response.json();
-            })
-            .then((data) => data);
+    async getData(name: string) {
+        return await DataStore.query(AllPatients);
     }
 }
 
@@ -113,7 +134,7 @@ export const CARD_DEFINITIONS = {
         <div>
             <Link fontSize="heading-m" href="#">
                 {item.patientName}
-                {console.log('item:', item)}
+                {/* {console.log('item:', item)} */}
             </Link>
         </div>
     ),
@@ -151,7 +172,28 @@ export const CARD_DEFINITIONS = {
             content: (item: { insuranceCarrierID: any }) =>
                 item.insuranceCarrierID,
         },
-        {},
+        {
+            id: 'dateOfBirth',
+            header: 'Date of Birth',
+            content: (item: { dateOfBirth: any }) => item.dateOfBirth,
+        },
+        {
+            id: 'gender',
+            header: 'Gender',
+            content: (item: { gender: string }) => item.gender,
+        },
+        {
+            id: 'primaryCarePhysician',
+            header: 'Primary Care Physician',
+            content: (item: { primaryCarePhysician: any }) =>
+                item.primaryCarePhysician,
+        },
+        {
+            id: 'listCurrentMedications',
+            header: 'List Current Medications',
+            content: (item: { listCurrentMedications: any }) =>
+                item.listCurrentMedications,
+        },
         {
             id: 'state',
             header: 'State',
@@ -179,6 +221,17 @@ export const CARD_DEFINITIONS = {
             id: 'logging',
             header: 'Logging',
             content: (item: { logging: any }) => item.logging,
+        },
+        {
+            id: 'listScheduledAppointments',
+            header: 'List Scheduled Appointments',
+            content: (item: { listScheduledAppointments: any }) =>
+                item.listScheduledAppointments,
+        },
+        {
+            id: 'telephonephoneNumber',
+            header: 'Phone Number',
+            content: (item: { telephoneNumber: any }) => item.telephoneNumber,
         },
     ],
 };
@@ -294,7 +347,7 @@ function useNotifications(showSuccessNotification = false) {
     if (showSuccessNotification && !successDismissed) {
         notifications.push({
             type: 'success',
-            content: 'Resource created successfully',
+            content: 'Patient created successfully',
             statusIconAriaLabel: 'success',
             dismissLabel: 'Dismiss message',
             dismissible: true,
@@ -374,6 +427,7 @@ export function FullPageHeader({
     ...props
 }: FullPageHeaderProps) {
     const isOnlyOneSelected = selectedItemsCount === 1;
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <Header
@@ -408,13 +462,39 @@ export function FullPageHeader({
                     >
                         Delete
                     </Button>
-                    <Button data-testid="header-btn-create" variant="primary">
+                    <Button
+                        data-testid="header-btn-create"
+                        variant="primary"
+                        onClick={() => {
+                            setIsModalOpen((isModalOpen) => {
+                                console.log(isModalOpen);
+                                return !isModalOpen;
+                            });
+                        }}
+                    >
                         {createButtonText}
                     </Button>
                 </SpaceBetween>
             }
             {...props}
         >
+            <Modal
+                visible={isModalOpen}
+                onDismiss={() => setIsModalOpen(false)}
+                closeAriaLabel="Close modal"
+                footer={
+                    <Box float="right">
+                        <SpaceBetween direction="horizontal" size="xs">
+                            <Button variant="link">Cancel</Button>
+                            <Button variant="primary">Ok</Button>
+                        </SpaceBetween>
+                    </Box>
+                }
+                header="Create Patient Form"
+            >
+                <PatientCreateForm />
+            </Modal>
+
             {title}
         </Header>
     );
@@ -452,13 +532,11 @@ function DetailsCards({
     });
 
     useEffect(() => {
-        new DataProvider()
-            .getData('distributions')
-            .then((distributions: any) => {
-                // console.log(distributions)
-                setDistributions(distributions);
-                setLoading(false);
-            });
+        new DataProvider().getData('patients').then((distributions: any) => {
+            // console.log(distributions)
+            setDistributions(distributions);
+            setLoading(false);
+        });
     }, []);
 
     return (
@@ -468,7 +546,7 @@ function DetailsCards({
             cardDefinition={CARD_DEFINITIONS}
             visibleSections={preferences.visibleContent}
             loading={loading}
-            loadingText="Loading distributions"
+            loadingText="Loading patients..."
             items={items}
             selectionType="multi"
             variant="full-page"
@@ -488,8 +566,8 @@ function DetailsCards({
             filter={
                 <TextFilter
                     {...filterProps}
-                    filteringAriaLabel="Filter distributions"
-                    filteringPlaceholder="Find distributions"
+                    filteringAriaLabel="Filter patients"
+                    filteringPlaceholder="Find patients"
                     filteringClearAriaLabel="Clear"
                     countText={getTextFilterCounterText(
                         filteredItemsCount as number

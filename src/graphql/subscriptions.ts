@@ -91,7 +91,7 @@ export const onCreatePatient = /* GraphQL */ `
     onCreatePatient(filter: $filter) {
       id
       patientName
-      telelphoneNumber
+      telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender
@@ -115,7 +115,7 @@ export const onUpdatePatient = /* GraphQL */ `
     onUpdatePatient(filter: $filter) {
       id
       patientName
-      telelphoneNumber
+      telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender
@@ -139,7 +139,7 @@ export const onDeletePatient = /* GraphQL */ `
     onDeletePatient(filter: $filter) {
       id
       patientName
-      telelphoneNumber
+      telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender

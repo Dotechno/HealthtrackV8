@@ -67,7 +67,7 @@ type EagerPatient = {
   };
   readonly id: string;
   readonly patientName?: string | null;
-  readonly telelphoneNumber?: string | null;
+  readonly telephoneNumber?: string | null;
   readonly insuranceCarrierID?: string | null;
   readonly dateOfBirth?: string | null;
   readonly gender?: string | null;
@@ -86,7 +86,7 @@ type LazyPatient = {
   };
   readonly id: string;
   readonly patientName?: string | null;
-  readonly telelphoneNumber?: string | null;
+  readonly telephoneNumber?: string | null;
   readonly insuranceCarrierID?: string | null;
   readonly dateOfBirth?: string | null;
   readonly gender?: string | null;

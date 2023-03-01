@@ -97,7 +97,7 @@ export const createPatient = /* GraphQL */ `
     createPatient(input: $input, condition: $condition) {
       id
       patientName
-      telelphoneNumber
+      telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender
@@ -124,7 +124,7 @@ export const updatePatient = /* GraphQL */ `
     updatePatient(input: $input, condition: $condition) {
       id
       patientName
-      telelphoneNumber
+      telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender
@@ -151,7 +151,7 @@ export const deletePatient = /* GraphQL */ `
     deletePatient(input: $input, condition: $condition) {
       id
       patientName
-      telelphoneNumber
+      telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender
