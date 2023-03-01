@@ -23,5 +23,5 @@
       "strictNullChecks": true,
       "strictFunctionTypes": true,
     },
-    "include": ["src", "test", "src/global.d.ts"]
+    "include": ["src", "test"]
   }
