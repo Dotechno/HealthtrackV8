@@ -49,8 +49,8 @@ If you have problem,
     1. npm un aws-amplify @aws-amplify/ui-react
     2. npm i aws-amplify @aws-amplify/ui-react
 
- 
+# Documentations
+## Change router settings
+`router.tsx`: in nav and `<Routes>`
 
-
-
-
+`index.tsx`: do it
