@@ -1,4 +1,13 @@
 # HealthtrackV8
+
+## Naming Convention
+
+Examples
+- Features: feature/add-admin-button-to-panel
+- Refactor: refactor/admin-panel/nurse-to-admin
+- Fix: fix/removed-annoying-alert-button
+
+
 ## Installation
 
 Clone the front and backend project
