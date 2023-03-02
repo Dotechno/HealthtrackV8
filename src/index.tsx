@@ -26,45 +26,49 @@ Amplify.configure(awsExports);
 // }
 
 const router = createBrowserRouter([
-    {
-        path: '/',
-        element: <Router />,
-        children: [
-          {
-            path: '/nurse',
-            element: <Nurse  />,
-          },
-          {
-            path:'/physician',
-            element: <Physician user={undefined}  />,
-          },
-          {
-            path:'/technician',
-            element: <Physician user={undefined}  />,
-          },
-          {
-            path:'/physicianassistant',
-            element: <PhysicianAssistant/>,
-          },
-          {
-            path:'/pharmacist',
-            element: <Pharmacist/>,
-          },
-          {
-            path:'/admin',
-            element: <Admin/>,
-          },
-          {
-            path:'/nurse/patient',
-            element: <Patient/>,
-          }
+  {
+    path: '/',
+    element: <Router />,
+    children: [
+      {
+        path: '/nurse',
+        element: <Nurse />,
+      },
+      {
+        path: '/admin',
+        element: <Admin />,
+      },
+      {
+        path: '/physician',
+        element: <Physician user={undefined} />,
+      },
+      {
+        path: '/technician',
+        element: <Physician user={undefined} />,
+      },
+      {
+        path: '/physicianassistant',
+        element: <PhysicianAssistant />,
+      },
+      {
+        path: '/pharmacist',
+        element: <Pharmacist />,
+      },
+      {
+        path: '/admin',
+        element: <Admin />,
+      },
+      {
+        path: '/nurse/patient',
+        element: <Patient />,
+      }
 
-        ]
-    },
+    ]
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>
-        <RouterProvider router={router}/>
-    </React.StrictMode>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );

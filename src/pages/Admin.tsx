@@ -17,7 +17,7 @@ export interface AdminProps {
     signOut?: (event?: AuthEventData) => void;
 }
 
-function Admin({ user }:AdminProps) {
+function Admin({ user }: AdminProps) {
     const { signOut } = useAuthenticator((context) => [context.user]);
     const [navigationOpen, setNavigationOpen] = React.useState(false);
     const [isLoading, setLoading] = useState(false);
