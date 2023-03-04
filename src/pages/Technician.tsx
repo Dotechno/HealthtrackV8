@@ -16,30 +16,30 @@ function Technician({ user }: { user: any }) {
     const [charliePatientID, setCharliePatientID] = useState<any>(undefined);
     // console.log(user);
 
-    const createMedicalPatient = async () => {
-        await DataStore.save(
-            new Patient({
-                patientName: 'Lorem ipsum dolor sit amet',
-                telephoneNumber: 'Lorem ipsum dolor sit amet',
-                insuranceCarrierID: 'Lorem ipsum dolor sit amet',
-                dateOfBirth: 'Lorem ipsum dolor sit amet',
-                gender: 'Lorem ipsum dolor sit amet',
-                primaryCarePhysician: 'Lorem ipsum dolor sit amet',
-                listCurrentMedications: 'Lorem ipsum dolor sit amet',
-                listScheduledAppointments: 'Lorem ipsum dolor sit amet',
-                MedicalEncounters: [],
-            })
-        );
-    };
+    // const createMedicalPatient = async () => {
+    //     await DataStore.save(
+    //         new Patient({
+    //             patientName: 'Lorem ipsum dolor sit amet',
+    //             telephoneNumber: 'Lorem ipsum dolor sit amet',
+    //             insuranceCarrierID: 'Lorem ipsum dolor sit amet',
+    //             dateOfBirth: 'Lorem ipsum dolor sit amet',
+    //             gender: 'Lorem ipsum dolor sit amet',
+    //             primaryCarePhysician: 'Lorem ipsum dolor sit amet',
+    //             listCurrentMedications: 'Lorem ipsum dolor sit amet',
+    //             listScheduledAppointments: 'Lorem ipsum dolor sit amet',
+    //             MedicalEncounters: [],
+    //         })
+    //     );
+    // };
 
-    const queryAllPatient = async () => {
-        const patients = await DataStore.query(Patient);
-        setPatient(patients);
-        console.log(patients);
-    };
+    // const queryAllPatient = async () => {
+    //     const patients = await DataStore.query(Patient);
+    //     setPatient(patients);
+    //     console.log(patients);
+    // };
 
     
-
+    
     return (
         <AppLayout
             navigation={<Navigation signOut={signOut} />}
