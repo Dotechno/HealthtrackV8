@@ -14,7 +14,7 @@ export function Navigation({ signOut, user }: NavigationProps) {
     const [activeHref,setActiveHref] = React.useState("#/page1");
     return (
         <SideNavigation
-        activeHref={activeHref}
+        
         header={{ href: "#", text: "Service name" }}
         onFollow={event => {
             setActiveHref(event.detail.href);
