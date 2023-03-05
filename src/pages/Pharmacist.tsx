@@ -3,14 +3,12 @@ import React, { useRef, useState } from 'react';
 import { Navigation } from '../components/navigation/Navigation';
 import type { AmplifyUser, AuthEventData } from '@aws-amplify/ui';
 import { AppLayout } from '@cloudscape-design/components';
+import * as mutations from '../graphql/mutations';
+import * as queries from '../graphql/queries';
 import { API } from 'aws-amplify';
 import { graphqlOperation, GraphQLQuery } from '@aws-amplify/api';
 import {
-    CreatePatientInput,
-    CreatePatientMutation,
-    DeletePatientMutation,
     ListPatientsQuery,
-    UpdatePatientMutation,
 } from 'src/API';
 import {
     createPatient,
@@ -28,37 +26,30 @@ function Pharmacist({ user }: PharmacistProps) {
     const { signOut } = useAuthenticator((context) => [context.user]);
     const [navigationOpen, setNavigationOpen] = React.useState(false);
     const [isLoading, setLoading] = useState(false);
-    const [Patient, setPatient] = useState<any>(undefined);
-    const Ken: CreatePatientInput = {
-        patientName: 'Charlie',
-        telephoneNumber: 'Lorem ipsum dolor sit amet',
-        insuranceCarrierID: 'Lorem ipsum dolor sit amet',
-        dateOfBirth: 'Lorem ipsum dolor sit amet',
-        gender: 'Lorem ipsum dolor sit amet',
-        primaryCarePhysician: 'Lorem ipsum dolor sit amet',
-        listCurrentMedications: 'Lorem ipsum dolor sit amet',
-        listScheduledAppointments: 'Lorem ipsum dolor sit amet',
-    };
+    const [labOrder, setLaborder] = useState<any>(undefined);
+    const [medicalEncounters, SetMedicalEncounters] = useState<any>("intial string")
 
-    const Create = async () => {
-        await API.graphql<GraphQLQuery<CreatePatientMutation>>(
-            graphqlOperation(createPatient, { input: Ken })
-        );
-    };
+    // const CreateLabOrder = async () =>{
+       // await API.graphql<GraphQLQuery<CreateLabOrderMutation>>(
+          ///  graphqlOperation()
 
-    const List = async () => {
-        await API.graphql<GraphQLQuery<any>>({
-            query: listPatients,
-        });
-    };
-    async function LL() {
-        console.log(Create);
-        console.log(List);
-        const ListName = List.data?.listPatients?.items;
-        await setPatient(ListName);
-        await console.log(ListName);
+    // }
+    const sampleLabOrder = {
+
     }
-
+    
+    async function CreateLabOrder(){
+            
+    }
+    
+    async function GetAllMedicalEncounters(){
+        let appointments = await API.graphql<GraphQLQuery<any>>({
+            query: queries.getMedicalEncounter,
+        })
+        SetMedicalEncounters(appointments)
+    }
+    
+    
     return (
         <AppLayout
             navigation={
@@ -68,7 +59,9 @@ function Pharmacist({ user }: PharmacistProps) {
             }
             content={
                 <>
-                    <Button onClick={LL}></Button>
+                    <Button onClick={GetAllMedicalEncounters}>Get Medical Encounters</Button>
+                    {/* {JSON.stringify(medicalEncounters)} */}
+                    {JSON.stringify(medicalEncounters)}
                 </>
             }
         />
