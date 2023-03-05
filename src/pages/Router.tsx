@@ -4,12 +4,12 @@ import { Routes, Route } from 'react-router-dom';
 import customSignUpFields from '../components/authenticator/FormFields';
 import { Authenticator } from '@aws-amplify/ui-react';
 import Nurse from './Nurse';
-import Technician from './Technician';
+import Technician from './LabOrderTracking';
 import Pharmacist from './Pharmacist';
-import Physician from './Physician';
+import Physician from './PhysicianScheduler';
 import { Link } from 'react-router-dom';
 
-import Patient from './Patients';
+import Patient from './ElectronicPatientRecord';
 
 import {
     Container,
@@ -46,8 +46,8 @@ function Nav() {
                     <Link to="/admin">Administrator</Link>
                     <Link to="/physician">Physician</Link>
                     <Link to="/technician">Technician</Link>
-                    <Link to="/physicianassistant">Physician Assistant</Link>
-                    <Link to="/pharmacist">Pharmacist</Link>
+                    <Link to="/physicianassistant">Physician Scheduler</Link>
+                    <Link to="/pharmacist">Lab Order Tracking</Link>
                     <Link to="/nurse/patient">Patient</Link>
                 </ColumnLayout>
             </Container>

@@ -11,11 +11,11 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { Router } from './pages/Router';
 import Nurse from './pages/Nurse';
-import Physician from './pages/Physician';
+import Physician from './pages/PhysicianScheduler';
 import Admin from './pages/Admin';
 import PhysicianAssistant from './pages/PhysicianAssistant';
 import Pharmacist from './pages/Pharmacist';
-import Patient from './pages/Patients';
+import Patient from './pages/ElectronicPatientRecord';
 import '@cloudscape-design/global-styles/index.css';
 
 Amplify.configure(awsExports);

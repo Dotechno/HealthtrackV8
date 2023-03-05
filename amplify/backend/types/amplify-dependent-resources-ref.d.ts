@@ -2,7 +2,8 @@ export type AmplifyDependentResourcesAttributes = {
   "api": {
     "healthtrackv8": {
       "GraphQLAPIEndpointOutput": "string",
-      "GraphQLAPIIdOutput": "string"
+      "GraphQLAPIIdOutput": "string",
+      "GraphQLAPIKeyOutput": "string"
     }
   },
   "auth": {

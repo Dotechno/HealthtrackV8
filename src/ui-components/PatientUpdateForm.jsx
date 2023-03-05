@@ -24,18 +24,14 @@ export default function PatientUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    patientName: "",
+    name: "",
     telephoneNumber: "",
     insuranceCarrierID: "",
     dateOfBirth: "",
     gender: "",
     primaryCarePhysician: "",
-    listCurrentMedications: "",
-    listScheduledAppointments: "",
   };
-  const [patientName, setPatientName] = React.useState(
-    initialValues.patientName
-  );
+  const [name, setName] = React.useState(initialValues.name);
   const [telephoneNumber, setTelephoneNumber] = React.useState(
     initialValues.telephoneNumber
   );
@@ -49,24 +45,17 @@ export default function PatientUpdateForm(props) {
   const [primaryCarePhysician, setPrimaryCarePhysician] = React.useState(
     initialValues.primaryCarePhysician
   );
-  const [listCurrentMedications, setListCurrentMedications] = React.useState(
-    initialValues.listCurrentMedications
-  );
-  const [listScheduledAppointments, setListScheduledAppointments] =
-    React.useState(initialValues.listScheduledAppointments);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = patientRecord
       ? { ...initialValues, ...patientRecord }
       : initialValues;
-    setPatientName(cleanValues.patientName);
+    setName(cleanValues.name);
     setTelephoneNumber(cleanValues.telephoneNumber);
     setInsuranceCarrierID(cleanValues.insuranceCarrierID);
     setDateOfBirth(cleanValues.dateOfBirth);
     setGender(cleanValues.gender);
     setPrimaryCarePhysician(cleanValues.primaryCarePhysician);
-    setListCurrentMedications(cleanValues.listCurrentMedications);
-    setListScheduledAppointments(cleanValues.listScheduledAppointments);
     setErrors({});
   };
   const [patientRecord, setPatientRecord] = React.useState(patient);
@@ -79,14 +68,12 @@ export default function PatientUpdateForm(props) {
   }, [idProp, patient]);
   React.useEffect(resetStateValues, [patientRecord]);
   const validations = {
-    patientName: [],
+    name: [],
     telephoneNumber: [],
     insuranceCarrierID: [],
     dateOfBirth: [],
     gender: [],
     primaryCarePhysician: [],
-    listCurrentMedications: [],
-    listScheduledAppointments: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -113,14 +100,12 @@ export default function PatientUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          patientName,
+          name,
           telephoneNumber,
           insuranceCarrierID,
           dateOfBirth,
           gender,
           primaryCarePhysician,
-          listCurrentMedications,
-          listScheduledAppointments,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -168,35 +153,33 @@ export default function PatientUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Patient name"
+        label="Name"
         isRequired={false}
         isReadOnly={false}
-        value={patientName}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              patientName: value,
+              name: value,
               telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender,
               primaryCarePhysician,
-              listCurrentMedications,
-              listScheduledAppointments,
             };
             const result = onChange(modelFields);
-            value = result?.patientName ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.patientName?.hasError) {
-            runValidationTasks("patientName", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setPatientName(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("patientName", patientName)}
-        errorMessage={errors.patientName?.errorMessage}
-        hasError={errors.patientName?.hasError}
-        {...getOverrideProps(overrides, "patientName")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
         label="Telephone number"
@@ -207,14 +190,12 @@ export default function PatientUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              patientName,
+              name,
               telephoneNumber: value,
               insuranceCarrierID,
               dateOfBirth,
               gender,
               primaryCarePhysician,
-              listCurrentMedications,
-              listScheduledAppointments,
             };
             const result = onChange(modelFields);
             value = result?.telephoneNumber ?? value;
@@ -238,14 +219,12 @@ export default function PatientUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              patientName,
+              name,
               telephoneNumber,
               insuranceCarrierID: value,
               dateOfBirth,
               gender,
               primaryCarePhysician,
-              listCurrentMedications,
-              listScheduledAppointments,
             };
             const result = onChange(modelFields);
             value = result?.insuranceCarrierID ?? value;
@@ -271,14 +250,12 @@ export default function PatientUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              patientName,
+              name,
               telephoneNumber,
               insuranceCarrierID,
               dateOfBirth: value,
               gender,
               primaryCarePhysician,
-              listCurrentMedications,
-              listScheduledAppointments,
             };
             const result = onChange(modelFields);
             value = result?.dateOfBirth ?? value;
@@ -302,14 +279,12 @@ export default function PatientUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              patientName,
+              name,
               telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender: value,
               primaryCarePhysician,
-              listCurrentMedications,
-              listScheduledAppointments,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -333,14 +308,12 @@ export default function PatientUpdateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              patientName,
+              name,
               telephoneNumber,
               insuranceCarrierID,
               dateOfBirth,
               gender,
               primaryCarePhysician: value,
-              listCurrentMedications,
-              listScheduledAppointments,
             };
             const result = onChange(modelFields);
             value = result?.primaryCarePhysician ?? value;
@@ -356,75 +329,6 @@ export default function PatientUpdateForm(props) {
         errorMessage={errors.primaryCarePhysician?.errorMessage}
         hasError={errors.primaryCarePhysician?.hasError}
         {...getOverrideProps(overrides, "primaryCarePhysician")}
-      ></TextField>
-      <TextField
-        label="List current medications"
-        isRequired={false}
-        isReadOnly={false}
-        value={listCurrentMedications}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              patientName,
-              telephoneNumber,
-              insuranceCarrierID,
-              dateOfBirth,
-              gender,
-              primaryCarePhysician,
-              listCurrentMedications: value,
-              listScheduledAppointments,
-            };
-            const result = onChange(modelFields);
-            value = result?.listCurrentMedications ?? value;
-          }
-          if (errors.listCurrentMedications?.hasError) {
-            runValidationTasks("listCurrentMedications", value);
-          }
-          setListCurrentMedications(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("listCurrentMedications", listCurrentMedications)
-        }
-        errorMessage={errors.listCurrentMedications?.errorMessage}
-        hasError={errors.listCurrentMedications?.hasError}
-        {...getOverrideProps(overrides, "listCurrentMedications")}
-      ></TextField>
-      <TextField
-        label="List scheduled appointments"
-        isRequired={false}
-        isReadOnly={false}
-        value={listScheduledAppointments}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              patientName,
-              telephoneNumber,
-              insuranceCarrierID,
-              dateOfBirth,
-              gender,
-              primaryCarePhysician,
-              listCurrentMedications,
-              listScheduledAppointments: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.listScheduledAppointments ?? value;
-          }
-          if (errors.listScheduledAppointments?.hasError) {
-            runValidationTasks("listScheduledAppointments", value);
-          }
-          setListScheduledAppointments(value);
-        }}
-        onBlur={() =>
-          runValidationTasks(
-            "listScheduledAppointments",
-            listScheduledAppointments
-          )
-        }
-        errorMessage={errors.listScheduledAppointments?.errorMessage}
-        hasError={errors.listScheduledAppointments?.hasError}
-        {...getOverrideProps(overrides, "listScheduledAppointments")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -1,19 +1,19 @@
-import {
-    Autocomplete,
-    Heading,
-    useAuthenticator,
-} from '@aws-amplify/ui-react';
+import { Autocomplete, Heading, useAuthenticator } from '@aws-amplify/ui-react';
 import React, { useState } from 'react';
 import type { AmplifyUser } from '@aws-amplify/ui';
 import { Navigation } from '../components/navigation/Navigation';
-import '../styles/base.scss'
-import { AppLayout } from '@cloudscape-design/components';
+import '../styles/base.scss';
+import { AppLayout, Tabs } from '@cloudscape-design/components';
+import PatientCreateForm from '../ui-components/PatientCreateForm';
+import {
+    ServiceProvidedByClinicCreateForm,
+    VitalSignCreateForm,
+} from '../ui-components';
+import LabTestCreateForm from '../ui-components/LabTestCreateForm';
 
 export interface NurseProps {
     user?: AmplifyUser;
 }
-
-
 
 function Nurse({ user }: NurseProps) {
     const { signOut } = useAuthenticator((context) => [context.user]);
@@ -23,24 +23,39 @@ function Nurse({ user }: NurseProps) {
     return (
         <>
             <AppLayout
-                headerSelector='#header'
+                headerSelector="#header"
                 navigation={
                     <>
-                        <Navigation signOut={signOut} user={user}/>
+                        <Navigation signOut={signOut} user={user} />
                     </>
                 }
                 content={
                     <>
-                        <Heading className="Title">Patient Recorder</Heading>
-
-                        <Autocomplete
-                            className="Search"
-                            hasSearchIcon={true}
-                            label="Search"
-                            placeholder="Search for Patient, Patient ID, and Physcian Name"
-                            hasSearchButton={false}
-                            color="black"
-                            options={[]}
+                        <Tabs
+                            tabs={[
+                                {
+                                    label: 'Patient',
+                                    id: 'patient',
+                                    content: <PatientCreateForm />,
+                                },
+                                {
+                                    label: 'Service Provided By Clinic',
+                                    id: 'serviceProvidedByClinic',
+                                    content: (
+                                        <ServiceProvidedByClinicCreateForm />
+                                    ),
+                                },
+                                {
+                                    label: 'Vital Sign',
+                                    id: 'vitalSign',
+                                    content: <VitalSignCreateForm />,
+                                },
+                                {
+                                    label: 'Lab Test',
+                                    id: 'labTest',
+                                    content: <LabTestCreateForm />,
+                                },
+                            ]}
                         />
                     </>
                 }
