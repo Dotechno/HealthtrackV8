@@ -8,13 +8,12 @@
 import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Patient } from "../models";
+import { Medication } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function PatientUpdateForm(props) {
+export default function MedicationCreateForm(props) {
   const {
-    id: idProp,
-    patient,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -25,55 +24,43 @@ export default function PatientUpdateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    telephoneNumber: "",
-    insuranceCarrierID: "",
-    dateOfBirth: "",
-    gender: "",
-    primaryCarePhysician: "",
+    useOfMedication: "",
+    recommendedDosage: "",
+    recommendedFrequencyOfUse: "",
+    potentialSideEffect: "",
+    drugThatMayReactAdversely: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [telephoneNumber, setTelephoneNumber] = React.useState(
-    initialValues.telephoneNumber
+  const [useOfMedication, setUseOfMedication] = React.useState(
+    initialValues.useOfMedication
   );
-  const [insuranceCarrierID, setInsuranceCarrierID] = React.useState(
-    initialValues.insuranceCarrierID
+  const [recommendedDosage, setRecommendedDosage] = React.useState(
+    initialValues.recommendedDosage
   );
-  const [dateOfBirth, setDateOfBirth] = React.useState(
-    initialValues.dateOfBirth
+  const [recommendedFrequencyOfUse, setRecommendedFrequencyOfUse] =
+    React.useState(initialValues.recommendedFrequencyOfUse);
+  const [potentialSideEffect, setPotentialSideEffect] = React.useState(
+    initialValues.potentialSideEffect
   );
-  const [gender, setGender] = React.useState(initialValues.gender);
-  const [primaryCarePhysician, setPrimaryCarePhysician] = React.useState(
-    initialValues.primaryCarePhysician
-  );
+  const [drugThatMayReactAdversely, setDrugThatMayReactAdversely] =
+    React.useState(initialValues.drugThatMayReactAdversely);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = patientRecord
-      ? { ...initialValues, ...patientRecord }
-      : initialValues;
-    setName(cleanValues.name);
-    setTelephoneNumber(cleanValues.telephoneNumber);
-    setInsuranceCarrierID(cleanValues.insuranceCarrierID);
-    setDateOfBirth(cleanValues.dateOfBirth);
-    setGender(cleanValues.gender);
-    setPrimaryCarePhysician(cleanValues.primaryCarePhysician);
+    setName(initialValues.name);
+    setUseOfMedication(initialValues.useOfMedication);
+    setRecommendedDosage(initialValues.recommendedDosage);
+    setRecommendedFrequencyOfUse(initialValues.recommendedFrequencyOfUse);
+    setPotentialSideEffect(initialValues.potentialSideEffect);
+    setDrugThatMayReactAdversely(initialValues.drugThatMayReactAdversely);
     setErrors({});
   };
-  const [patientRecord, setPatientRecord] = React.useState(patient);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp ? await DataStore.query(Patient, idProp) : patient;
-      setPatientRecord(record);
-    };
-    queryData();
-  }, [idProp, patient]);
-  React.useEffect(resetStateValues, [patientRecord]);
   const validations = {
     name: [],
-    telephoneNumber: [],
-    insuranceCarrierID: [],
-    dateOfBirth: [],
-    gender: [],
-    primaryCarePhysician: [],
+    useOfMedication: [],
+    recommendedDosage: [],
+    recommendedFrequencyOfUse: [],
+    potentialSideEffect: [],
+    drugThatMayReactAdversely: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -101,11 +88,11 @@ export default function PatientUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          telephoneNumber,
-          insuranceCarrierID,
-          dateOfBirth,
-          gender,
-          primaryCarePhysician,
+          useOfMedication,
+          recommendedDosage,
+          recommendedFrequencyOfUse,
+          potentialSideEffect,
+          drugThatMayReactAdversely,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -135,13 +122,12 @@ export default function PatientUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(
-            Patient.copyOf(patientRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await DataStore.save(new Medication(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -149,7 +135,7 @@ export default function PatientUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PatientUpdateForm")}
+      {...getOverrideProps(overrides, "MedicationCreateForm")}
       {...rest}
     >
       <TextField
@@ -162,11 +148,11 @@ export default function PatientUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              telephoneNumber,
-              insuranceCarrierID,
-              dateOfBirth,
-              gender,
-              primaryCarePhysician,
+              useOfMedication,
+              recommendedDosage,
+              recommendedFrequencyOfUse,
+              potentialSideEffect,
+              drugThatMayReactAdversely,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -182,167 +168,176 @@ export default function PatientUpdateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Telephone number"
+        label="Use of medication"
         isRequired={false}
         isReadOnly={false}
-        value={telephoneNumber}
+        value={useOfMedication}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              telephoneNumber: value,
-              insuranceCarrierID,
-              dateOfBirth,
-              gender,
-              primaryCarePhysician,
+              useOfMedication: value,
+              recommendedDosage,
+              recommendedFrequencyOfUse,
+              potentialSideEffect,
+              drugThatMayReactAdversely,
             };
             const result = onChange(modelFields);
-            value = result?.telephoneNumber ?? value;
+            value = result?.useOfMedication ?? value;
           }
-          if (errors.telephoneNumber?.hasError) {
-            runValidationTasks("telephoneNumber", value);
+          if (errors.useOfMedication?.hasError) {
+            runValidationTasks("useOfMedication", value);
           }
-          setTelephoneNumber(value);
+          setUseOfMedication(value);
         }}
-        onBlur={() => runValidationTasks("telephoneNumber", telephoneNumber)}
-        errorMessage={errors.telephoneNumber?.errorMessage}
-        hasError={errors.telephoneNumber?.hasError}
-        {...getOverrideProps(overrides, "telephoneNumber")}
+        onBlur={() => runValidationTasks("useOfMedication", useOfMedication)}
+        errorMessage={errors.useOfMedication?.errorMessage}
+        hasError={errors.useOfMedication?.hasError}
+        {...getOverrideProps(overrides, "useOfMedication")}
       ></TextField>
       <TextField
-        label="Insurance carrier id"
+        label="Recommended dosage"
         isRequired={false}
         isReadOnly={false}
-        value={insuranceCarrierID}
+        value={recommendedDosage}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              telephoneNumber,
-              insuranceCarrierID: value,
-              dateOfBirth,
-              gender,
-              primaryCarePhysician,
+              useOfMedication,
+              recommendedDosage: value,
+              recommendedFrequencyOfUse,
+              potentialSideEffect,
+              drugThatMayReactAdversely,
             };
             const result = onChange(modelFields);
-            value = result?.insuranceCarrierID ?? value;
+            value = result?.recommendedDosage ?? value;
           }
-          if (errors.insuranceCarrierID?.hasError) {
-            runValidationTasks("insuranceCarrierID", value);
+          if (errors.recommendedDosage?.hasError) {
+            runValidationTasks("recommendedDosage", value);
           }
-          setInsuranceCarrierID(value);
+          setRecommendedDosage(value);
         }}
         onBlur={() =>
-          runValidationTasks("insuranceCarrierID", insuranceCarrierID)
+          runValidationTasks("recommendedDosage", recommendedDosage)
         }
-        errorMessage={errors.insuranceCarrierID?.errorMessage}
-        hasError={errors.insuranceCarrierID?.hasError}
-        {...getOverrideProps(overrides, "insuranceCarrierID")}
+        errorMessage={errors.recommendedDosage?.errorMessage}
+        hasError={errors.recommendedDosage?.hasError}
+        {...getOverrideProps(overrides, "recommendedDosage")}
       ></TextField>
       <TextField
-        label="Date of birth"
+        label="Recommended frequency of use"
         isRequired={false}
         isReadOnly={false}
-        value={dateOfBirth}
+        value={recommendedFrequencyOfUse}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              telephoneNumber,
-              insuranceCarrierID,
-              dateOfBirth: value,
-              gender,
-              primaryCarePhysician,
+              useOfMedication,
+              recommendedDosage,
+              recommendedFrequencyOfUse: value,
+              potentialSideEffect,
+              drugThatMayReactAdversely,
             };
             const result = onChange(modelFields);
-            value = result?.dateOfBirth ?? value;
+            value = result?.recommendedFrequencyOfUse ?? value;
           }
-          if (errors.dateOfBirth?.hasError) {
-            runValidationTasks("dateOfBirth", value);
+          if (errors.recommendedFrequencyOfUse?.hasError) {
+            runValidationTasks("recommendedFrequencyOfUse", value);
           }
-          setDateOfBirth(value);
-        }}
-        onBlur={() => runValidationTasks("dateOfBirth", dateOfBirth)}
-        errorMessage={errors.dateOfBirth?.errorMessage}
-        hasError={errors.dateOfBirth?.hasError}
-        {...getOverrideProps(overrides, "dateOfBirth")}
-      ></TextField>
-      <TextField
-        label="Gender"
-        isRequired={false}
-        isReadOnly={false}
-        value={gender}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              telephoneNumber,
-              insuranceCarrierID,
-              dateOfBirth,
-              gender: value,
-              primaryCarePhysician,
-            };
-            const result = onChange(modelFields);
-            value = result?.gender ?? value;
-          }
-          if (errors.gender?.hasError) {
-            runValidationTasks("gender", value);
-          }
-          setGender(value);
-        }}
-        onBlur={() => runValidationTasks("gender", gender)}
-        errorMessage={errors.gender?.errorMessage}
-        hasError={errors.gender?.hasError}
-        {...getOverrideProps(overrides, "gender")}
-      ></TextField>
-      <TextField
-        label="Primary care physician"
-        isRequired={false}
-        isReadOnly={false}
-        value={primaryCarePhysician}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              telephoneNumber,
-              insuranceCarrierID,
-              dateOfBirth,
-              gender,
-              primaryCarePhysician: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.primaryCarePhysician ?? value;
-          }
-          if (errors.primaryCarePhysician?.hasError) {
-            runValidationTasks("primaryCarePhysician", value);
-          }
-          setPrimaryCarePhysician(value);
+          setRecommendedFrequencyOfUse(value);
         }}
         onBlur={() =>
-          runValidationTasks("primaryCarePhysician", primaryCarePhysician)
+          runValidationTasks(
+            "recommendedFrequencyOfUse",
+            recommendedFrequencyOfUse
+          )
         }
-        errorMessage={errors.primaryCarePhysician?.errorMessage}
-        hasError={errors.primaryCarePhysician?.hasError}
-        {...getOverrideProps(overrides, "primaryCarePhysician")}
+        errorMessage={errors.recommendedFrequencyOfUse?.errorMessage}
+        hasError={errors.recommendedFrequencyOfUse?.hasError}
+        {...getOverrideProps(overrides, "recommendedFrequencyOfUse")}
+      ></TextField>
+      <TextField
+        label="Potential side effect"
+        isRequired={false}
+        isReadOnly={false}
+        value={potentialSideEffect}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              useOfMedication,
+              recommendedDosage,
+              recommendedFrequencyOfUse,
+              potentialSideEffect: value,
+              drugThatMayReactAdversely,
+            };
+            const result = onChange(modelFields);
+            value = result?.potentialSideEffect ?? value;
+          }
+          if (errors.potentialSideEffect?.hasError) {
+            runValidationTasks("potentialSideEffect", value);
+          }
+          setPotentialSideEffect(value);
+        }}
+        onBlur={() =>
+          runValidationTasks("potentialSideEffect", potentialSideEffect)
+        }
+        errorMessage={errors.potentialSideEffect?.errorMessage}
+        hasError={errors.potentialSideEffect?.hasError}
+        {...getOverrideProps(overrides, "potentialSideEffect")}
+      ></TextField>
+      <TextField
+        label="Drug that may react adversely"
+        isRequired={false}
+        isReadOnly={false}
+        value={drugThatMayReactAdversely}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              name,
+              useOfMedication,
+              recommendedDosage,
+              recommendedFrequencyOfUse,
+              potentialSideEffect,
+              drugThatMayReactAdversely: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.drugThatMayReactAdversely ?? value;
+          }
+          if (errors.drugThatMayReactAdversely?.hasError) {
+            runValidationTasks("drugThatMayReactAdversely", value);
+          }
+          setDrugThatMayReactAdversely(value);
+        }}
+        onBlur={() =>
+          runValidationTasks(
+            "drugThatMayReactAdversely",
+            drugThatMayReactAdversely
+          )
+        }
+        errorMessage={errors.drugThatMayReactAdversely?.errorMessage}
+        hasError={errors.drugThatMayReactAdversely?.hasError}
+        {...getOverrideProps(overrides, "drugThatMayReactAdversely")}
       ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || patient)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -352,10 +347,7 @@ export default function PatientUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || patient) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>
