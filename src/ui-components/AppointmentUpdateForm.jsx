@@ -6,15 +6,20 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Todo } from "../models";
+import { Appointment } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function TodoUpdateForm(props) {
+export default function AppointmentUpdateForm(props) {
   const {
-    id: idProp,
-    todo,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -24,34 +29,20 @@ export default function TodoUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    description: "",
+    date: "",
+    type: undefined,
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [description, setDescription] = React.useState(
-    initialValues.description
-  );
+  const [date, setDate] = React.useState(initialValues.date);
+  const [type, setType] = React.useState(initialValues.type);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = todoRecord
-      ? { ...initialValues, ...todoRecord }
-      : initialValues;
-    setName(cleanValues.name);
-    setDescription(cleanValues.description);
+    setDate(initialValues.date);
+    setType(initialValues.type);
     setErrors({});
   };
-  const [todoRecord, setTodoRecord] = React.useState(todo);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp ? await DataStore.query(Todo, idProp) : todo;
-      setTodoRecord(record);
-    };
-    queryData();
-  }, [idProp, todo]);
-  React.useEffect(resetStateValues, [todoRecord]);
   const validations = {
-    name: [{ type: "Required" }],
-    description: [],
+    date: [],
+    type: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -78,8 +69,8 @@ export default function TodoUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          description,
+          date,
+          type,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -109,13 +100,12 @@ export default function TodoUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(
-            Todo.copyOf(todoRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await DataStore.save(new Appointment(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -123,72 +113,88 @@ export default function TodoUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoUpdateForm")}
+      {...getOverrideProps(overrides, "AppointmentUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
-        isReadOnly={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name: value,
-              description,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Description"
+        label="Date"
         isRequired={false}
         isReadOnly={false}
-        value={description}
+        type="date"
+        value={date}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              description: value,
+              date: value,
+              type,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.date ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.date?.hasError) {
+            runValidationTasks("date", value);
           }
-          setDescription(value);
+          setDate(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("date", date)}
+        errorMessage={errors.date?.errorMessage}
+        hasError={errors.date?.hasError}
+        {...getOverrideProps(overrides, "date")}
       ></TextField>
+      <SelectField
+        label="Type"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={type}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              date,
+              type: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.type ?? value;
+          }
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
+          }
+          setType(value);
+        }}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      >
+        <option
+          children="Urgent"
+          value="URGENT"
+          {...getOverrideProps(overrides, "typeoption0")}
+        ></option>
+        <option
+          children="Rountine"
+          value="ROUNTINE"
+          {...getOverrideProps(overrides, "typeoption1")}
+        ></option>
+        <option
+          children="Follow up visit"
+          value="FOLLOW_UP_VISIT"
+          {...getOverrideProps(overrides, "typeoption2")}
+        ></option>
+      </SelectField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || todo)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -198,10 +204,7 @@ export default function TodoUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || todo) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -1,0 +1,30 @@
+{
+  "devscmii": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-healthtrackv8-devscmii-225358-authRole",
+      "UnauthRoleArn": "arn:aws:iam::692666386709:role/amplify-healthtrackv8-devscmii-225358-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::692666386709:role/amplify-healthtrackv8-devscmii-225358-authRole",
+      "Region": "us-west-1",
+      "DeploymentBucketName": "amplify-healthtrackv8-devscmii-225358-deployment",
+      "UnauthRoleName": "amplify-healthtrackv8-devscmii-225358-unauthRole",
+      "StackName": "amplify-healthtrackv8-devscmii-225358",
+      "StackId": "arn:aws:cloudformation:us-west-1:692666386709:stack/amplify-healthtrackv8-devscmii-225358/1dea5430-b94d-11ed-8b16-060cffa04a1f",
+      "AmplifyAppId": "dd1gmnh1dmpn6"
+    },
+    "categories": {
+      "auth": {
+        "htauth": {},
+        "userPoolGroups": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dd1gmnh1dmpn6",
+          "type": "cicd"
+        }
+      },
+      "api": {
+        "healthtrackv8": {}
+      }
+    }
+  }
+}

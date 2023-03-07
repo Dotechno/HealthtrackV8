@@ -28,6 +28,7 @@ function Scheduler({ isDate, year, month, monday, i }: SchedulerProps) {
 
         // addCb changes the color of the box to green
         addCb(day, number, time, id);
+        
 
 
         let newWeek = [...currentWeek];

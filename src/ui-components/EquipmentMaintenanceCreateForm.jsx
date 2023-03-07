@@ -6,12 +6,18 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Todo } from "../models";
+import { EquipmentMaintenance } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function TodoCreateForm(props) {
+export default function EquipmentMaintenanceCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -23,22 +29,28 @@ export default function TodoCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    description: "",
+    type: "",
+    problem: "",
+    status: undefined,
+    resolution: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [description, setDescription] = React.useState(
-    initialValues.description
-  );
+  const [type, setType] = React.useState(initialValues.type);
+  const [problem, setProblem] = React.useState(initialValues.problem);
+  const [status, setStatus] = React.useState(initialValues.status);
+  const [resolution, setResolution] = React.useState(initialValues.resolution);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setDescription(initialValues.description);
+    setType(initialValues.type);
+    setProblem(initialValues.problem);
+    setStatus(initialValues.status);
+    setResolution(initialValues.resolution);
     setErrors({});
   };
   const validations = {
-    name: [{ type: "Required" }],
-    description: [],
+    type: [],
+    problem: [],
+    status: [],
+    resolution: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -65,8 +77,10 @@ export default function TodoCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          description,
+          type,
+          problem,
+          status,
+          resolution,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -96,7 +110,7 @@ export default function TodoCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Todo(modelFields));
+          await DataStore.save(new EquipmentMaintenance(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -109,58 +123,132 @@ export default function TodoCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoCreateForm")}
+      {...getOverrideProps(overrides, "EquipmentMaintenanceCreateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
-        isReadOnly={false}
-        value={name}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name: value,
-              description,
-            };
-            const result = onChange(modelFields);
-            value = result?.name ?? value;
-          }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
-          }
-          setName(value);
-        }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
-      ></TextField>
-      <TextField
-        label="Description"
+        label="Type"
         isRequired={false}
         isReadOnly={false}
-        value={description}
+        value={type}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              description: value,
+              type: value,
+              problem,
+              status,
+              resolution,
             };
             const result = onChange(modelFields);
-            value = result?.description ?? value;
+            value = result?.type ?? value;
           }
-          if (errors.description?.hasError) {
-            runValidationTasks("description", value);
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
           }
-          setDescription(value);
+          setType(value);
         }}
-        onBlur={() => runValidationTasks("description", description)}
-        errorMessage={errors.description?.errorMessage}
-        hasError={errors.description?.hasError}
-        {...getOverrideProps(overrides, "description")}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      ></TextField>
+      <TextField
+        label="Problem"
+        isRequired={false}
+        isReadOnly={false}
+        value={problem}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              type,
+              problem: value,
+              status,
+              resolution,
+            };
+            const result = onChange(modelFields);
+            value = result?.problem ?? value;
+          }
+          if (errors.problem?.hasError) {
+            runValidationTasks("problem", value);
+          }
+          setProblem(value);
+        }}
+        onBlur={() => runValidationTasks("problem", problem)}
+        errorMessage={errors.problem?.errorMessage}
+        hasError={errors.problem?.hasError}
+        {...getOverrideProps(overrides, "problem")}
+      ></TextField>
+      <SelectField
+        label="Status"
+        placeholder="Please select an option"
+        isDisabled={false}
+        value={status}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              type,
+              problem,
+              status: value,
+              resolution,
+            };
+            const result = onChange(modelFields);
+            value = result?.status ?? value;
+          }
+          if (errors.status?.hasError) {
+            runValidationTasks("status", value);
+          }
+          setStatus(value);
+        }}
+        onBlur={() => runValidationTasks("status", status)}
+        errorMessage={errors.status?.errorMessage}
+        hasError={errors.status?.hasError}
+        {...getOverrideProps(overrides, "status")}
+      >
+        <option
+          children="Finished"
+          value="FINISHED"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="In progress"
+          value="IN_PROGRESS"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+        <option
+          children="Unfinished"
+          value="UNFINISHED"
+          {...getOverrideProps(overrides, "statusoption2")}
+        ></option>
+      </SelectField>
+      <TextField
+        label="Resolution"
+        isRequired={false}
+        isReadOnly={false}
+        value={resolution}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              type,
+              problem,
+              status,
+              resolution: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.resolution ?? value;
+          }
+          if (errors.resolution?.hasError) {
+            runValidationTasks("resolution", value);
+          }
+          setResolution(value);
+        }}
+        onBlur={() => runValidationTasks("resolution", resolution)}
+        errorMessage={errors.resolution?.errorMessage}
+        hasError={errors.resolution?.hasError}
+        {...getOverrideProps(overrides, "resolution")}
       ></TextField>
       <Flex
         justifyContent="space-between"

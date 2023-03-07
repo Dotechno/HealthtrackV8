@@ -68,10 +68,13 @@ export const getHeaderCounterText = (
 };
 
 class DataProvider {
-    async getData(name: string) {
+    async getData() {
+        console.log(await DataStore.query(AllPatients));
         return await DataStore.query(AllPatients);
+        // return []
     }
 }
+
 
 interface NavigationProps {
     activeHref?: string;
@@ -425,7 +428,6 @@ export function FullPageHeader({
 }: FullPageHeaderProps) {
     const isOnlyOneSelected = selectedItemsCount === 1;
 
-
     return (
         <Header
             variant="awsui-h1-sticky"
@@ -469,8 +471,6 @@ export function FullPageHeader({
             }
             {...props}
         >
-           
-
             {title}
         </Header>
     );
@@ -478,13 +478,13 @@ export function FullPageHeader({
 
 function DetailsCards({
     loadHelpPanelContent,
-    onCreatePatientClick
+    onCreatePatientClick,
 }: {
     loadHelpPanelContent: () => void;
     onCreatePatientClick: () => void;
 }) {
     const [loading, setLoading] = useState(true);
-    const [distributions, setDistributions] = useState([]);
+    const [patients, setPatients] = useState([]);
     const [preferences, setPreferences] = useLocalStorage(
         'React-Cards-Preferences',
         DEFAULT_PREFERENCES
@@ -496,7 +496,7 @@ function DetailsCards({
         collectionProps,
         filterProps,
         paginationProps,
-    } = useCollection(distributions, {
+    } = useCollection(patients, {
         filtering: {
             empty: <TableEmptyState resourceName="Distribution" />,
             noMatch: (
@@ -510,9 +510,8 @@ function DetailsCards({
     });
 
     useEffect(() => {
-        new DataProvider().getData('patients').then((distributions: any) => {
-            // console.log(distributions)
-            setDistributions(distributions);
+        new DataProvider().getData().then((patients: any) => {
+            setPatients(patients);
             setLoading(false);
         });
     }, []);
@@ -535,7 +534,7 @@ function DetailsCards({
                         collectionProps?.selectedItems?.length as number
                     }
                     counter={getHeaderCounterText(
-                        distributions,
+                        patients,
                         collectionProps.selectedItems
                     )}
                     onInfoLinkClick={loadHelpPanelContent}
@@ -724,7 +723,9 @@ export const ToolsContent = () => (
     </HelpPanel>
 );
 
-type handleCreatePatientSubmitType = (fields: PatientCreateFormInputValues) => Promise<PatientCreateFormInputValues>
+type handleCreatePatientSubmitType = (
+    fields: PatientCreateFormInputValues
+) => Promise<PatientCreateFormInputValues>;
 
 export function Patient(props: PatientProps) {
     const [toolsOpen, setToolsOpen] = useState(false);
@@ -732,15 +733,17 @@ export function Patient(props: PatientProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const appLayout = useRef<any>();
 
-    const handleCreatePatient = () =>{
+    const handleCreatePatient = () => {
         setIsModalOpen(true);
-    }
+    };
 
-    const handleCreatePatientSubmit = ( fields:PatientCreateFormInputValues):PatientCreateFormInputValues =>{
+    const handleCreatePatientSubmit = (
+        fields: PatientCreateFormInputValues
+    ): PatientCreateFormInputValues => {
         setIsModalOpen(false);
         setSuccessNotification(true);
-        return fields
-    }
+        return fields;
+    };
 
     return (
         <CustomAppLayout
@@ -752,9 +755,13 @@ export function Patient(props: PatientProps) {
             breadcrumbs={<Breadcrumbs />}
             content={
                 <>
-                    <Modal visible={isModalOpen} onDismiss={()=>setIsModalOpen(false)}>
-                        <PatientCreateForm onSubmit={handleCreatePatientSubmit}/>
-                        
+                    <Modal
+                        visible={isModalOpen}
+                        onDismiss={() => setIsModalOpen(false)}
+                    >
+                        <PatientCreateForm
+                            onSubmit={handleCreatePatientSubmit}
+                        />
                     </Modal>
                     <DetailsCards
                         loadHelpPanelContent={() => {

@@ -2,6 +2,1064 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getServiceProvidedByClinic = /* GraphQL */ `
+  query GetServiceProvidedByClinic($id: ID!) {
+    getServiceProvidedByClinic(id: $id) {
+      id
+      type
+      description
+      billableCostForService
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listServiceProvidedByClinics = /* GraphQL */ `
+  query ListServiceProvidedByClinics(
+    $filter: ModelServiceProvidedByClinicFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listServiceProvidedByClinics(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        description
+        billableCostForService
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncServiceProvidedByClinics = /* GraphQL */ `
+  query SyncServiceProvidedByClinics(
+    $filter: ModelServiceProvidedByClinicFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncServiceProvidedByClinics(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        type
+        description
+        billableCostForService
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getLabTest = /* GraphQL */ `
+  query GetLabTest($id: ID!) {
+    getLabTest(id: $id) {
+      id
+      typeName
+      rangeOfNotNormalResults
+      laborderID
+      rangeOfNormalResults
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listLabTests = /* GraphQL */ `
+  query ListLabTests(
+    $filter: ModelLabTestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLabTests(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        typeName
+        rangeOfNotNormalResults
+        laborderID
+        rangeOfNormalResults
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncLabTests = /* GraphQL */ `
+  query SyncLabTests(
+    $filter: ModelLabTestFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncLabTests(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        typeName
+        rangeOfNotNormalResults
+        laborderID
+        rangeOfNormalResults
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const labTestsByLaborderID = /* GraphQL */ `
+  query LabTestsByLaborderID(
+    $laborderID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelLabTestFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    labTestsByLaborderID(
+      laborderID: $laborderID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        typeName
+        rangeOfNotNormalResults
+        laborderID
+        rangeOfNormalResults
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getPrescription = /* GraphQL */ `
+  query GetPrescription($id: ID!) {
+    getPrescription(id: $id) {
+      id
+      physicianName
+      prescribedMedication
+      medicineDosage
+      frequencyOfMedication
+      datePrescriptionFilled
+      pharmacistWhoFilledPrescription
+      medicalencounterID
+      Prescription2ServiceProvidedByClinic {
+        id
+        type
+        description
+        billableCostForService
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      prescriptionPrescription2ServiceProvidedByClinicId
+    }
+  }
+`;
+export const listPrescriptions = /* GraphQL */ `
+  query ListPrescriptions(
+    $filter: ModelPrescriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPrescriptions(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        physicianName
+        prescribedMedication
+        medicineDosage
+        frequencyOfMedication
+        datePrescriptionFilled
+        pharmacistWhoFilledPrescription
+        medicalencounterID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        prescriptionPrescription2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPrescriptions = /* GraphQL */ `
+  query SyncPrescriptions(
+    $filter: ModelPrescriptionFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPrescriptions(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        physicianName
+        prescribedMedication
+        medicineDosage
+        frequencyOfMedication
+        datePrescriptionFilled
+        pharmacistWhoFilledPrescription
+        medicalencounterID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        prescriptionPrescription2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const prescriptionsByMedicalencounterID = /* GraphQL */ `
+  query PrescriptionsByMedicalencounterID(
+    $medicalencounterID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelPrescriptionFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    prescriptionsByMedicalencounterID(
+      medicalencounterID: $medicalencounterID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        physicianName
+        prescribedMedication
+        medicineDosage
+        frequencyOfMedication
+        datePrescriptionFilled
+        pharmacistWhoFilledPrescription
+        medicalencounterID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        prescriptionPrescription2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getLabOrder = /* GraphQL */ `
+  query GetLabOrder($id: ID!) {
+    getLabOrder(id: $id) {
+      id
+      physicianName
+      type
+      date
+      technician
+      result
+      medicalencounterID
+      LabOrder2ServiceProvideByClinic {
+        id
+        type
+        description
+        billableCostForService
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      LabOrder2ServiceProvidedByClinic {
+        id
+        type
+        description
+        billableCostForService
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      labOrderLabOrder2ServiceProvideByClinicId
+      labOrderLabOrder2ServiceProvidedByClinicId
+    }
+  }
+`;
+export const listLabOrders = /* GraphQL */ `
+  query ListLabOrders(
+    $filter: ModelLabOrderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listLabOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        physicianName
+        type
+        date
+        technician
+        result
+        medicalencounterID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        labOrderLabOrder2ServiceProvideByClinicId
+        labOrderLabOrder2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncLabOrders = /* GraphQL */ `
+  query SyncLabOrders(
+    $filter: ModelLabOrderFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncLabOrders(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        physicianName
+        type
+        date
+        technician
+        result
+        medicalencounterID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        labOrderLabOrder2ServiceProvideByClinicId
+        labOrderLabOrder2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const labOrdersByMedicalencounterID = /* GraphQL */ `
+  query LabOrdersByMedicalencounterID(
+    $medicalencounterID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelLabOrderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    labOrdersByMedicalencounterID(
+      medicalencounterID: $medicalencounterID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        physicianName
+        type
+        date
+        technician
+        result
+        medicalencounterID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        labOrderLabOrder2ServiceProvideByClinicId
+        labOrderLabOrder2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getVitalSign = /* GraphQL */ `
+  query GetVitalSign($id: ID!) {
+    getVitalSign(id: $id) {
+      id
+      bodyTemperature
+      pulseRate
+      respirationRate
+      bloodPressure
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listVitalSigns = /* GraphQL */ `
+  query ListVitalSigns(
+    $filter: ModelVitalSignFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listVitalSigns(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        bodyTemperature
+        pulseRate
+        respirationRate
+        bloodPressure
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncVitalSigns = /* GraphQL */ `
+  query SyncVitalSigns(
+    $filter: ModelVitalSignFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncVitalSigns(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        bodyTemperature
+        pulseRate
+        respirationRate
+        bloodPressure
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getWorkSchedule = /* GraphQL */ `
+  query GetWorkSchedule($id: ID!) {
+    getWorkSchedule(id: $id) {
+      id
+      date
+      time
+      physicianID
+      appointmentScheduled {
+        eventID
+        isReserved
+        period
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listWorkSchedules = /* GraphQL */ `
+  query ListWorkSchedules(
+    $filter: ModelWorkScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listWorkSchedules(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        date
+        time
+        physicianID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncWorkSchedules = /* GraphQL */ `
+  query SyncWorkSchedules(
+    $filter: ModelWorkScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncWorkSchedules(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        date
+        time
+        physicianID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const workSchedulesByPhysicianID = /* GraphQL */ `
+  query WorkSchedulesByPhysicianID(
+    $physicianID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelWorkScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    workSchedulesByPhysicianID(
+      physicianID: $physicianID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        time
+        physicianID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getAppointment = /* GraphQL */ `
+  query GetAppointment($id: ID!) {
+    getAppointment(id: $id) {
+      id
+      date
+      type
+      time {
+        eventID
+        isReserved
+        period
+      }
+      patientID
+      physicianID
+      Appointment2ServiceProvidedByClinic {
+        id
+        type
+        description
+        billableCostForService
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      appointmentAppointment2ServiceProvidedByClinicId
+    }
+  }
+`;
+export const listAppointments = /* GraphQL */ `
+  query ListAppointments(
+    $filter: ModelAppointmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listAppointments(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        date
+        type
+        patientID
+        physicianID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appointmentAppointment2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncAppointments = /* GraphQL */ `
+  query SyncAppointments(
+    $filter: ModelAppointmentFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncAppointments(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        date
+        type
+        patientID
+        physicianID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appointmentAppointment2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const appointmentsByPatientID = /* GraphQL */ `
+  query AppointmentsByPatientID(
+    $patientID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAppointmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    appointmentsByPatientID(
+      patientID: $patientID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        type
+        patientID
+        physicianID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appointmentAppointment2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const appointmentsByPhysicianID = /* GraphQL */ `
+  query AppointmentsByPhysicianID(
+    $physicianID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelAppointmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    appointmentsByPhysicianID(
+      physicianID: $physicianID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        date
+        type
+        patientID
+        physicianID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        appointmentAppointment2ServiceProvidedByClinicId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getMedication = /* GraphQL */ `
+  query GetMedication($id: ID!) {
+    getMedication(id: $id) {
+      id
+      name
+      useOfMedication
+      recommendedDosage
+      recommendedFrequencyOfUse
+      potentialSideEffect
+      drugThatMayReactAdversely
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listMedications = /* GraphQL */ `
+  query ListMedications(
+    $filter: ModelMedicationFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listMedications(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        useOfMedication
+        recommendedDosage
+        recommendedFrequencyOfUse
+        potentialSideEffect
+        drugThatMayReactAdversely
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncMedications = /* GraphQL */ `
+  query SyncMedications(
+    $filter: ModelMedicationFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncMedications(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        useOfMedication
+        recommendedDosage
+        recommendedFrequencyOfUse
+        potentialSideEffect
+        drugThatMayReactAdversely
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getPhysicianSchedule = /* GraphQL */ `
+  query GetPhysicianSchedule($id: ID!) {
+    getPhysicianSchedule(id: $id) {
+      id
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listPhysicianSchedules = /* GraphQL */ `
+  query ListPhysicianSchedules(
+    $filter: ModelPhysicianScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPhysicianSchedules(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPhysicianSchedules = /* GraphQL */ `
+  query SyncPhysicianSchedules(
+    $filter: ModelPhysicianScheduleFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPhysicianSchedules(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getPhysician = /* GraphQL */ `
+  query GetPhysician($id: ID!) {
+    getPhysician(id: $id) {
+      id
+      name
+      cellPhoneNumber
+      schedule {
+        id
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      Physician2Appointment {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      physicianScheduleId
+    }
+  }
+`;
+export const listPhysicians = /* GraphQL */ `
+  query ListPhysicians(
+    $filter: ModelPhysicianFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listPhysicians(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        cellPhoneNumber
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        physicianScheduleId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncPhysicians = /* GraphQL */ `
+  query SyncPhysicians(
+    $filter: ModelPhysicianFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncPhysicians(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        cellPhoneNumber
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        physicianScheduleId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getInsuranceCarrier = /* GraphQL */ `
+  query GetInsuranceCarrier($id: ID!) {
+    getInsuranceCarrier(id: $id) {
+      id
+      name
+      address
+      status
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listInsuranceCarriers = /* GraphQL */ `
+  query ListInsuranceCarriers(
+    $filter: ModelInsuranceCarrierFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listInsuranceCarriers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        name
+        address
+        status
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncInsuranceCarriers = /* GraphQL */ `
+  query SyncInsuranceCarriers(
+    $filter: ModelInsuranceCarrierFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncInsuranceCarriers(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        name
+        address
+        status
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
 export const getMedicalEncounter = /* GraphQL */ `
   query GetMedicalEncounter($id: ID!) {
     getMedicalEncounter(id: $id) {
@@ -20,11 +1078,32 @@ export const getMedicalEncounter = /* GraphQL */ `
       dataTimeEncounterSubmitted
       employeeIDWhoSubmitted
       patientID
+      MedicalEncounter2VitalSign {
+        id
+        bodyTemperature
+        pulseRate
+        respirationRate
+        bloodPressure
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      MedicalEncounter2LabOrder {
+        nextToken
+        startedAt
+      }
+      MedicalEncounter2Prescription {
+        nextToken
+        startedAt
+      }
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      medicalEncounterMedicalEncounter2VitalSignId
     }
   }
 `;
@@ -60,6 +1139,7 @@ export const listMedicalEncounters = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        medicalEncounterMedicalEncounter2VitalSignId
       }
       nextToken
       startedAt
@@ -100,6 +1180,7 @@ export const syncMedicalEncounters = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        medicalEncounterMedicalEncounter2VitalSignId
       }
       nextToken
       startedAt
@@ -142,6 +1223,7 @@ export const medicalEncountersByPatientID = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
+        medicalEncounterMedicalEncounter2VitalSignId
       }
       nextToken
       startedAt
@@ -152,15 +1234,39 @@ export const getPatient = /* GraphQL */ `
   query GetPatient($id: ID!) {
     getPatient(id: $id) {
       id
-      patientName
+      name
       telephoneNumber
       insuranceCarrierID
       dateOfBirth
       gender
       primaryCarePhysician
-      listCurrentMedications
-      listScheduledAppointments
-      MedicalEncounters {
+      Patient2MedicalEncounters {
+        nextToken
+        startedAt
+      }
+      Patient2InsuranceCarrier {
+        id
+        name
+        address
+        status
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      Patient2Physician {
+        id
+        name
+        cellPhoneNumber
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        physicianScheduleId
+      }
+      Patient2Appointment {
         nextToken
         startedAt
       }
@@ -169,6 +1275,8 @@ export const getPatient = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
+      patientPatient2InsuranceCarrierId
+      patientPatient2PhysicianId
     }
   }
 `;
@@ -181,19 +1289,19 @@ export const listPatients = /* GraphQL */ `
     listPatients(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        patientName
+        name
         telephoneNumber
         insuranceCarrierID
         dateOfBirth
         gender
         primaryCarePhysician
-        listCurrentMedications
-        listScheduledAppointments
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        patientPatient2InsuranceCarrierId
+        patientPatient2PhysicianId
       }
       nextToken
       startedAt
@@ -215,14 +1323,214 @@ export const syncPatients = /* GraphQL */ `
     ) {
       items {
         id
-        patientName
+        name
         telephoneNumber
         insuranceCarrierID
         dateOfBirth
         gender
         primaryCarePhysician
-        listCurrentMedications
-        listScheduledAppointments
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+        patientPatient2InsuranceCarrierId
+        patientPatient2PhysicianId
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getEquipmentMaintenance = /* GraphQL */ `
+  query GetEquipmentMaintenance($id: ID!) {
+    getEquipmentMaintenance(id: $id) {
+      id
+      type
+      problem
+      status
+      resolution
+      equipmentID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listEquipmentMaintenances = /* GraphQL */ `
+  query ListEquipmentMaintenances(
+    $filter: ModelEquipmentMaintenanceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEquipmentMaintenances(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        problem
+        status
+        resolution
+        equipmentID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncEquipmentMaintenances = /* GraphQL */ `
+  query SyncEquipmentMaintenances(
+    $filter: ModelEquipmentMaintenanceFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncEquipmentMaintenances(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        type
+        problem
+        status
+        resolution
+        equipmentID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const equipmentMaintenancesByEquipmentID = /* GraphQL */ `
+  query EquipmentMaintenancesByEquipmentID(
+    $equipmentID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelEquipmentMaintenanceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    equipmentMaintenancesByEquipmentID(
+      equipmentID: $equipmentID
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        type
+        problem
+        status
+        resolution
+        equipmentID
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const getEquipment = /* GraphQL */ `
+  query GetEquipment($id: ID!) {
+    getEquipment(id: $id) {
+      id
+      type
+      description
+      department
+      owned
+      startDate
+      endDate
+      leasingCompany
+      datePurchased
+      Equipment2EquipmentMaintenance {
+        nextToken
+        startedAt
+      }
+      Equipment2Vendor {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const listEquipment = /* GraphQL */ `
+  query ListEquipment(
+    $filter: ModelEquipmentFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listEquipment(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        type
+        description
+        department
+        owned
+        startDate
+        endDate
+        leasingCompany
+        datePurchased
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      nextToken
+      startedAt
+    }
+  }
+`;
+export const syncEquipment = /* GraphQL */ `
+  query SyncEquipment(
+    $filter: ModelEquipmentFilterInput
+    $limit: Int
+    $nextToken: String
+    $lastSync: AWSTimestamp
+  ) {
+    syncEquipment(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      lastSync: $lastSync
+    ) {
+      items {
+        id
+        type
+        description
+        department
+        owned
+        startDate
+        endDate
+        leasingCompany
+        datePurchased
         createdAt
         updatedAt
         _version
@@ -238,15 +1546,17 @@ export const getVendor = /* GraphQL */ `
   query GetVendor($id: ID!) {
     getVendor(id: $id) {
       id
-      vendorName
-      vendorAddress
-      typeOfEquipment
-      preferredVendor
+      name
+      address
+      equipment
+      preferred
+      equipmentID
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
+      owner
     }
   }
 `;
@@ -259,15 +1569,17 @@ export const listVendors = /* GraphQL */ `
     listVendors(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         id
-        vendorName
-        vendorAddress
-        typeOfEquipment
-        preferredVendor
+        name
+        address
+        equipment
+        preferred
+        equipmentID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
@@ -289,79 +1601,51 @@ export const syncVendors = /* GraphQL */ `
     ) {
       items {
         id
-        vendorName
-        vendorAddress
-        typeOfEquipment
-        preferredVendor
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      nextToken
-      startedAt
-    }
-  }
-`;
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
-      items {
-        id
         name
-        description
+        address
+        equipment
+        preferred
+        equipmentID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt
     }
   }
 `;
-export const syncTodos = /* GraphQL */ `
-  query SyncTodos(
-    $filter: ModelTodoFilterInput
+export const vendorsByEquipmentID = /* GraphQL */ `
+  query VendorsByEquipmentID(
+    $equipmentID: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelVendorFilterInput
     $limit: Int
     $nextToken: String
-    $lastSync: AWSTimestamp
   ) {
-    syncTodos(
+    vendorsByEquipmentID(
+      equipmentID: $equipmentID
+      sortDirection: $sortDirection
       filter: $filter
       limit: $limit
       nextToken: $nextToken
-      lastSync: $lastSync
     ) {
       items {
         id
         name
-        description
+        address
+        equipment
+        preferred
+        equipmentID
         createdAt
         updatedAt
         _version
         _deleted
         _lastChangedAt
+        owner
       }
       nextToken
       startedAt

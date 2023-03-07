@@ -10,14 +10,14 @@ import {
   Button,
   Flex,
   Grid,
-  SwitchField,
+  SelectField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Vendor } from "../models";
+import { Appointment } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function VendorCreateForm(props) {
+export default function AppointmentCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -29,34 +29,20 @@ export default function VendorCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    vendorName: "",
-    vendorAddress: "",
-    typeOfEquipment: "",
-    preferredVendor: false,
+    date: "",
+    type: undefined,
   };
-  const [vendorName, setVendorName] = React.useState(initialValues.vendorName);
-  const [vendorAddress, setVendorAddress] = React.useState(
-    initialValues.vendorAddress
-  );
-  const [typeOfEquipment, setTypeOfEquipment] = React.useState(
-    initialValues.typeOfEquipment
-  );
-  const [preferredVendor, setPreferredVendor] = React.useState(
-    initialValues.preferredVendor
-  );
+  const [date, setDate] = React.useState(initialValues.date);
+  const [type, setType] = React.useState(initialValues.type);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setVendorName(initialValues.vendorName);
-    setVendorAddress(initialValues.vendorAddress);
-    setTypeOfEquipment(initialValues.typeOfEquipment);
-    setPreferredVendor(initialValues.preferredVendor);
+    setDate(initialValues.date);
+    setType(initialValues.type);
     setErrors({});
   };
   const validations = {
-    vendorName: [],
-    vendorAddress: [],
-    typeOfEquipment: [],
-    preferredVendor: [],
+    date: [],
+    type: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -83,10 +69,8 @@ export default function VendorCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          vendorName,
-          vendorAddress,
-          typeOfEquipment,
-          preferredVendor,
+          date,
+          type,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -116,7 +100,7 @@ export default function VendorCreateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Vendor(modelFields));
+          await DataStore.save(new Appointment(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
           }
@@ -129,117 +113,76 @@ export default function VendorCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "VendorCreateForm")}
+      {...getOverrideProps(overrides, "AppointmentCreateForm")}
       {...rest}
     >
       <TextField
-        label="Vendor name"
+        label="Date"
         isRequired={false}
         isReadOnly={false}
-        value={vendorName}
+        type="date"
+        value={date}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName: value,
-              vendorAddress,
-              typeOfEquipment,
-              preferredVendor,
+              date: value,
+              type,
             };
             const result = onChange(modelFields);
-            value = result?.vendorName ?? value;
+            value = result?.date ?? value;
           }
-          if (errors.vendorName?.hasError) {
-            runValidationTasks("vendorName", value);
+          if (errors.date?.hasError) {
+            runValidationTasks("date", value);
           }
-          setVendorName(value);
+          setDate(value);
         }}
-        onBlur={() => runValidationTasks("vendorName", vendorName)}
-        errorMessage={errors.vendorName?.errorMessage}
-        hasError={errors.vendorName?.hasError}
-        {...getOverrideProps(overrides, "vendorName")}
+        onBlur={() => runValidationTasks("date", date)}
+        errorMessage={errors.date?.errorMessage}
+        hasError={errors.date?.hasError}
+        {...getOverrideProps(overrides, "date")}
       ></TextField>
-      <TextField
-        label="Vendor address"
-        isRequired={false}
-        isReadOnly={false}
-        value={vendorAddress}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              vendorName,
-              vendorAddress: value,
-              typeOfEquipment,
-              preferredVendor,
-            };
-            const result = onChange(modelFields);
-            value = result?.vendorAddress ?? value;
-          }
-          if (errors.vendorAddress?.hasError) {
-            runValidationTasks("vendorAddress", value);
-          }
-          setVendorAddress(value);
-        }}
-        onBlur={() => runValidationTasks("vendorAddress", vendorAddress)}
-        errorMessage={errors.vendorAddress?.errorMessage}
-        hasError={errors.vendorAddress?.hasError}
-        {...getOverrideProps(overrides, "vendorAddress")}
-      ></TextField>
-      <TextField
-        label="Type of equipment"
-        isRequired={false}
-        isReadOnly={false}
-        value={typeOfEquipment}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              vendorName,
-              vendorAddress,
-              typeOfEquipment: value,
-              preferredVendor,
-            };
-            const result = onChange(modelFields);
-            value = result?.typeOfEquipment ?? value;
-          }
-          if (errors.typeOfEquipment?.hasError) {
-            runValidationTasks("typeOfEquipment", value);
-          }
-          setTypeOfEquipment(value);
-        }}
-        onBlur={() => runValidationTasks("typeOfEquipment", typeOfEquipment)}
-        errorMessage={errors.typeOfEquipment?.errorMessage}
-        hasError={errors.typeOfEquipment?.hasError}
-        {...getOverrideProps(overrides, "typeOfEquipment")}
-      ></TextField>
-      <SwitchField
-        label="Preferred vendor"
-        defaultChecked={false}
+      <SelectField
+        label="Type"
+        placeholder="Please select an option"
         isDisabled={false}
-        isChecked={preferredVendor}
+        value={type}
         onChange={(e) => {
-          let value = e.target.checked;
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName,
-              vendorAddress,
-              typeOfEquipment,
-              preferredVendor: value,
+              date,
+              type: value,
             };
             const result = onChange(modelFields);
-            value = result?.preferredVendor ?? value;
+            value = result?.type ?? value;
           }
-          if (errors.preferredVendor?.hasError) {
-            runValidationTasks("preferredVendor", value);
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
           }
-          setPreferredVendor(value);
+          setType(value);
         }}
-        onBlur={() => runValidationTasks("preferredVendor", preferredVendor)}
-        errorMessage={errors.preferredVendor?.errorMessage}
-        hasError={errors.preferredVendor?.hasError}
-        {...getOverrideProps(overrides, "preferredVendor")}
-      ></SwitchField>
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
+      >
+        <option
+          children="Urgent"
+          value="URGENT"
+          {...getOverrideProps(overrides, "typeoption0")}
+        ></option>
+        <option
+          children="Rountine"
+          value="ROUNTINE"
+          {...getOverrideProps(overrides, "typeoption1")}
+        ></option>
+        <option
+          children="Follow up visit"
+          value="FOLLOW_UP_VISIT"
+          {...getOverrideProps(overrides, "typeoption2")}
+        ></option>
+      </SelectField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

@@ -6,16 +6,20 @@ import {
 import React, { useState } from 'react';
 import Nurse from './Nurse';
 import Pharmacist from './Pharmacist';
-import Physician from './Physician';
+import Physician from './PhysicianScheduler';
 import PhysicianAssistant from './PhysicianAssistant';
-import Technician from './Technician';
+import Technician from './LabOrderTracking';
 import type { AmplifyUser, AuthEventData } from '@aws-amplify/ui';
-import { AppLayout } from '@cloudscape-design/components';
+import { AppLayout, Container } from '@cloudscape-design/components';
+import { Patient } from '../models';
+import { DataStore } from 'aws-amplify';
 
 export interface AdminProps {
     user?: AmplifyUser;
     signOut?: (event?: AuthEventData) => void;
 }
+
+console.log(await DataStore.query(Patient))
 
 function Admin({ user }: AdminProps) {
     const { signOut } = useAuthenticator((context) => [context.user]);
@@ -27,7 +31,9 @@ function Admin({ user }: AdminProps) {
     function switchView() {
         switch (page) {
             case 'nurse':
-                return (<Nurse user={user} />) as JSX.Element;
+                return (<Container>
+                    <Nurse user={user} />
+                    </Container>);
             case 'technician':
                 return <Technician user={user} />;
             case 'pharmacist':

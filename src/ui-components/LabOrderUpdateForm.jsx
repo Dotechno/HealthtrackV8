@@ -6,21 +6,15 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SwitchField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { Vendor } from "../models";
+import { LabOrder } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function VendorUpdateForm(props) {
+export default function LabOrderUpdateForm(props) {
   const {
     id: idProp,
-    vendor,
+    labOrder,
     onSuccess,
     onError,
     onSubmit,
@@ -30,46 +24,48 @@ export default function VendorUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    vendorName: "",
-    vendorAddress: "",
-    typeOfEquipment: "",
-    preferredVendor: false,
+    physicianName: "",
+    type: "",
+    date: "",
+    technician: "",
+    result: "",
   };
-  const [vendorName, setVendorName] = React.useState(initialValues.vendorName);
-  const [vendorAddress, setVendorAddress] = React.useState(
-    initialValues.vendorAddress
+  const [physicianName, setPhysicianName] = React.useState(
+    initialValues.physicianName
   );
-  const [typeOfEquipment, setTypeOfEquipment] = React.useState(
-    initialValues.typeOfEquipment
-  );
-  const [preferredVendor, setPreferredVendor] = React.useState(
-    initialValues.preferredVendor
-  );
+  const [type, setType] = React.useState(initialValues.type);
+  const [date, setDate] = React.useState(initialValues.date);
+  const [technician, setTechnician] = React.useState(initialValues.technician);
+  const [result, setResult] = React.useState(initialValues.result);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = vendorRecord
-      ? { ...initialValues, ...vendorRecord }
+    const cleanValues = labOrderRecord
+      ? { ...initialValues, ...labOrderRecord }
       : initialValues;
-    setVendorName(cleanValues.vendorName);
-    setVendorAddress(cleanValues.vendorAddress);
-    setTypeOfEquipment(cleanValues.typeOfEquipment);
-    setPreferredVendor(cleanValues.preferredVendor);
+    setPhysicianName(cleanValues.physicianName);
+    setType(cleanValues.type);
+    setDate(cleanValues.date);
+    setTechnician(cleanValues.technician);
+    setResult(cleanValues.result);
     setErrors({});
   };
-  const [vendorRecord, setVendorRecord] = React.useState(vendor);
+  const [labOrderRecord, setLabOrderRecord] = React.useState(labOrder);
   React.useEffect(() => {
     const queryData = async () => {
-      const record = idProp ? await DataStore.query(Vendor, idProp) : vendor;
-      setVendorRecord(record);
+      const record = idProp
+        ? await DataStore.query(LabOrder, idProp)
+        : labOrder;
+      setLabOrderRecord(record);
     };
     queryData();
-  }, [idProp, vendor]);
-  React.useEffect(resetStateValues, [vendorRecord]);
+  }, [idProp, labOrder]);
+  React.useEffect(resetStateValues, [labOrderRecord]);
   const validations = {
-    vendorName: [],
-    vendorAddress: [],
-    typeOfEquipment: [],
-    preferredVendor: [],
+    physicianName: [],
+    type: [],
+    date: [],
+    technician: [],
+    result: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -96,10 +92,11 @@ export default function VendorUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          vendorName,
-          vendorAddress,
-          typeOfEquipment,
-          preferredVendor,
+          physicianName,
+          type,
+          date,
+          technician,
+          result,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -130,7 +127,7 @@ export default function VendorUpdateForm(props) {
             }
           });
           await DataStore.save(
-            Vendor.copyOf(vendorRecord, (updated) => {
+            LabOrder.copyOf(labOrderRecord, (updated) => {
               Object.assign(updated, modelFields);
             })
           );
@@ -143,117 +140,150 @@ export default function VendorUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "VendorUpdateForm")}
+      {...getOverrideProps(overrides, "LabOrderUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Vendor name"
+        label="Physician name"
         isRequired={false}
         isReadOnly={false}
-        value={vendorName}
+        value={physicianName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName: value,
-              vendorAddress,
-              typeOfEquipment,
-              preferredVendor,
+              physicianName: value,
+              type,
+              date,
+              technician,
+              result,
             };
             const result = onChange(modelFields);
-            value = result?.vendorName ?? value;
+            value = result?.physicianName ?? value;
           }
-          if (errors.vendorName?.hasError) {
-            runValidationTasks("vendorName", value);
+          if (errors.physicianName?.hasError) {
+            runValidationTasks("physicianName", value);
           }
-          setVendorName(value);
+          setPhysicianName(value);
         }}
-        onBlur={() => runValidationTasks("vendorName", vendorName)}
-        errorMessage={errors.vendorName?.errorMessage}
-        hasError={errors.vendorName?.hasError}
-        {...getOverrideProps(overrides, "vendorName")}
+        onBlur={() => runValidationTasks("physicianName", physicianName)}
+        errorMessage={errors.physicianName?.errorMessage}
+        hasError={errors.physicianName?.hasError}
+        {...getOverrideProps(overrides, "physicianName")}
       ></TextField>
       <TextField
-        label="Vendor address"
+        label="Type"
         isRequired={false}
         isReadOnly={false}
-        value={vendorAddress}
+        value={type}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName,
-              vendorAddress: value,
-              typeOfEquipment,
-              preferredVendor,
+              physicianName,
+              type: value,
+              date,
+              technician,
+              result,
             };
             const result = onChange(modelFields);
-            value = result?.vendorAddress ?? value;
+            value = result?.type ?? value;
           }
-          if (errors.vendorAddress?.hasError) {
-            runValidationTasks("vendorAddress", value);
+          if (errors.type?.hasError) {
+            runValidationTasks("type", value);
           }
-          setVendorAddress(value);
+          setType(value);
         }}
-        onBlur={() => runValidationTasks("vendorAddress", vendorAddress)}
-        errorMessage={errors.vendorAddress?.errorMessage}
-        hasError={errors.vendorAddress?.hasError}
-        {...getOverrideProps(overrides, "vendorAddress")}
+        onBlur={() => runValidationTasks("type", type)}
+        errorMessage={errors.type?.errorMessage}
+        hasError={errors.type?.hasError}
+        {...getOverrideProps(overrides, "type")}
       ></TextField>
       <TextField
-        label="Type of equipment"
+        label="Date"
         isRequired={false}
         isReadOnly={false}
-        value={typeOfEquipment}
+        type="date"
+        value={date}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName,
-              vendorAddress,
-              typeOfEquipment: value,
-              preferredVendor,
+              physicianName,
+              type,
+              date: value,
+              technician,
+              result,
             };
             const result = onChange(modelFields);
-            value = result?.typeOfEquipment ?? value;
+            value = result?.date ?? value;
           }
-          if (errors.typeOfEquipment?.hasError) {
-            runValidationTasks("typeOfEquipment", value);
+          if (errors.date?.hasError) {
+            runValidationTasks("date", value);
           }
-          setTypeOfEquipment(value);
+          setDate(value);
         }}
-        onBlur={() => runValidationTasks("typeOfEquipment", typeOfEquipment)}
-        errorMessage={errors.typeOfEquipment?.errorMessage}
-        hasError={errors.typeOfEquipment?.hasError}
-        {...getOverrideProps(overrides, "typeOfEquipment")}
+        onBlur={() => runValidationTasks("date", date)}
+        errorMessage={errors.date?.errorMessage}
+        hasError={errors.date?.hasError}
+        {...getOverrideProps(overrides, "date")}
       ></TextField>
-      <SwitchField
-        label="Preferred vendor"
-        defaultChecked={false}
-        isDisabled={false}
-        isChecked={preferredVendor}
+      <TextField
+        label="Technician"
+        isRequired={false}
+        isReadOnly={false}
+        value={technician}
         onChange={(e) => {
-          let value = e.target.checked;
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName,
-              vendorAddress,
-              typeOfEquipment,
-              preferredVendor: value,
+              physicianName,
+              type,
+              date,
+              technician: value,
+              result,
             };
             const result = onChange(modelFields);
-            value = result?.preferredVendor ?? value;
+            value = result?.technician ?? value;
           }
-          if (errors.preferredVendor?.hasError) {
-            runValidationTasks("preferredVendor", value);
+          if (errors.technician?.hasError) {
+            runValidationTasks("technician", value);
           }
-          setPreferredVendor(value);
+          setTechnician(value);
         }}
-        onBlur={() => runValidationTasks("preferredVendor", preferredVendor)}
-        errorMessage={errors.preferredVendor?.errorMessage}
-        hasError={errors.preferredVendor?.hasError}
-        {...getOverrideProps(overrides, "preferredVendor")}
-      ></SwitchField>
+        onBlur={() => runValidationTasks("technician", technician)}
+        errorMessage={errors.technician?.errorMessage}
+        hasError={errors.technician?.hasError}
+        {...getOverrideProps(overrides, "technician")}
+      ></TextField>
+      <TextField
+        label="Result"
+        isRequired={false}
+        isReadOnly={false}
+        value={result}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              physicianName,
+              type,
+              date,
+              technician,
+              result: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.result ?? value;
+          }
+          if (errors.result?.hasError) {
+            runValidationTasks("result", value);
+          }
+          setResult(value);
+        }}
+        onBlur={() => runValidationTasks("result", result)}
+        errorMessage={errors.result?.errorMessage}
+        hasError={errors.result?.hasError}
+        {...getOverrideProps(overrides, "result")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -265,7 +295,7 @@ export default function VendorUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || vendor)}
+          isDisabled={!(idProp || labOrder)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -277,7 +307,7 @@ export default function VendorUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || vendor) ||
+              !(idProp || labOrder) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}
