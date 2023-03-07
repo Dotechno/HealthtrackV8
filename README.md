@@ -15,9 +15,9 @@ amplify codegen models
 ## Naming Convention
 
 Examples
-- Features: feature/add-admin-button-to-panel
-- Refactor: refactor/admin-panel/nurse-to-admin
-- Fix: fix/removed-annoying-alert-button
+- Features: `feature/add-admin-button-to-panel`
+- Refactor: `refactor/admin-panel/nurse-to-admin`
+- Fix: `fix/removed-annoying-alert-button`
 
 
 ## Installation
