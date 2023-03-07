@@ -17,19 +17,19 @@ import PhysicianAssistant from './pages/PhysicianAssistant';
 import Pharmacist from './pages/Pharmacist';
 import Patient from './pages/ElectronicPatientRecord';
 import '@cloudscape-design/global-styles/index.css';
+import InsuranceBilling from './pages/InsuranceBilling';
 
 Amplify.configure(awsExports);
-
-// interface HealthtrackUser {
-//     user?: AmplifyUser;
-//     signOut?: (event?: AuthEventData) => void;
-// }
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <Router />,
     children: [
+      {
+        path: '/insurancebilling',
+        element: <InsuranceBilling />,
+      },
       {
         path: '/nurse',
         element: <Nurse />,
