@@ -38,7 +38,7 @@ export default function PhysicianCreateForm(props) {
   };
   const validations = {
     name: [],
-    cellPhoneNumber: [],
+    cellPhoneNumber: [{ type: "Phone" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -141,6 +141,7 @@ export default function PhysicianCreateForm(props) {
         label="Cell phone number"
         isRequired={false}
         isReadOnly={false}
+        type="tel"
         value={cellPhoneNumber}
         onChange={(e) => {
           let { value } = e.target;

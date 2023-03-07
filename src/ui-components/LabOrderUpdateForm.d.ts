@@ -15,26 +15,26 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type LabOrderUpdateFormInputValues = {
     physicianName?: string;
-    type?: string;
-    date?: string;
+    testType?: string;
+    testDate?: string;
     technician?: string;
-    result?: string;
+    testResult?: string;
 };
 export declare type LabOrderUpdateFormValidationValues = {
     physicianName?: ValidationFunction<string>;
-    type?: ValidationFunction<string>;
-    date?: ValidationFunction<string>;
+    testType?: ValidationFunction<string>;
+    testDate?: ValidationFunction<string>;
     technician?: ValidationFunction<string>;
-    result?: ValidationFunction<string>;
+    testResult?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type LabOrderUpdateFormOverridesProps = {
     LabOrderUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     physicianName?: PrimitiveOverrideProps<TextFieldProps>;
-    type?: PrimitiveOverrideProps<TextFieldProps>;
-    date?: PrimitiveOverrideProps<TextFieldProps>;
+    testType?: PrimitiveOverrideProps<TextFieldProps>;
+    testDate?: PrimitiveOverrideProps<TextFieldProps>;
     technician?: PrimitiveOverrideProps<TextFieldProps>;
-    result?: PrimitiveOverrideProps<TextFieldProps>;
+    testResult?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type LabOrderUpdateFormProps = React.PropsWithChildren<{
     overrides?: LabOrderUpdateFormOverridesProps | undefined | null;

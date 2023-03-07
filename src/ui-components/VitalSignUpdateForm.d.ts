@@ -14,24 +14,24 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type VitalSignUpdateFormInputValues = {
-    bodyTemperature?: string;
-    pulseRate?: string;
-    respirationRate?: string;
+    pulse?: number;
+    respirationRate?: number;
     bloodPressure?: string;
+    temperature?: string;
 };
 export declare type VitalSignUpdateFormValidationValues = {
-    bodyTemperature?: ValidationFunction<string>;
-    pulseRate?: ValidationFunction<string>;
-    respirationRate?: ValidationFunction<string>;
+    pulse?: ValidationFunction<number>;
+    respirationRate?: ValidationFunction<number>;
     bloodPressure?: ValidationFunction<string>;
+    temperature?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type VitalSignUpdateFormOverridesProps = {
     VitalSignUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    bodyTemperature?: PrimitiveOverrideProps<TextFieldProps>;
-    pulseRate?: PrimitiveOverrideProps<TextFieldProps>;
+    pulse?: PrimitiveOverrideProps<TextFieldProps>;
     respirationRate?: PrimitiveOverrideProps<TextFieldProps>;
     bloodPressure?: PrimitiveOverrideProps<TextFieldProps>;
+    temperature?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type VitalSignUpdateFormProps = React.PropsWithChildren<{
     overrides?: VitalSignUpdateFormOverridesProps | undefined | null;

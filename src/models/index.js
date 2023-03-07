@@ -3,46 +3,46 @@ import { initSchema } from '@aws-amplify/datastore';
 import { schema } from './schema';
 
 const Practitioner = {
-  "PHYSICIAN": "PHYSICIAN",
   "NURSE": "NURSE",
-  "PHYSICIAN_ASSISTANT": "PHYSICIAN_ASSISTANT"
+  "DOCTOR": "DOCTOR",
+  "PHYSICIAN": "PHYSICIAN",
+  "PHYSICIAN_ASSISTANT": "PHYSICIAN_ASSISTANT",
+  "PEDIATRIST": "PEDIATRIST",
+  "ANESTHESIOLOGIST": "ANESTHESIOLOGIST",
+  "RADIOLOGIST": "RADIOLOGIST",
+  "PSYCHOLOGIST": "PSYCHOLOGIST",
+  "NEUROLOGIST": "NEUROLOGIST",
+  "PSYCHIATRIST": "PSYCHIATRIST"
 };
 
-const AppointmentType = {
-  "URGENT": "URGENT",
-  "ROUNTINE": "ROUNTINE",
-  "FOLLOW_UP_VISIT": "FOLLOW_UP_VISIT"
+const InsuranceCarrierStatus = {
+  "PAYS_ON_TIME": "PAYS_ON_TIME",
+  "LATE_WITH_PAYMENTS": "LATE_WITH_PAYMENTS",
+  "DIFFICULT_TO_GET_PAYMENTS": "DIFFICULT_TO_GET_PAYMENTS"
 };
 
-const Status = {
-  "FINISHED": "FINISHED",
-  "IN_PROGRESS": "IN_PROGRESS",
-  "UNFINISHED": "UNFINISHED"
-};
-
-const { ServiceProvidedByClinic, LabTest, Prescription, LabOrder, VitalSign, WorkSchedule, Appointment, Medication, PhysicianSchedule, Physician, InsuranceCarrier, MedicalEncounter, Patient, EquipmentMaintenance, Equipment, Vendor, AppointmentPicker, WeekSchedule, Day } = initSchema(schema);
+const { Vendor, EquipmentMaintenance, EquipmentOwned, EquipmentLeased, Equipment, LabTest, ServiceProvidedByClinic, WorkSchedule, Physician, Appointment, LabOrder, Prescription, VitalSign, MedicalEncounter, Medication, InsuranceCarrier, Patient, Week, Day } = initSchema(schema);
 
 export {
-  ServiceProvidedByClinic,
-  LabTest,
-  Prescription,
-  LabOrder,
-  VitalSign,
-  WorkSchedule,
-  Appointment,
-  Medication,
-  PhysicianSchedule,
-  Physician,
-  InsuranceCarrier,
-  MedicalEncounter,
-  Patient,
-  EquipmentMaintenance,
-  Equipment,
   Vendor,
+  EquipmentMaintenance,
+  EquipmentOwned,
+  EquipmentLeased,
+  Equipment,
+  LabTest,
+  ServiceProvidedByClinic,
+  WorkSchedule,
+  Physician,
+  Appointment,
+  LabOrder,
+  Prescription,
+  VitalSign,
+  MedicalEncounter,
+  Medication,
+  InsuranceCarrier,
+  Patient,
   Practitioner,
-  AppointmentType,
-  Status,
-  AppointmentPicker,
-  WeekSchedule,
+  InsuranceCarrierStatus,
+  Week,
   Day
 };

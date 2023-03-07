@@ -13,24 +13,24 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type LabTestCreateFormInputValues = {
-    typeName?: string;
-    rangeOfNotNormalResults?: string;
-    laborderID?: string;
-    rangeOfNormalResults?: string;
+    testTypeName?: string;
+    normalRange?: string;
+    abnormalRange?: string;
+    description?: string;
 };
 export declare type LabTestCreateFormValidationValues = {
-    typeName?: ValidationFunction<string>;
-    rangeOfNotNormalResults?: ValidationFunction<string>;
-    laborderID?: ValidationFunction<string>;
-    rangeOfNormalResults?: ValidationFunction<string>;
+    testTypeName?: ValidationFunction<string>;
+    normalRange?: ValidationFunction<string>;
+    abnormalRange?: ValidationFunction<string>;
+    description?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type LabTestCreateFormOverridesProps = {
     LabTestCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    typeName?: PrimitiveOverrideProps<TextFieldProps>;
-    rangeOfNotNormalResults?: PrimitiveOverrideProps<TextFieldProps>;
-    laborderID?: PrimitiveOverrideProps<TextFieldProps>;
-    rangeOfNormalResults?: PrimitiveOverrideProps<TextFieldProps>;
+    testTypeName?: PrimitiveOverrideProps<TextFieldProps>;
+    normalRange?: PrimitiveOverrideProps<TextFieldProps>;
+    abnormalRange?: PrimitiveOverrideProps<TextFieldProps>;
+    description?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type LabTestCreateFormProps = React.PropsWithChildren<{
     overrides?: LabTestCreateFormOverridesProps | undefined | null;

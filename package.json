@@ -7,7 +7,8 @@
         "start": "vite",
         "build": "tsc && vite build",
         "test": "jest",
-        "test:watch": "jest --watch"
+        "test:watch": "jest --watch",
+        "amplify:pull": "amplify pull --appId dd1gmnh1dmpn6 --envName iv"
     },
     "dependencies": {
         "@aws-amplify/ui-react": "^4.3.7",

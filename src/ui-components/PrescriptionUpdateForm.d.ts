@@ -15,29 +15,29 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type PrescriptionUpdateFormInputValues = {
     physicianName?: string;
-    prescribedMedication?: string;
-    medicineDosage?: string;
-    frequencyOfMedication?: string;
-    datePrescriptionFilled?: string;
-    pharmacistWhoFilledPrescription?: string;
+    medication?: string;
+    dosag?: string;
+    frequency?: string;
+    filledBy?: string;
+    dateFilled?: string;
 };
 export declare type PrescriptionUpdateFormValidationValues = {
     physicianName?: ValidationFunction<string>;
-    prescribedMedication?: ValidationFunction<string>;
-    medicineDosage?: ValidationFunction<string>;
-    frequencyOfMedication?: ValidationFunction<string>;
-    datePrescriptionFilled?: ValidationFunction<string>;
-    pharmacistWhoFilledPrescription?: ValidationFunction<string>;
+    medication?: ValidationFunction<string>;
+    dosag?: ValidationFunction<string>;
+    frequency?: ValidationFunction<string>;
+    filledBy?: ValidationFunction<string>;
+    dateFilled?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PrescriptionUpdateFormOverridesProps = {
     PrescriptionUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     physicianName?: PrimitiveOverrideProps<TextFieldProps>;
-    prescribedMedication?: PrimitiveOverrideProps<TextFieldProps>;
-    medicineDosage?: PrimitiveOverrideProps<TextFieldProps>;
-    frequencyOfMedication?: PrimitiveOverrideProps<TextFieldProps>;
-    datePrescriptionFilled?: PrimitiveOverrideProps<TextFieldProps>;
-    pharmacistWhoFilledPrescription?: PrimitiveOverrideProps<TextFieldProps>;
+    medication?: PrimitiveOverrideProps<TextFieldProps>;
+    dosag?: PrimitiveOverrideProps<TextFieldProps>;
+    frequency?: PrimitiveOverrideProps<TextFieldProps>;
+    filledBy?: PrimitiveOverrideProps<TextFieldProps>;
+    dateFilled?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PrescriptionUpdateFormProps = React.PropsWithChildren<{
     overrides?: PrescriptionUpdateFormOverridesProps | undefined | null;

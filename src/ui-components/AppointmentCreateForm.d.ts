@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 export declare type ValidationResponse = {
     hasError: boolean;
@@ -13,18 +13,18 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type AppointmentCreateFormInputValues = {
-    date?: string;
+    time?: string;
     type?: string;
 };
 export declare type AppointmentCreateFormValidationValues = {
-    date?: ValidationFunction<string>;
+    time?: ValidationFunction<string>;
     type?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type AppointmentCreateFormOverridesProps = {
     AppointmentCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    date?: PrimitiveOverrideProps<TextFieldProps>;
-    type?: PrimitiveOverrideProps<SelectFieldProps>;
+    time?: PrimitiveOverrideProps<TextFieldProps>;
+    type?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type AppointmentCreateFormProps = React.PropsWithChildren<{
     overrides?: AppointmentCreateFormOverridesProps | undefined | null;

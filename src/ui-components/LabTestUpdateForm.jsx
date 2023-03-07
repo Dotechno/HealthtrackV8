@@ -24,28 +24,32 @@ export default function LabTestUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    typeName: "",
-    rangeOfNotNormalResults: "",
-    laborderID: "",
-    rangeOfNormalResults: "",
+    testTypeName: "",
+    normalRange: "",
+    abnormalRange: "",
+    description: "",
   };
-  const [typeName, setTypeName] = React.useState(initialValues.typeName);
-  const [rangeOfNotNormalResults, setRangeOfNotNormalResults] = React.useState(
-    initialValues.rangeOfNotNormalResults
+  const [testTypeName, setTestTypeName] = React.useState(
+    initialValues.testTypeName
   );
-  const [laborderID, setLaborderID] = React.useState(initialValues.laborderID);
-  const [rangeOfNormalResults, setRangeOfNormalResults] = React.useState(
-    initialValues.rangeOfNormalResults
+  const [normalRange, setNormalRange] = React.useState(
+    initialValues.normalRange
+  );
+  const [abnormalRange, setAbnormalRange] = React.useState(
+    initialValues.abnormalRange
+  );
+  const [description, setDescription] = React.useState(
+    initialValues.description
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = labTestRecord
       ? { ...initialValues, ...labTestRecord }
       : initialValues;
-    setTypeName(cleanValues.typeName);
-    setRangeOfNotNormalResults(cleanValues.rangeOfNotNormalResults);
-    setLaborderID(cleanValues.laborderID);
-    setRangeOfNormalResults(cleanValues.rangeOfNormalResults);
+    setTestTypeName(cleanValues.testTypeName);
+    setNormalRange(cleanValues.normalRange);
+    setAbnormalRange(cleanValues.abnormalRange);
+    setDescription(cleanValues.description);
     setErrors({});
   };
   const [labTestRecord, setLabTestRecord] = React.useState(labTest);
@@ -58,10 +62,10 @@ export default function LabTestUpdateForm(props) {
   }, [idProp, labTest]);
   React.useEffect(resetStateValues, [labTestRecord]);
   const validations = {
-    typeName: [],
-    rangeOfNotNormalResults: [],
-    laborderID: [{ type: "Required" }],
-    rangeOfNormalResults: [],
+    testTypeName: [],
+    normalRange: [],
+    abnormalRange: [],
+    description: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -88,10 +92,10 @@ export default function LabTestUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          typeName,
-          rangeOfNotNormalResults,
-          laborderID,
-          rangeOfNormalResults,
+          testTypeName,
+          normalRange,
+          abnormalRange,
+          description,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -139,116 +143,112 @@ export default function LabTestUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Type name"
+        label="Test type name"
         isRequired={false}
         isReadOnly={false}
-        value={typeName}
+        value={testTypeName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              typeName: value,
-              rangeOfNotNormalResults,
-              laborderID,
-              rangeOfNormalResults,
+              testTypeName: value,
+              normalRange,
+              abnormalRange,
+              description,
             };
             const result = onChange(modelFields);
-            value = result?.typeName ?? value;
+            value = result?.testTypeName ?? value;
           }
-          if (errors.typeName?.hasError) {
-            runValidationTasks("typeName", value);
+          if (errors.testTypeName?.hasError) {
+            runValidationTasks("testTypeName", value);
           }
-          setTypeName(value);
+          setTestTypeName(value);
         }}
-        onBlur={() => runValidationTasks("typeName", typeName)}
-        errorMessage={errors.typeName?.errorMessage}
-        hasError={errors.typeName?.hasError}
-        {...getOverrideProps(overrides, "typeName")}
+        onBlur={() => runValidationTasks("testTypeName", testTypeName)}
+        errorMessage={errors.testTypeName?.errorMessage}
+        hasError={errors.testTypeName?.hasError}
+        {...getOverrideProps(overrides, "testTypeName")}
       ></TextField>
       <TextField
-        label="Range of not normal results"
+        label="Normal range"
         isRequired={false}
         isReadOnly={false}
-        value={rangeOfNotNormalResults}
+        value={normalRange}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              typeName,
-              rangeOfNotNormalResults: value,
-              laborderID,
-              rangeOfNormalResults,
+              testTypeName,
+              normalRange: value,
+              abnormalRange,
+              description,
             };
             const result = onChange(modelFields);
-            value = result?.rangeOfNotNormalResults ?? value;
+            value = result?.normalRange ?? value;
           }
-          if (errors.rangeOfNotNormalResults?.hasError) {
-            runValidationTasks("rangeOfNotNormalResults", value);
+          if (errors.normalRange?.hasError) {
+            runValidationTasks("normalRange", value);
           }
-          setRangeOfNotNormalResults(value);
+          setNormalRange(value);
         }}
-        onBlur={() =>
-          runValidationTasks("rangeOfNotNormalResults", rangeOfNotNormalResults)
-        }
-        errorMessage={errors.rangeOfNotNormalResults?.errorMessage}
-        hasError={errors.rangeOfNotNormalResults?.hasError}
-        {...getOverrideProps(overrides, "rangeOfNotNormalResults")}
+        onBlur={() => runValidationTasks("normalRange", normalRange)}
+        errorMessage={errors.normalRange?.errorMessage}
+        hasError={errors.normalRange?.hasError}
+        {...getOverrideProps(overrides, "normalRange")}
       ></TextField>
       <TextField
-        label="Laborder id"
-        isRequired={true}
-        isReadOnly={false}
-        value={laborderID}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              typeName,
-              rangeOfNotNormalResults,
-              laborderID: value,
-              rangeOfNormalResults,
-            };
-            const result = onChange(modelFields);
-            value = result?.laborderID ?? value;
-          }
-          if (errors.laborderID?.hasError) {
-            runValidationTasks("laborderID", value);
-          }
-          setLaborderID(value);
-        }}
-        onBlur={() => runValidationTasks("laborderID", laborderID)}
-        errorMessage={errors.laborderID?.errorMessage}
-        hasError={errors.laborderID?.hasError}
-        {...getOverrideProps(overrides, "laborderID")}
-      ></TextField>
-      <TextField
-        label="Range of normal results"
+        label="Abnormal range"
         isRequired={false}
         isReadOnly={false}
-        value={rangeOfNormalResults}
+        value={abnormalRange}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              typeName,
-              rangeOfNotNormalResults,
-              laborderID,
-              rangeOfNormalResults: value,
+              testTypeName,
+              normalRange,
+              abnormalRange: value,
+              description,
             };
             const result = onChange(modelFields);
-            value = result?.rangeOfNormalResults ?? value;
+            value = result?.abnormalRange ?? value;
           }
-          if (errors.rangeOfNormalResults?.hasError) {
-            runValidationTasks("rangeOfNormalResults", value);
+          if (errors.abnormalRange?.hasError) {
+            runValidationTasks("abnormalRange", value);
           }
-          setRangeOfNormalResults(value);
+          setAbnormalRange(value);
         }}
-        onBlur={() =>
-          runValidationTasks("rangeOfNormalResults", rangeOfNormalResults)
-        }
-        errorMessage={errors.rangeOfNormalResults?.errorMessage}
-        hasError={errors.rangeOfNormalResults?.hasError}
-        {...getOverrideProps(overrides, "rangeOfNormalResults")}
+        onBlur={() => runValidationTasks("abnormalRange", abnormalRange)}
+        errorMessage={errors.abnormalRange?.errorMessage}
+        hasError={errors.abnormalRange?.hasError}
+        {...getOverrideProps(overrides, "abnormalRange")}
+      ></TextField>
+      <TextField
+        label="Description"
+        isRequired={false}
+        isReadOnly={false}
+        value={description}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              testTypeName,
+              normalRange,
+              abnormalRange,
+              description: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.description ?? value;
+          }
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
+          }
+          setDescription(value);
+        }}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
       ></TextField>
       <Flex
         justifyContent="space-between"

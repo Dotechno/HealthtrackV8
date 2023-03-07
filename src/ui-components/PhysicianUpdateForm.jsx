@@ -53,7 +53,7 @@ export default function PhysicianUpdateForm(props) {
   React.useEffect(resetStateValues, [physicianRecord]);
   const validations = {
     name: [],
-    cellPhoneNumber: [],
+    cellPhoneNumber: [{ type: "Phone" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -157,6 +157,7 @@ export default function PhysicianUpdateForm(props) {
         label="Cell phone number"
         isRequired={false}
         isReadOnly={false}
+        type="tel"
         value={cellPhoneNumber}
         onChange={(e) => {
           let { value } = e.target;

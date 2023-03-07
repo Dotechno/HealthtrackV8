@@ -16,19 +16,19 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type ServiceProvidedByClinicUpdateFormInputValues = {
     type?: string;
     description?: string;
-    billableCostForService?: number;
+    cost?: number;
 };
 export declare type ServiceProvidedByClinicUpdateFormValidationValues = {
     type?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
-    billableCostForService?: ValidationFunction<number>;
+    cost?: ValidationFunction<number>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type ServiceProvidedByClinicUpdateFormOverridesProps = {
     ServiceProvidedByClinicUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
     description?: PrimitiveOverrideProps<TextFieldProps>;
-    billableCostForService?: PrimitiveOverrideProps<TextFieldProps>;
+    cost?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type ServiceProvidedByClinicUpdateFormProps = React.PropsWithChildren<{
     overrides?: ServiceProvidedByClinicUpdateFormOverridesProps | undefined | null;

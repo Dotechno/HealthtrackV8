@@ -24,48 +24,37 @@ export default function PrescriptionCreateForm(props) {
   } = props;
   const initialValues = {
     physicianName: "",
-    prescribedMedication: "",
-    medicineDosage: "",
-    frequencyOfMedication: "",
-    datePrescriptionFilled: "",
-    pharmacistWhoFilledPrescription: "",
+    medication: "",
+    dosag: "",
+    frequency: "",
+    filledBy: "",
+    dateFilled: "",
   };
   const [physicianName, setPhysicianName] = React.useState(
     initialValues.physicianName
   );
-  const [prescribedMedication, setPrescribedMedication] = React.useState(
-    initialValues.prescribedMedication
-  );
-  const [medicineDosage, setMedicineDosage] = React.useState(
-    initialValues.medicineDosage
-  );
-  const [frequencyOfMedication, setFrequencyOfMedication] = React.useState(
-    initialValues.frequencyOfMedication
-  );
-  const [datePrescriptionFilled, setDatePrescriptionFilled] = React.useState(
-    initialValues.datePrescriptionFilled
-  );
-  const [pharmacistWhoFilledPrescription, setPharmacistWhoFilledPrescription] =
-    React.useState(initialValues.pharmacistWhoFilledPrescription);
+  const [medication, setMedication] = React.useState(initialValues.medication);
+  const [dosag, setDosag] = React.useState(initialValues.dosag);
+  const [frequency, setFrequency] = React.useState(initialValues.frequency);
+  const [filledBy, setFilledBy] = React.useState(initialValues.filledBy);
+  const [dateFilled, setDateFilled] = React.useState(initialValues.dateFilled);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setPhysicianName(initialValues.physicianName);
-    setPrescribedMedication(initialValues.prescribedMedication);
-    setMedicineDosage(initialValues.medicineDosage);
-    setFrequencyOfMedication(initialValues.frequencyOfMedication);
-    setDatePrescriptionFilled(initialValues.datePrescriptionFilled);
-    setPharmacistWhoFilledPrescription(
-      initialValues.pharmacistWhoFilledPrescription
-    );
+    setMedication(initialValues.medication);
+    setDosag(initialValues.dosag);
+    setFrequency(initialValues.frequency);
+    setFilledBy(initialValues.filledBy);
+    setDateFilled(initialValues.dateFilled);
     setErrors({});
   };
   const validations = {
-    physicianName: [],
-    prescribedMedication: [],
-    medicineDosage: [],
-    frequencyOfMedication: [],
-    datePrescriptionFilled: [],
-    pharmacistWhoFilledPrescription: [],
+    physicianName: [{ type: "Required" }],
+    medication: [{ type: "Required" }],
+    dosag: [{ type: "Required" }],
+    frequency: [{ type: "Required" }],
+    filledBy: [],
+    dateFilled: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -93,11 +82,11 @@ export default function PrescriptionCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           physicianName,
-          prescribedMedication,
-          medicineDosage,
-          frequencyOfMedication,
-          datePrescriptionFilled,
-          pharmacistWhoFilledPrescription,
+          medication,
+          dosag,
+          frequency,
+          filledBy,
+          dateFilled,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -145,7 +134,7 @@ export default function PrescriptionCreateForm(props) {
     >
       <TextField
         label="Physician name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={physicianName}
         onChange={(e) => {
@@ -153,11 +142,11 @@ export default function PrescriptionCreateForm(props) {
           if (onChange) {
             const modelFields = {
               physicianName: value,
-              prescribedMedication,
-              medicineDosage,
-              frequencyOfMedication,
-              datePrescriptionFilled,
-              pharmacistWhoFilledPrescription,
+              medication,
+              dosag,
+              frequency,
+              filledBy,
+              dateFilled,
             };
             const result = onChange(modelFields);
             value = result?.physicianName ?? value;
@@ -173,161 +162,150 @@ export default function PrescriptionCreateForm(props) {
         {...getOverrideProps(overrides, "physicianName")}
       ></TextField>
       <TextField
-        label="Prescribed medication"
-        isRequired={false}
+        label="Medication"
+        isRequired={true}
         isReadOnly={false}
-        value={prescribedMedication}
+        value={medication}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               physicianName,
-              prescribedMedication: value,
-              medicineDosage,
-              frequencyOfMedication,
-              datePrescriptionFilled,
-              pharmacistWhoFilledPrescription,
+              medication: value,
+              dosag,
+              frequency,
+              filledBy,
+              dateFilled,
             };
             const result = onChange(modelFields);
-            value = result?.prescribedMedication ?? value;
+            value = result?.medication ?? value;
           }
-          if (errors.prescribedMedication?.hasError) {
-            runValidationTasks("prescribedMedication", value);
+          if (errors.medication?.hasError) {
+            runValidationTasks("medication", value);
           }
-          setPrescribedMedication(value);
+          setMedication(value);
         }}
-        onBlur={() =>
-          runValidationTasks("prescribedMedication", prescribedMedication)
-        }
-        errorMessage={errors.prescribedMedication?.errorMessage}
-        hasError={errors.prescribedMedication?.hasError}
-        {...getOverrideProps(overrides, "prescribedMedication")}
+        onBlur={() => runValidationTasks("medication", medication)}
+        errorMessage={errors.medication?.errorMessage}
+        hasError={errors.medication?.hasError}
+        {...getOverrideProps(overrides, "medication")}
       ></TextField>
       <TextField
-        label="Medicine dosage"
-        isRequired={false}
+        label="Dosag"
+        isRequired={true}
         isReadOnly={false}
-        value={medicineDosage}
+        value={dosag}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               physicianName,
-              prescribedMedication,
-              medicineDosage: value,
-              frequencyOfMedication,
-              datePrescriptionFilled,
-              pharmacistWhoFilledPrescription,
+              medication,
+              dosag: value,
+              frequency,
+              filledBy,
+              dateFilled,
             };
             const result = onChange(modelFields);
-            value = result?.medicineDosage ?? value;
+            value = result?.dosag ?? value;
           }
-          if (errors.medicineDosage?.hasError) {
-            runValidationTasks("medicineDosage", value);
+          if (errors.dosag?.hasError) {
+            runValidationTasks("dosag", value);
           }
-          setMedicineDosage(value);
+          setDosag(value);
         }}
-        onBlur={() => runValidationTasks("medicineDosage", medicineDosage)}
-        errorMessage={errors.medicineDosage?.errorMessage}
-        hasError={errors.medicineDosage?.hasError}
-        {...getOverrideProps(overrides, "medicineDosage")}
+        onBlur={() => runValidationTasks("dosag", dosag)}
+        errorMessage={errors.dosag?.errorMessage}
+        hasError={errors.dosag?.hasError}
+        {...getOverrideProps(overrides, "dosag")}
       ></TextField>
       <TextField
-        label="Frequency of medication"
-        isRequired={false}
+        label="Frequency"
+        isRequired={true}
         isReadOnly={false}
-        value={frequencyOfMedication}
+        value={frequency}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               physicianName,
-              prescribedMedication,
-              medicineDosage,
-              frequencyOfMedication: value,
-              datePrescriptionFilled,
-              pharmacistWhoFilledPrescription,
+              medication,
+              dosag,
+              frequency: value,
+              filledBy,
+              dateFilled,
             };
             const result = onChange(modelFields);
-            value = result?.frequencyOfMedication ?? value;
+            value = result?.frequency ?? value;
           }
-          if (errors.frequencyOfMedication?.hasError) {
-            runValidationTasks("frequencyOfMedication", value);
+          if (errors.frequency?.hasError) {
+            runValidationTasks("frequency", value);
           }
-          setFrequencyOfMedication(value);
+          setFrequency(value);
         }}
-        onBlur={() =>
-          runValidationTasks("frequencyOfMedication", frequencyOfMedication)
-        }
-        errorMessage={errors.frequencyOfMedication?.errorMessage}
-        hasError={errors.frequencyOfMedication?.hasError}
-        {...getOverrideProps(overrides, "frequencyOfMedication")}
+        onBlur={() => runValidationTasks("frequency", frequency)}
+        errorMessage={errors.frequency?.errorMessage}
+        hasError={errors.frequency?.hasError}
+        {...getOverrideProps(overrides, "frequency")}
       ></TextField>
       <TextField
-        label="Date prescription filled"
+        label="Filled by"
         isRequired={false}
+        isReadOnly={false}
+        value={filledBy}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              physicianName,
+              medication,
+              dosag,
+              frequency,
+              filledBy: value,
+              dateFilled,
+            };
+            const result = onChange(modelFields);
+            value = result?.filledBy ?? value;
+          }
+          if (errors.filledBy?.hasError) {
+            runValidationTasks("filledBy", value);
+          }
+          setFilledBy(value);
+        }}
+        onBlur={() => runValidationTasks("filledBy", filledBy)}
+        errorMessage={errors.filledBy?.errorMessage}
+        hasError={errors.filledBy?.hasError}
+        {...getOverrideProps(overrides, "filledBy")}
+      ></TextField>
+      <TextField
+        label="Date filled"
+        isRequired={true}
         isReadOnly={false}
         type="date"
-        value={datePrescriptionFilled}
+        value={dateFilled}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               physicianName,
-              prescribedMedication,
-              medicineDosage,
-              frequencyOfMedication,
-              datePrescriptionFilled: value,
-              pharmacistWhoFilledPrescription,
+              medication,
+              dosag,
+              frequency,
+              filledBy,
+              dateFilled: value,
             };
             const result = onChange(modelFields);
-            value = result?.datePrescriptionFilled ?? value;
+            value = result?.dateFilled ?? value;
           }
-          if (errors.datePrescriptionFilled?.hasError) {
-            runValidationTasks("datePrescriptionFilled", value);
+          if (errors.dateFilled?.hasError) {
+            runValidationTasks("dateFilled", value);
           }
-          setDatePrescriptionFilled(value);
+          setDateFilled(value);
         }}
-        onBlur={() =>
-          runValidationTasks("datePrescriptionFilled", datePrescriptionFilled)
-        }
-        errorMessage={errors.datePrescriptionFilled?.errorMessage}
-        hasError={errors.datePrescriptionFilled?.hasError}
-        {...getOverrideProps(overrides, "datePrescriptionFilled")}
-      ></TextField>
-      <TextField
-        label="Pharmacist who filled prescription"
-        isRequired={false}
-        isReadOnly={false}
-        value={pharmacistWhoFilledPrescription}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              physicianName,
-              prescribedMedication,
-              medicineDosage,
-              frequencyOfMedication,
-              datePrescriptionFilled,
-              pharmacistWhoFilledPrescription: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.pharmacistWhoFilledPrescription ?? value;
-          }
-          if (errors.pharmacistWhoFilledPrescription?.hasError) {
-            runValidationTasks("pharmacistWhoFilledPrescription", value);
-          }
-          setPharmacistWhoFilledPrescription(value);
-        }}
-        onBlur={() =>
-          runValidationTasks(
-            "pharmacistWhoFilledPrescription",
-            pharmacistWhoFilledPrescription
-          )
-        }
-        errorMessage={errors.pharmacistWhoFilledPrescription?.errorMessage}
-        hasError={errors.pharmacistWhoFilledPrescription?.hasError}
-        {...getOverrideProps(overrides, "pharmacistWhoFilledPrescription")}
+        onBlur={() => runValidationTasks("dateFilled", dateFilled)}
+        errorMessage={errors.dateFilled?.errorMessage}
+        hasError={errors.dateFilled?.hasError}
+        {...getOverrideProps(overrides, "dateFilled")}
       ></TextField>
       <Flex
         justifyContent="space-between"

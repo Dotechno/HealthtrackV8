@@ -14,30 +14,27 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type PatientUpdateFormInputValues = {
-    name?: string;
-    telephoneNumber?: string;
-    insuranceCarrierID?: string;
+    user?: string;
+    address?: string;
     dateOfBirth?: string;
     gender?: string;
-    primaryCarePhysician?: string;
+    cell?: string;
 };
 export declare type PatientUpdateFormValidationValues = {
-    name?: ValidationFunction<string>;
-    telephoneNumber?: ValidationFunction<string>;
-    insuranceCarrierID?: ValidationFunction<string>;
+    user?: ValidationFunction<string>;
+    address?: ValidationFunction<string>;
     dateOfBirth?: ValidationFunction<string>;
     gender?: ValidationFunction<string>;
-    primaryCarePhysician?: ValidationFunction<string>;
+    cell?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PatientUpdateFormOverridesProps = {
     PatientUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
-    telephoneNumber?: PrimitiveOverrideProps<TextFieldProps>;
-    insuranceCarrierID?: PrimitiveOverrideProps<TextFieldProps>;
+    user?: PrimitiveOverrideProps<TextFieldProps>;
+    address?: PrimitiveOverrideProps<TextFieldProps>;
     dateOfBirth?: PrimitiveOverrideProps<TextFieldProps>;
     gender?: PrimitiveOverrideProps<TextFieldProps>;
-    primaryCarePhysician?: PrimitiveOverrideProps<TextFieldProps>;
+    cell?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PatientUpdateFormProps = React.PropsWithChildren<{
     overrides?: PatientUpdateFormOverridesProps | undefined | null;
