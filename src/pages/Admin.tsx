@@ -35,7 +35,7 @@ import {
 import { useCollection } from '@cloudscape-design/collection-hooks';
 import { DataStore } from 'aws-amplify';
 import { Patient as AllPatients } from '../models';
-import { PatientCreateForm } from '../ui-components';
+import * as components from '../ui-components';
 import { PatientCreateFormInputValues } from 'src/ui-components/PatientCreateForm';
 
 export const getTextFilterCounterText = (count: number) =>
@@ -129,6 +129,7 @@ export const CARD_DEFINITIONS = {
         <div>
             <Link fontSize="heading-m" href="#">
                 {item.patientName}
+
                 {/* {console.log('item:', item)} */}
             </Link>
         </div>
@@ -539,8 +540,8 @@ function DetailsCards({
             filter={
                 <TextFilter
                     {...filterProps}
-                    filteringAriaLabel="Filter patients"
-                    filteringPlaceholder="Find patients"
+                    filteringAriaLabel="Filter Forms"
+                    filteringPlaceholder="Find Forms"
                     filteringClearAriaLabel="Clear"
                     countText={getTextFilterCounterText(
                         filteredItemsCount as number
@@ -590,12 +591,12 @@ const CustomAppLayout = forwardRef<any, any>((props, ref) => {
 
 const resourcesBreadcrumbs = [
     {
-        text: 'Nurse',
-        href: '/nurse',
+        text: 'Admin',
+        href: '/admin',
     },
     {
-        text: 'Patients',
-        href: '/nurse/patients',
+        text: 'Forms',
+        href: '/nurse/forms',
     },
 ];
 
@@ -726,6 +727,7 @@ export function Admin() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const appLayout = useRef<any>();
 
+    // Handles the click on the "Create Patient" button
     const handleCreatePatient = () => {
         setIsModalOpen(true);
     }
@@ -735,6 +737,8 @@ export function Admin() {
         setSuccessNotification(true);
         return fields
     }
+
+    // same with AppointmentCreateForm
 
     return (
         <CustomAppLayout
@@ -747,7 +751,7 @@ export function Admin() {
             content={
                 <>
                     <Modal visible={isModalOpen} onDismiss={() => setIsModalOpen(false)}>
-                        <PatientCreateForm onSubmit={handleCreatePatientSubmit} />
+                        <components.PatientCreateForm onSubmit={handleCreatePatientSubmit} />
 
                     </Modal>
                     <DetailsCards
