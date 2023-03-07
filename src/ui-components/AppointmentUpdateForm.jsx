@@ -6,20 +6,15 @@
 
 /* eslint-disable */
 import * as React from "react";
-import {
-  Button,
-  Flex,
-  Grid,
-  SelectField,
-  TextField,
-} from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { Appointment } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
 export default function AppointmentUpdateForm(props) {
   const {
-    clearOnSuccess = true,
+    id: idProp,
+    appointment,
     onSuccess,
     onError,
     onSubmit,
@@ -29,19 +24,33 @@ export default function AppointmentUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    date: "",
-    type: undefined,
+    time: "",
+    type: "",
   };
-  const [date, setDate] = React.useState(initialValues.date);
+  const [time, setTime] = React.useState(initialValues.time);
   const [type, setType] = React.useState(initialValues.type);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setDate(initialValues.date);
-    setType(initialValues.type);
+    const cleanValues = appointmentRecord
+      ? { ...initialValues, ...appointmentRecord }
+      : initialValues;
+    setTime(cleanValues.time);
+    setType(cleanValues.type);
     setErrors({});
   };
+  const [appointmentRecord, setAppointmentRecord] = React.useState(appointment);
+  React.useEffect(() => {
+    const queryData = async () => {
+      const record = idProp
+        ? await DataStore.query(Appointment, idProp)
+        : appointment;
+      setAppointmentRecord(record);
+    };
+    queryData();
+  }, [idProp, appointment]);
+  React.useEffect(resetStateValues, [appointmentRecord]);
   const validations = {
-    date: [],
+    time: [],
     type: [],
   };
   const runValidationTasks = async (
@@ -49,9 +58,10 @@ export default function AppointmentUpdateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -59,6 +69,23 @@ export default function AppointmentUpdateForm(props) {
     }
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
+  };
+  const convertToLocal = (date) => {
+    const df = new Intl.DateTimeFormat("default", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      calendar: "iso8601",
+      numberingSystem: "latn",
+      hourCycle: "h23",
+    });
+    const parts = df.formatToParts(date).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
   };
   return (
     <Grid
@@ -69,7 +96,7 @@ export default function AppointmentUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          date,
+          time,
           type,
         };
         const validationResponses = await Promise.all(
@@ -100,12 +127,13 @@ export default function AppointmentUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(new Appointment(modelFields));
+          await DataStore.save(
+            Appointment.copyOf(appointmentRecord, (updated) => {
+              Object.assign(updated, modelFields);
+            })
+          );
           if (onSuccess) {
             onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -117,41 +145,42 @@ export default function AppointmentUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Date"
+        label="Time"
         isRequired={false}
         isReadOnly={false}
-        type="date"
-        value={date}
+        type="datetime-local"
+        value={time && convertToLocal(new Date(time))}
         onChange={(e) => {
-          let { value } = e.target;
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              date: value,
+              time: value,
               type,
             };
             const result = onChange(modelFields);
-            value = result?.date ?? value;
+            value = result?.time ?? value;
           }
-          if (errors.date?.hasError) {
-            runValidationTasks("date", value);
+          if (errors.time?.hasError) {
+            runValidationTasks("time", value);
           }
-          setDate(value);
+          setTime(value);
         }}
-        onBlur={() => runValidationTasks("date", date)}
-        errorMessage={errors.date?.errorMessage}
-        hasError={errors.date?.hasError}
-        {...getOverrideProps(overrides, "date")}
+        onBlur={() => runValidationTasks("time", time)}
+        errorMessage={errors.time?.errorMessage}
+        hasError={errors.time?.hasError}
+        {...getOverrideProps(overrides, "time")}
       ></TextField>
-      <SelectField
+      <TextField
         label="Type"
-        placeholder="Please select an option"
-        isDisabled={false}
+        isRequired={false}
+        isReadOnly={false}
         value={type}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              date,
+              time,
               type: value,
             };
             const result = onChange(modelFields);
@@ -166,35 +195,20 @@ export default function AppointmentUpdateForm(props) {
         errorMessage={errors.type?.errorMessage}
         hasError={errors.type?.hasError}
         {...getOverrideProps(overrides, "type")}
-      >
-        <option
-          children="Urgent"
-          value="URGENT"
-          {...getOverrideProps(overrides, "typeoption0")}
-        ></option>
-        <option
-          children="Rountine"
-          value="ROUNTINE"
-          {...getOverrideProps(overrides, "typeoption1")}
-        ></option>
-        <option
-          children="Follow up visit"
-          value="FOLLOW_UP_VISIT"
-          {...getOverrideProps(overrides, "typeoption2")}
-        ></option>
-      </SelectField>
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Clear"
+          children="Reset"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          {...getOverrideProps(overrides, "ClearButton")}
+          isDisabled={!(idProp || appointment)}
+          {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -204,7 +218,10 @@ export default function AppointmentUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={Object.values(errors).some((e) => e?.hasError)}
+            isDisabled={
+              !(idProp || appointment) ||
+              Object.values(errors).some((e) => e?.hasError)
+            }
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

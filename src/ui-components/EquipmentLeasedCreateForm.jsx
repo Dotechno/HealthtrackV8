@@ -6,15 +6,14 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid } from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { PhysicianSchedule } from "../models";
+import { EquipmentLeased } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
-export default function PhysicianScheduleUpdateForm(props) {
+export default function EquipmentLeasedCreateForm(props) {
   const {
-    id: idProp,
-    physicianSchedule,
+    clearOnSuccess = true,
     onSuccess,
     onError,
     onSubmit,
@@ -23,35 +22,31 @@ export default function PhysicianScheduleUpdateForm(props) {
     overrides,
     ...rest
   } = props;
-  const initialValues = {};
+  const initialValues = {
+    startDate: "",
+    endDate: "",
+  };
+  const [startDate, setStartDate] = React.useState(initialValues.startDate);
+  const [endDate, setEndDate] = React.useState(initialValues.endDate);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = physicianScheduleRecord
-      ? { ...initialValues, ...physicianScheduleRecord }
-      : initialValues;
+    setStartDate(initialValues.startDate);
+    setEndDate(initialValues.endDate);
     setErrors({});
   };
-  const [physicianScheduleRecord, setPhysicianScheduleRecord] =
-    React.useState(physicianSchedule);
-  React.useEffect(() => {
-    const queryData = async () => {
-      const record = idProp
-        ? await DataStore.query(PhysicianSchedule, idProp)
-        : physicianSchedule;
-      setPhysicianScheduleRecord(record);
-    };
-    queryData();
-  }, [idProp, physicianSchedule]);
-  React.useEffect(resetStateValues, [physicianScheduleRecord]);
-  const validations = {};
+  const validations = {
+    startDate: [],
+    endDate: [],
+  };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -68,7 +63,10 @@ export default function PhysicianScheduleUpdateForm(props) {
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        let modelFields = {};
+        let modelFields = {
+          startDate,
+          endDate,
+        };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
@@ -97,13 +95,12 @@ export default function PhysicianScheduleUpdateForm(props) {
               modelFields[key] = undefined;
             }
           });
-          await DataStore.save(
-            PhysicianSchedule.copyOf(physicianScheduleRecord, (updated) => {
-              Object.assign(updated, modelFields);
-            })
-          );
+          await DataStore.save(new EquipmentLeased(modelFields));
           if (onSuccess) {
             onSuccess(modelFields);
+          }
+          if (clearOnSuccess) {
+            resetStateValues();
           }
         } catch (err) {
           if (onError) {
@@ -111,22 +108,73 @@ export default function PhysicianScheduleUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "PhysicianScheduleUpdateForm")}
+      {...getOverrideProps(overrides, "EquipmentLeasedCreateForm")}
       {...rest}
     >
+      <TextField
+        label="Start date"
+        isRequired={false}
+        isReadOnly={false}
+        type="date"
+        value={startDate}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              startDate: value,
+              endDate,
+            };
+            const result = onChange(modelFields);
+            value = result?.startDate ?? value;
+          }
+          if (errors.startDate?.hasError) {
+            runValidationTasks("startDate", value);
+          }
+          setStartDate(value);
+        }}
+        onBlur={() => runValidationTasks("startDate", startDate)}
+        errorMessage={errors.startDate?.errorMessage}
+        hasError={errors.startDate?.hasError}
+        {...getOverrideProps(overrides, "startDate")}
+      ></TextField>
+      <TextField
+        label="End date"
+        isRequired={false}
+        isReadOnly={false}
+        type="date"
+        value={endDate}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              startDate,
+              endDate: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.endDate ?? value;
+          }
+          if (errors.endDate?.hasError) {
+            runValidationTasks("endDate", value);
+          }
+          setEndDate(value);
+        }}
+        onBlur={() => runValidationTasks("endDate", endDate)}
+        errorMessage={errors.endDate?.errorMessage}
+        hasError={errors.endDate?.hasError}
+        {...getOverrideProps(overrides, "endDate")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
       >
         <Button
-          children="Reset"
+          children="Clear"
           type="reset"
           onClick={(event) => {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || physicianSchedule)}
-          {...getOverrideProps(overrides, "ResetButton")}
+          {...getOverrideProps(overrides, "ClearButton")}
         ></Button>
         <Flex
           gap="15px"
@@ -136,10 +184,7 @@ export default function PhysicianScheduleUpdateForm(props) {
             children="Submit"
             type="submit"
             variation="primary"
-            isDisabled={
-              !(idProp || physicianSchedule) ||
-              Object.values(errors).some((e) => e?.hasError)
-            }
+            isDisabled={Object.values(errors).some((e) => e?.hasError)}
             {...getOverrideProps(overrides, "SubmitButton")}
           ></Button>
         </Flex>

@@ -2,6 +2,13 @@ import React, { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { v4 as uuid4 } from 'uuid';
 import styles from '../styles/styles.module.scss';
 import '../styles/base.scss';
+
+import {
+    Autocomplete,
+    Heading,
+    useAuthenticator,
+} from '@aws-amplify/ui-react';
+
 import {
     AppLayout,
     Box,
@@ -97,8 +104,9 @@ export const navItems: SideNavigationProps['items'] = [
         type: 'section',
         text: 'Account',
         items: [
-            { type: 'link', text: 'How-to guide', href: '#/howto' },
-            { type: 'link', text: 'Origin access identity', href: '#/origin' },
+            { type: 'link', text: 'How-to guide', href: '/howto' },
+            // use signOut() to sign out
+            { type: 'link', text: 'Logout', href: '/logout' },
         ],
     },
 ];
@@ -251,9 +259,9 @@ export const VISIBLE_CONTENT_OPTIONS = [
 ];
 
 export const PAGE_SIZE_OPTIONS = [
-    { value: 10, label: '10 Patients' },
-    { value: 30, label: '30 Patients' },
-    { value: 50, label: '50 Patients' },
+    { value: 10, label: '10 Forms' },
+    { value: 30, label: '30 Forms' },
+    { value: 50, label: '50 Forms' },
 ];
 
 export const DEFAULT_PREFERENCES = {
@@ -410,7 +418,7 @@ interface FullPageHeaderProps extends HeaderProps {
 }
 
 export function FullPageHeader({
-    title = 'Patients',
+    title = 'Forms',
     createButtonText = 'Create patient',
     extraActions = null,
     selectedItemsCount,
@@ -722,6 +730,7 @@ export const ToolsContent = () => (
 type handleCreatePatientSubmitType = (fields: PatientCreateFormInputValues) => Promise<PatientCreateFormInputValues>
 
 export function Admin() {
+    const { signOut } = useAuthenticator((context) => [context.user]);
     const [toolsOpen, setToolsOpen] = useState(false);
     const [successNotification, setSuccessNotification] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);

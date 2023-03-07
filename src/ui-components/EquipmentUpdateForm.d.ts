@@ -18,20 +18,14 @@ export declare type EquipmentUpdateFormInputValues = {
     description?: string;
     department?: string;
     owned?: boolean;
-    startDate?: string;
-    endDate?: string;
-    leasingCompany?: string;
-    datePurchased?: string;
+    leased?: boolean;
 };
 export declare type EquipmentUpdateFormValidationValues = {
     type?: ValidationFunction<string>;
     description?: ValidationFunction<string>;
     department?: ValidationFunction<string>;
     owned?: ValidationFunction<boolean>;
-    startDate?: ValidationFunction<string>;
-    endDate?: ValidationFunction<string>;
-    leasingCompany?: ValidationFunction<string>;
-    datePurchased?: ValidationFunction<string>;
+    leased?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EquipmentUpdateFormOverridesProps = {
@@ -40,10 +34,7 @@ export declare type EquipmentUpdateFormOverridesProps = {
     description?: PrimitiveOverrideProps<TextFieldProps>;
     department?: PrimitiveOverrideProps<TextFieldProps>;
     owned?: PrimitiveOverrideProps<SwitchFieldProps>;
-    startDate?: PrimitiveOverrideProps<TextFieldProps>;
-    endDate?: PrimitiveOverrideProps<TextFieldProps>;
-    leasingCompany?: PrimitiveOverrideProps<TextFieldProps>;
-    datePurchased?: PrimitiveOverrideProps<TextFieldProps>;
+    leased?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type EquipmentUpdateFormProps = React.PropsWithChildren<{
     overrides?: EquipmentUpdateFormOverridesProps | undefined | null;

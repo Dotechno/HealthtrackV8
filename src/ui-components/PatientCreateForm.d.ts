@@ -13,30 +13,27 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type PatientCreateFormInputValues = {
-    name?: string;
-    telephoneNumber?: string;
-    insuranceCarrierID?: string;
+    user?: string;
+    email?: string;
+    address?: string;
     dateOfBirth?: string;
     gender?: string;
-    primaryCarePhysician?: string;
 };
 export declare type PatientCreateFormValidationValues = {
-    name?: ValidationFunction<string>;
-    telephoneNumber?: ValidationFunction<string>;
-    insuranceCarrierID?: ValidationFunction<string>;
+    user?: ValidationFunction<string>;
+    email?: ValidationFunction<string>;
+    address?: ValidationFunction<string>;
     dateOfBirth?: ValidationFunction<string>;
     gender?: ValidationFunction<string>;
-    primaryCarePhysician?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type PatientCreateFormOverridesProps = {
     PatientCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
-    telephoneNumber?: PrimitiveOverrideProps<TextFieldProps>;
-    insuranceCarrierID?: PrimitiveOverrideProps<TextFieldProps>;
+    user?: PrimitiveOverrideProps<TextFieldProps>;
+    email?: PrimitiveOverrideProps<TextFieldProps>;
+    address?: PrimitiveOverrideProps<TextFieldProps>;
     dateOfBirth?: PrimitiveOverrideProps<TextFieldProps>;
     gender?: PrimitiveOverrideProps<TextFieldProps>;
-    primaryCarePhysician?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type PatientCreateFormProps = React.PropsWithChildren<{
     overrides?: PatientCreateFormOverridesProps | undefined | null;

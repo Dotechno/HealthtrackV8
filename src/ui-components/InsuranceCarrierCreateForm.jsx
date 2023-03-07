@@ -6,7 +6,13 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SelectField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { InsuranceCarrier } from "../models";
 import { fetchByPath, validateField } from "./utils";
@@ -25,7 +31,7 @@ export default function InsuranceCarrierCreateForm(props) {
   const initialValues = {
     name: "",
     address: "",
-    status: "",
+    status: undefined,
   };
   const [name, setName] = React.useState(initialValues.name);
   const [address, setAddress] = React.useState(initialValues.address);
@@ -38,7 +44,7 @@ export default function InsuranceCarrierCreateForm(props) {
     setErrors({});
   };
   const validations = {
-    name: [],
+    name: [{ type: "Required" }],
     address: [],
     status: [],
   };
@@ -47,9 +53,10 @@ export default function InsuranceCarrierCreateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -117,7 +124,7 @@ export default function InsuranceCarrierCreateForm(props) {
     >
       <TextField
         label="Name"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={name}
         onChange={(e) => {
@@ -167,10 +174,10 @@ export default function InsuranceCarrierCreateForm(props) {
         hasError={errors.address?.hasError}
         {...getOverrideProps(overrides, "address")}
       ></TextField>
-      <TextField
+      <SelectField
         label="Status"
-        isRequired={false}
-        isReadOnly={false}
+        placeholder="Please select an option"
+        isDisabled={false}
         value={status}
         onChange={(e) => {
           let { value } = e.target;
@@ -192,7 +199,23 @@ export default function InsuranceCarrierCreateForm(props) {
         errorMessage={errors.status?.errorMessage}
         hasError={errors.status?.hasError}
         {...getOverrideProps(overrides, "status")}
-      ></TextField>
+      >
+        <option
+          children="Pays on time"
+          value="PAYS_ON_TIME"
+          {...getOverrideProps(overrides, "statusoption0")}
+        ></option>
+        <option
+          children="Late with payments"
+          value="LATE_WITH_PAYMENTS"
+          {...getOverrideProps(overrides, "statusoption1")}
+        ></option>
+        <option
+          children="Difficult to get payments"
+          value="DIFFICULT_TO_GET_PAYMENTS"
+          {...getOverrideProps(overrides, "statusoption2")}
+        ></option>
+      </SelectField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

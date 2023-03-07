@@ -24,52 +24,49 @@ export default function MedicationCreateForm(props) {
   } = props;
   const initialValues = {
     name: "",
-    useOfMedication: "",
-    recommendedDosage: "",
-    recommendedFrequencyOfUse: "",
-    potentialSideEffect: "",
-    drugThatMayReactAdversely: "",
+    usage: "",
+    dosage: "",
+    frequency: "",
+    sideEffects: "",
+    interactions: "",
   };
   const [name, setName] = React.useState(initialValues.name);
-  const [useOfMedication, setUseOfMedication] = React.useState(
-    initialValues.useOfMedication
+  const [usage, setUsage] = React.useState(initialValues.usage);
+  const [dosage, setDosage] = React.useState(initialValues.dosage);
+  const [frequency, setFrequency] = React.useState(initialValues.frequency);
+  const [sideEffects, setSideEffects] = React.useState(
+    initialValues.sideEffects
   );
-  const [recommendedDosage, setRecommendedDosage] = React.useState(
-    initialValues.recommendedDosage
+  const [interactions, setInteractions] = React.useState(
+    initialValues.interactions
   );
-  const [recommendedFrequencyOfUse, setRecommendedFrequencyOfUse] =
-    React.useState(initialValues.recommendedFrequencyOfUse);
-  const [potentialSideEffect, setPotentialSideEffect] = React.useState(
-    initialValues.potentialSideEffect
-  );
-  const [drugThatMayReactAdversely, setDrugThatMayReactAdversely] =
-    React.useState(initialValues.drugThatMayReactAdversely);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setName(initialValues.name);
-    setUseOfMedication(initialValues.useOfMedication);
-    setRecommendedDosage(initialValues.recommendedDosage);
-    setRecommendedFrequencyOfUse(initialValues.recommendedFrequencyOfUse);
-    setPotentialSideEffect(initialValues.potentialSideEffect);
-    setDrugThatMayReactAdversely(initialValues.drugThatMayReactAdversely);
+    setUsage(initialValues.usage);
+    setDosage(initialValues.dosage);
+    setFrequency(initialValues.frequency);
+    setSideEffects(initialValues.sideEffects);
+    setInteractions(initialValues.interactions);
     setErrors({});
   };
   const validations = {
     name: [],
-    useOfMedication: [],
-    recommendedDosage: [],
-    recommendedFrequencyOfUse: [],
-    potentialSideEffect: [],
-    drugThatMayReactAdversely: [],
+    usage: [],
+    dosage: [],
+    frequency: [],
+    sideEffects: [],
+    interactions: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -88,11 +85,11 @@ export default function MedicationCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           name,
-          useOfMedication,
-          recommendedDosage,
-          recommendedFrequencyOfUse,
-          potentialSideEffect,
-          drugThatMayReactAdversely,
+          usage,
+          dosage,
+          frequency,
+          sideEffects,
+          interactions,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -148,11 +145,11 @@ export default function MedicationCreateForm(props) {
           if (onChange) {
             const modelFields = {
               name: value,
-              useOfMedication,
-              recommendedDosage,
-              recommendedFrequencyOfUse,
-              potentialSideEffect,
-              drugThatMayReactAdversely,
+              usage,
+              dosage,
+              frequency,
+              sideEffects,
+              interactions,
             };
             const result = onChange(modelFields);
             value = result?.name ?? value;
@@ -168,163 +165,149 @@ export default function MedicationCreateForm(props) {
         {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Use of medication"
+        label="Usage"
         isRequired={false}
         isReadOnly={false}
-        value={useOfMedication}
+        value={usage}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              useOfMedication: value,
-              recommendedDosage,
-              recommendedFrequencyOfUse,
-              potentialSideEffect,
-              drugThatMayReactAdversely,
+              usage: value,
+              dosage,
+              frequency,
+              sideEffects,
+              interactions,
             };
             const result = onChange(modelFields);
-            value = result?.useOfMedication ?? value;
+            value = result?.usage ?? value;
           }
-          if (errors.useOfMedication?.hasError) {
-            runValidationTasks("useOfMedication", value);
+          if (errors.usage?.hasError) {
+            runValidationTasks("usage", value);
           }
-          setUseOfMedication(value);
+          setUsage(value);
         }}
-        onBlur={() => runValidationTasks("useOfMedication", useOfMedication)}
-        errorMessage={errors.useOfMedication?.errorMessage}
-        hasError={errors.useOfMedication?.hasError}
-        {...getOverrideProps(overrides, "useOfMedication")}
+        onBlur={() => runValidationTasks("usage", usage)}
+        errorMessage={errors.usage?.errorMessage}
+        hasError={errors.usage?.hasError}
+        {...getOverrideProps(overrides, "usage")}
       ></TextField>
       <TextField
-        label="Recommended dosage"
+        label="Dosage"
         isRequired={false}
         isReadOnly={false}
-        value={recommendedDosage}
+        value={dosage}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              useOfMedication,
-              recommendedDosage: value,
-              recommendedFrequencyOfUse,
-              potentialSideEffect,
-              drugThatMayReactAdversely,
+              usage,
+              dosage: value,
+              frequency,
+              sideEffects,
+              interactions,
             };
             const result = onChange(modelFields);
-            value = result?.recommendedDosage ?? value;
+            value = result?.dosage ?? value;
           }
-          if (errors.recommendedDosage?.hasError) {
-            runValidationTasks("recommendedDosage", value);
+          if (errors.dosage?.hasError) {
+            runValidationTasks("dosage", value);
           }
-          setRecommendedDosage(value);
+          setDosage(value);
         }}
-        onBlur={() =>
-          runValidationTasks("recommendedDosage", recommendedDosage)
-        }
-        errorMessage={errors.recommendedDosage?.errorMessage}
-        hasError={errors.recommendedDosage?.hasError}
-        {...getOverrideProps(overrides, "recommendedDosage")}
+        onBlur={() => runValidationTasks("dosage", dosage)}
+        errorMessage={errors.dosage?.errorMessage}
+        hasError={errors.dosage?.hasError}
+        {...getOverrideProps(overrides, "dosage")}
       ></TextField>
       <TextField
-        label="Recommended frequency of use"
+        label="Frequency"
         isRequired={false}
         isReadOnly={false}
-        value={recommendedFrequencyOfUse}
+        value={frequency}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              useOfMedication,
-              recommendedDosage,
-              recommendedFrequencyOfUse: value,
-              potentialSideEffect,
-              drugThatMayReactAdversely,
+              usage,
+              dosage,
+              frequency: value,
+              sideEffects,
+              interactions,
             };
             const result = onChange(modelFields);
-            value = result?.recommendedFrequencyOfUse ?? value;
+            value = result?.frequency ?? value;
           }
-          if (errors.recommendedFrequencyOfUse?.hasError) {
-            runValidationTasks("recommendedFrequencyOfUse", value);
+          if (errors.frequency?.hasError) {
+            runValidationTasks("frequency", value);
           }
-          setRecommendedFrequencyOfUse(value);
+          setFrequency(value);
         }}
-        onBlur={() =>
-          runValidationTasks(
-            "recommendedFrequencyOfUse",
-            recommendedFrequencyOfUse
-          )
-        }
-        errorMessage={errors.recommendedFrequencyOfUse?.errorMessage}
-        hasError={errors.recommendedFrequencyOfUse?.hasError}
-        {...getOverrideProps(overrides, "recommendedFrequencyOfUse")}
+        onBlur={() => runValidationTasks("frequency", frequency)}
+        errorMessage={errors.frequency?.errorMessage}
+        hasError={errors.frequency?.hasError}
+        {...getOverrideProps(overrides, "frequency")}
       ></TextField>
       <TextField
-        label="Potential side effect"
+        label="Side effects"
         isRequired={false}
         isReadOnly={false}
-        value={potentialSideEffect}
+        value={sideEffects}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              useOfMedication,
-              recommendedDosage,
-              recommendedFrequencyOfUse,
-              potentialSideEffect: value,
-              drugThatMayReactAdversely,
+              usage,
+              dosage,
+              frequency,
+              sideEffects: value,
+              interactions,
             };
             const result = onChange(modelFields);
-            value = result?.potentialSideEffect ?? value;
+            value = result?.sideEffects ?? value;
           }
-          if (errors.potentialSideEffect?.hasError) {
-            runValidationTasks("potentialSideEffect", value);
+          if (errors.sideEffects?.hasError) {
+            runValidationTasks("sideEffects", value);
           }
-          setPotentialSideEffect(value);
+          setSideEffects(value);
         }}
-        onBlur={() =>
-          runValidationTasks("potentialSideEffect", potentialSideEffect)
-        }
-        errorMessage={errors.potentialSideEffect?.errorMessage}
-        hasError={errors.potentialSideEffect?.hasError}
-        {...getOverrideProps(overrides, "potentialSideEffect")}
+        onBlur={() => runValidationTasks("sideEffects", sideEffects)}
+        errorMessage={errors.sideEffects?.errorMessage}
+        hasError={errors.sideEffects?.hasError}
+        {...getOverrideProps(overrides, "sideEffects")}
       ></TextField>
       <TextField
-        label="Drug that may react adversely"
+        label="Interactions"
         isRequired={false}
         isReadOnly={false}
-        value={drugThatMayReactAdversely}
+        value={interactions}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               name,
-              useOfMedication,
-              recommendedDosage,
-              recommendedFrequencyOfUse,
-              potentialSideEffect,
-              drugThatMayReactAdversely: value,
+              usage,
+              dosage,
+              frequency,
+              sideEffects,
+              interactions: value,
             };
             const result = onChange(modelFields);
-            value = result?.drugThatMayReactAdversely ?? value;
+            value = result?.interactions ?? value;
           }
-          if (errors.drugThatMayReactAdversely?.hasError) {
-            runValidationTasks("drugThatMayReactAdversely", value);
+          if (errors.interactions?.hasError) {
+            runValidationTasks("interactions", value);
           }
-          setDrugThatMayReactAdversely(value);
+          setInteractions(value);
         }}
-        onBlur={() =>
-          runValidationTasks(
-            "drugThatMayReactAdversely",
-            drugThatMayReactAdversely
-          )
-        }
-        errorMessage={errors.drugThatMayReactAdversely?.errorMessage}
-        hasError={errors.drugThatMayReactAdversely?.hasError}
-        {...getOverrideProps(overrides, "drugThatMayReactAdversely")}
+        onBlur={() => runValidationTasks("interactions", interactions)}
+        errorMessage={errors.interactions?.errorMessage}
+        hasError={errors.interactions?.hasError}
+        {...getOverrideProps(overrides, "interactions")}
       ></TextField>
       <Flex
         justifyContent="space-between"

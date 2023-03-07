@@ -15,29 +15,29 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type MedicationUpdateFormInputValues = {
     name?: string;
-    useOfMedication?: string;
-    recommendedDosage?: string;
-    recommendedFrequencyOfUse?: string;
-    potentialSideEffect?: string;
-    drugThatMayReactAdversely?: string;
+    usage?: string;
+    dosage?: string;
+    frequency?: string;
+    sideEffects?: string;
+    interactions?: string;
 };
 export declare type MedicationUpdateFormValidationValues = {
     name?: ValidationFunction<string>;
-    useOfMedication?: ValidationFunction<string>;
-    recommendedDosage?: ValidationFunction<string>;
-    recommendedFrequencyOfUse?: ValidationFunction<string>;
-    potentialSideEffect?: ValidationFunction<string>;
-    drugThatMayReactAdversely?: ValidationFunction<string>;
+    usage?: ValidationFunction<string>;
+    dosage?: ValidationFunction<string>;
+    frequency?: ValidationFunction<string>;
+    sideEffects?: ValidationFunction<string>;
+    interactions?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MedicationUpdateFormOverridesProps = {
     MedicationUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     name?: PrimitiveOverrideProps<TextFieldProps>;
-    useOfMedication?: PrimitiveOverrideProps<TextFieldProps>;
-    recommendedDosage?: PrimitiveOverrideProps<TextFieldProps>;
-    recommendedFrequencyOfUse?: PrimitiveOverrideProps<TextFieldProps>;
-    potentialSideEffect?: PrimitiveOverrideProps<TextFieldProps>;
-    drugThatMayReactAdversely?: PrimitiveOverrideProps<TextFieldProps>;
+    usage?: PrimitiveOverrideProps<TextFieldProps>;
+    dosage?: PrimitiveOverrideProps<TextFieldProps>;
+    frequency?: PrimitiveOverrideProps<TextFieldProps>;
+    sideEffects?: PrimitiveOverrideProps<TextFieldProps>;
+    interactions?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MedicationUpdateFormProps = React.PropsWithChildren<{
     overrides?: MedicationUpdateFormOverridesProps | undefined | null;

@@ -10,7 +10,7 @@ import {
   Button,
   Flex,
   Grid,
-  SelectField,
+  SwitchField,
   TextField,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
@@ -30,25 +30,27 @@ export default function EquipmentMaintenanceCreateForm(props) {
   } = props;
   const initialValues = {
     type: "",
-    problem: "",
-    status: undefined,
+    description: "",
+    status: false,
     resolution: "",
   };
   const [type, setType] = React.useState(initialValues.type);
-  const [problem, setProblem] = React.useState(initialValues.problem);
+  const [description, setDescription] = React.useState(
+    initialValues.description
+  );
   const [status, setStatus] = React.useState(initialValues.status);
   const [resolution, setResolution] = React.useState(initialValues.resolution);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setType(initialValues.type);
-    setProblem(initialValues.problem);
+    setDescription(initialValues.description);
     setStatus(initialValues.status);
     setResolution(initialValues.resolution);
     setErrors({});
   };
   const validations = {
     type: [],
-    problem: [],
+    description: [],
     status: [],
     resolution: [],
   };
@@ -57,9 +59,10 @@ export default function EquipmentMaintenanceCreateForm(props) {
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -78,7 +81,7 @@ export default function EquipmentMaintenanceCreateForm(props) {
         event.preventDefault();
         let modelFields = {
           type,
-          problem,
+          description,
           status,
           resolution,
         };
@@ -136,7 +139,7 @@ export default function EquipmentMaintenanceCreateForm(props) {
           if (onChange) {
             const modelFields = {
               type: value,
-              problem,
+              description,
               status,
               resolution,
             };
@@ -154,43 +157,43 @@ export default function EquipmentMaintenanceCreateForm(props) {
         {...getOverrideProps(overrides, "type")}
       ></TextField>
       <TextField
-        label="Problem"
+        label="Description"
         isRequired={false}
         isReadOnly={false}
-        value={problem}
+        value={description}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               type,
-              problem: value,
+              description: value,
               status,
               resolution,
             };
             const result = onChange(modelFields);
-            value = result?.problem ?? value;
+            value = result?.description ?? value;
           }
-          if (errors.problem?.hasError) {
-            runValidationTasks("problem", value);
+          if (errors.description?.hasError) {
+            runValidationTasks("description", value);
           }
-          setProblem(value);
+          setDescription(value);
         }}
-        onBlur={() => runValidationTasks("problem", problem)}
-        errorMessage={errors.problem?.errorMessage}
-        hasError={errors.problem?.hasError}
-        {...getOverrideProps(overrides, "problem")}
+        onBlur={() => runValidationTasks("description", description)}
+        errorMessage={errors.description?.errorMessage}
+        hasError={errors.description?.hasError}
+        {...getOverrideProps(overrides, "description")}
       ></TextField>
-      <SelectField
+      <SwitchField
         label="Status"
-        placeholder="Please select an option"
+        defaultChecked={false}
         isDisabled={false}
-        value={status}
+        isChecked={status}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = e.target.checked;
           if (onChange) {
             const modelFields = {
               type,
-              problem,
+              description,
               status: value,
               resolution,
             };
@@ -206,23 +209,7 @@ export default function EquipmentMaintenanceCreateForm(props) {
         errorMessage={errors.status?.errorMessage}
         hasError={errors.status?.hasError}
         {...getOverrideProps(overrides, "status")}
-      >
-        <option
-          children="Finished"
-          value="FINISHED"
-          {...getOverrideProps(overrides, "statusoption0")}
-        ></option>
-        <option
-          children="In progress"
-          value="IN_PROGRESS"
-          {...getOverrideProps(overrides, "statusoption1")}
-        ></option>
-        <option
-          children="Unfinished"
-          value="UNFINISHED"
-          {...getOverrideProps(overrides, "statusoption2")}
-        ></option>
-      </SelectField>
+      ></SwitchField>
       <TextField
         label="Resolution"
         isRequired={false}
@@ -233,7 +220,7 @@ export default function EquipmentMaintenanceCreateForm(props) {
           if (onChange) {
             const modelFields = {
               type,
-              problem,
+              description,
               status,
               resolution: value,
             };

@@ -25,35 +25,34 @@ export default function ServiceProvidedByClinicCreateForm(props) {
   const initialValues = {
     type: "",
     description: "",
-    billableCostForService: "",
+    cost: "",
   };
   const [type, setType] = React.useState(initialValues.type);
   const [description, setDescription] = React.useState(
     initialValues.description
   );
-  const [billableCostForService, setBillableCostForService] = React.useState(
-    initialValues.billableCostForService
-  );
+  const [cost, setCost] = React.useState(initialValues.cost);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setType(initialValues.type);
     setDescription(initialValues.description);
-    setBillableCostForService(initialValues.billableCostForService);
+    setCost(initialValues.cost);
     setErrors({});
   };
   const validations = {
     type: [],
     description: [],
-    billableCostForService: [],
+    cost: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -73,7 +72,7 @@ export default function ServiceProvidedByClinicCreateForm(props) {
         let modelFields = {
           type,
           description,
-          billableCostForService,
+          cost,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -130,7 +129,7 @@ export default function ServiceProvidedByClinicCreateForm(props) {
             const modelFields = {
               type: value,
               description,
-              billableCostForService,
+              cost,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -156,7 +155,7 @@ export default function ServiceProvidedByClinicCreateForm(props) {
             const modelFields = {
               type,
               description: value,
-              billableCostForService,
+              cost,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -172,12 +171,12 @@ export default function ServiceProvidedByClinicCreateForm(props) {
         {...getOverrideProps(overrides, "description")}
       ></TextField>
       <TextField
-        label="Billable cost for service"
+        label="Cost"
         isRequired={false}
         isReadOnly={false}
         type="number"
         step="any"
-        value={billableCostForService}
+        value={cost}
         onChange={(e) => {
           let value = isNaN(parseFloat(e.target.value))
             ? e.target.value
@@ -186,22 +185,20 @@ export default function ServiceProvidedByClinicCreateForm(props) {
             const modelFields = {
               type,
               description,
-              billableCostForService: value,
+              cost: value,
             };
             const result = onChange(modelFields);
-            value = result?.billableCostForService ?? value;
+            value = result?.cost ?? value;
           }
-          if (errors.billableCostForService?.hasError) {
-            runValidationTasks("billableCostForService", value);
+          if (errors.cost?.hasError) {
+            runValidationTasks("cost", value);
           }
-          setBillableCostForService(value);
+          setCost(value);
         }}
-        onBlur={() =>
-          runValidationTasks("billableCostForService", billableCostForService)
-        }
-        errorMessage={errors.billableCostForService?.errorMessage}
-        hasError={errors.billableCostForService?.hasError}
-        {...getOverrideProps(overrides, "billableCostForService")}
+        onBlur={() => runValidationTasks("cost", cost)}
+        errorMessage={errors.cost?.errorMessage}
+        hasError={errors.cost?.hasError}
+        {...getOverrideProps(overrides, "cost")}
       ></TextField>
       <Flex
         justifyContent="space-between"

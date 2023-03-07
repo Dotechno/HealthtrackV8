@@ -53,16 +53,17 @@ export default function PhysicianUpdateForm(props) {
   React.useEffect(resetStateValues, [physicianRecord]);
   const validations = {
     name: [],
-    cellPhoneNumber: [],
+    cellPhoneNumber: [{ type: "Phone" }],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -157,6 +158,7 @@ export default function PhysicianUpdateForm(props) {
         label="Cell phone number"
         isRequired={false}
         isReadOnly={false}
+        type="tel"
         value={cellPhoneNumber}
         onChange={(e) => {
           let { value } = e.target;

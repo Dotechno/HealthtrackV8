@@ -13,24 +13,21 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type VendorCreateFormInputValues = {
-    vendorName?: string;
-    vendorAddress?: string;
-    typeOfEquipment?: string;
-    preferredVendor?: boolean;
+    name?: string;
+    address?: string;
+    preferred?: boolean;
 };
 export declare type VendorCreateFormValidationValues = {
-    vendorName?: ValidationFunction<string>;
-    vendorAddress?: ValidationFunction<string>;
-    typeOfEquipment?: ValidationFunction<string>;
-    preferredVendor?: ValidationFunction<boolean>;
+    name?: ValidationFunction<string>;
+    address?: ValidationFunction<string>;
+    preferred?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type VendorCreateFormOverridesProps = {
     VendorCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    vendorName?: PrimitiveOverrideProps<TextFieldProps>;
-    vendorAddress?: PrimitiveOverrideProps<TextFieldProps>;
-    typeOfEquipment?: PrimitiveOverrideProps<TextFieldProps>;
-    preferredVendor?: PrimitiveOverrideProps<SwitchFieldProps>;
+    name?: PrimitiveOverrideProps<TextFieldProps>;
+    address?: PrimitiveOverrideProps<TextFieldProps>;
+    preferred?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type VendorCreateFormProps = React.PropsWithChildren<{
     overrides?: VendorCreateFormOverridesProps | undefined | null;

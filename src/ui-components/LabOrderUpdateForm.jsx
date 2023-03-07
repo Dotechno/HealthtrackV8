@@ -25,28 +25,28 @@ export default function LabOrderUpdateForm(props) {
   } = props;
   const initialValues = {
     physicianName: "",
-    type: "",
-    date: "",
+    testType: "",
+    testDate: "",
     technician: "",
-    result: "",
+    testResult: "",
   };
   const [physicianName, setPhysicianName] = React.useState(
     initialValues.physicianName
   );
-  const [type, setType] = React.useState(initialValues.type);
-  const [date, setDate] = React.useState(initialValues.date);
+  const [testType, setTestType] = React.useState(initialValues.testType);
+  const [testDate, setTestDate] = React.useState(initialValues.testDate);
   const [technician, setTechnician] = React.useState(initialValues.technician);
-  const [result, setResult] = React.useState(initialValues.result);
+  const [testResult, setTestResult] = React.useState(initialValues.testResult);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = labOrderRecord
       ? { ...initialValues, ...labOrderRecord }
       : initialValues;
     setPhysicianName(cleanValues.physicianName);
-    setType(cleanValues.type);
-    setDate(cleanValues.date);
+    setTestType(cleanValues.testType);
+    setTestDate(cleanValues.testDate);
     setTechnician(cleanValues.technician);
-    setResult(cleanValues.result);
+    setTestResult(cleanValues.testResult);
     setErrors({});
   };
   const [labOrderRecord, setLabOrderRecord] = React.useState(labOrder);
@@ -62,19 +62,20 @@ export default function LabOrderUpdateForm(props) {
   React.useEffect(resetStateValues, [labOrderRecord]);
   const validations = {
     physicianName: [],
-    type: [],
-    date: [],
+    testType: [],
+    testDate: [],
     technician: [],
-    result: [],
+    testResult: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -93,10 +94,10 @@ export default function LabOrderUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           physicianName,
-          type,
-          date,
+          testType,
+          testDate,
           technician,
-          result,
+          testResult,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -153,10 +154,10 @@ export default function LabOrderUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               physicianName: value,
-              type,
-              date,
+              testType,
+              testDate,
               technician,
-              result,
+              testResult,
             };
             const result = onChange(modelFields);
             value = result?.physicianName ?? value;
@@ -172,61 +173,61 @@ export default function LabOrderUpdateForm(props) {
         {...getOverrideProps(overrides, "physicianName")}
       ></TextField>
       <TextField
-        label="Type"
+        label="Test type"
         isRequired={false}
         isReadOnly={false}
-        value={type}
+        value={testType}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               physicianName,
-              type: value,
-              date,
+              testType: value,
+              testDate,
               technician,
-              result,
+              testResult,
             };
             const result = onChange(modelFields);
-            value = result?.type ?? value;
+            value = result?.testType ?? value;
           }
-          if (errors.type?.hasError) {
-            runValidationTasks("type", value);
+          if (errors.testType?.hasError) {
+            runValidationTasks("testType", value);
           }
-          setType(value);
+          setTestType(value);
         }}
-        onBlur={() => runValidationTasks("type", type)}
-        errorMessage={errors.type?.errorMessage}
-        hasError={errors.type?.hasError}
-        {...getOverrideProps(overrides, "type")}
+        onBlur={() => runValidationTasks("testType", testType)}
+        errorMessage={errors.testType?.errorMessage}
+        hasError={errors.testType?.hasError}
+        {...getOverrideProps(overrides, "testType")}
       ></TextField>
       <TextField
-        label="Date"
+        label="Test date"
         isRequired={false}
         isReadOnly={false}
         type="date"
-        value={date}
+        value={testDate}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               physicianName,
-              type,
-              date: value,
+              testType,
+              testDate: value,
               technician,
-              result,
+              testResult,
             };
             const result = onChange(modelFields);
-            value = result?.date ?? value;
+            value = result?.testDate ?? value;
           }
-          if (errors.date?.hasError) {
-            runValidationTasks("date", value);
+          if (errors.testDate?.hasError) {
+            runValidationTasks("testDate", value);
           }
-          setDate(value);
+          setTestDate(value);
         }}
-        onBlur={() => runValidationTasks("date", date)}
-        errorMessage={errors.date?.errorMessage}
-        hasError={errors.date?.hasError}
-        {...getOverrideProps(overrides, "date")}
+        onBlur={() => runValidationTasks("testDate", testDate)}
+        errorMessage={errors.testDate?.errorMessage}
+        hasError={errors.testDate?.hasError}
+        {...getOverrideProps(overrides, "testDate")}
       ></TextField>
       <TextField
         label="Technician"
@@ -238,10 +239,10 @@ export default function LabOrderUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               physicianName,
-              type,
-              date,
+              testType,
+              testDate,
               technician: value,
-              result,
+              testResult,
             };
             const result = onChange(modelFields);
             value = result?.technician ?? value;
@@ -257,32 +258,32 @@ export default function LabOrderUpdateForm(props) {
         {...getOverrideProps(overrides, "technician")}
       ></TextField>
       <TextField
-        label="Result"
+        label="Test result"
         isRequired={false}
         isReadOnly={false}
-        value={result}
+        value={testResult}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               physicianName,
-              type,
-              date,
+              testType,
+              testDate,
               technician,
-              result: value,
+              testResult: value,
             };
             const result = onChange(modelFields);
-            value = result?.result ?? value;
+            value = result?.testResult ?? value;
           }
-          if (errors.result?.hasError) {
-            runValidationTasks("result", value);
+          if (errors.testResult?.hasError) {
+            runValidationTasks("testResult", value);
           }
-          setResult(value);
+          setTestResult(value);
         }}
-        onBlur={() => runValidationTasks("result", result)}
-        errorMessage={errors.result?.errorMessage}
-        hasError={errors.result?.hasError}
-        {...getOverrideProps(overrides, "result")}
+        onBlur={() => runValidationTasks("testResult", testResult)}
+        errorMessage={errors.testResult?.errorMessage}
+        hasError={errors.testResult?.hasError}
+        {...getOverrideProps(overrides, "testResult")}
       ></TextField>
       <Flex
         justifyContent="space-between"

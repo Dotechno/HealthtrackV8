@@ -23,15 +23,11 @@ export default function VitalSignCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    bodyTemperature: "",
-    pulseRate: "",
+    pulse: "",
     respirationRate: "",
     bloodPressure: "",
   };
-  const [bodyTemperature, setBodyTemperature] = React.useState(
-    initialValues.bodyTemperature
-  );
-  const [pulseRate, setPulseRate] = React.useState(initialValues.pulseRate);
+  const [pulse, setPulse] = React.useState(initialValues.pulse);
   const [respirationRate, setRespirationRate] = React.useState(
     initialValues.respirationRate
   );
@@ -40,26 +36,25 @@ export default function VitalSignCreateForm(props) {
   );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setBodyTemperature(initialValues.bodyTemperature);
-    setPulseRate(initialValues.pulseRate);
+    setPulse(initialValues.pulse);
     setRespirationRate(initialValues.respirationRate);
     setBloodPressure(initialValues.bloodPressure);
     setErrors({});
   };
   const validations = {
-    bodyTemperature: [],
-    pulseRate: [],
-    respirationRate: [],
-    bloodPressure: [],
+    pulse: [{ type: "Required" }],
+    respirationRate: [{ type: "Required" }],
+    bloodPressure: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -77,8 +72,7 @@ export default function VitalSignCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          bodyTemperature,
-          pulseRate,
+          pulse,
           respirationRate,
           bloodPressure,
         };
@@ -127,70 +121,49 @@ export default function VitalSignCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Body temperature"
-        isRequired={false}
+        label="Pulse"
+        isRequired={true}
         isReadOnly={false}
-        value={bodyTemperature}
+        type="number"
+        step="any"
+        value={pulse}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              bodyTemperature: value,
-              pulseRate,
+              pulse: value,
               respirationRate,
               bloodPressure,
             };
             const result = onChange(modelFields);
-            value = result?.bodyTemperature ?? value;
+            value = result?.pulse ?? value;
           }
-          if (errors.bodyTemperature?.hasError) {
-            runValidationTasks("bodyTemperature", value);
+          if (errors.pulse?.hasError) {
+            runValidationTasks("pulse", value);
           }
-          setBodyTemperature(value);
+          setPulse(value);
         }}
-        onBlur={() => runValidationTasks("bodyTemperature", bodyTemperature)}
-        errorMessage={errors.bodyTemperature?.errorMessage}
-        hasError={errors.bodyTemperature?.hasError}
-        {...getOverrideProps(overrides, "bodyTemperature")}
-      ></TextField>
-      <TextField
-        label="Pulse rate"
-        isRequired={false}
-        isReadOnly={false}
-        value={pulseRate}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              bodyTemperature,
-              pulseRate: value,
-              respirationRate,
-              bloodPressure,
-            };
-            const result = onChange(modelFields);
-            value = result?.pulseRate ?? value;
-          }
-          if (errors.pulseRate?.hasError) {
-            runValidationTasks("pulseRate", value);
-          }
-          setPulseRate(value);
-        }}
-        onBlur={() => runValidationTasks("pulseRate", pulseRate)}
-        errorMessage={errors.pulseRate?.errorMessage}
-        hasError={errors.pulseRate?.hasError}
-        {...getOverrideProps(overrides, "pulseRate")}
+        onBlur={() => runValidationTasks("pulse", pulse)}
+        errorMessage={errors.pulse?.errorMessage}
+        hasError={errors.pulse?.hasError}
+        {...getOverrideProps(overrides, "pulse")}
       ></TextField>
       <TextField
         label="Respiration rate"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
+        type="number"
+        step="any"
         value={respirationRate}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              bodyTemperature,
-              pulseRate,
+              pulse,
               respirationRate: value,
               bloodPressure,
             };
@@ -209,15 +182,14 @@ export default function VitalSignCreateForm(props) {
       ></TextField>
       <TextField
         label="Blood pressure"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={bloodPressure}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              bodyTemperature,
-              pulseRate,
+              pulse,
               respirationRate,
               bloodPressure: value,
             };

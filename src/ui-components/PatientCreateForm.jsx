@@ -23,53 +23,44 @@ export default function PatientCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
-    telephoneNumber: "",
-    insuranceCarrierID: "",
+    user: "",
+    email: "",
+    address: "",
     dateOfBirth: "",
     gender: "",
-    primaryCarePhysician: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
-  const [telephoneNumber, setTelephoneNumber] = React.useState(
-    initialValues.telephoneNumber
-  );
-  const [insuranceCarrierID, setInsuranceCarrierID] = React.useState(
-    initialValues.insuranceCarrierID
-  );
+  const [user, setUser] = React.useState(initialValues.user);
+  const [email, setEmail] = React.useState(initialValues.email);
+  const [address, setAddress] = React.useState(initialValues.address);
   const [dateOfBirth, setDateOfBirth] = React.useState(
     initialValues.dateOfBirth
   );
   const [gender, setGender] = React.useState(initialValues.gender);
-  const [primaryCarePhysician, setPrimaryCarePhysician] = React.useState(
-    initialValues.primaryCarePhysician
-  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
-    setTelephoneNumber(initialValues.telephoneNumber);
-    setInsuranceCarrierID(initialValues.insuranceCarrierID);
+    setUser(initialValues.user);
+    setEmail(initialValues.email);
+    setAddress(initialValues.address);
     setDateOfBirth(initialValues.dateOfBirth);
     setGender(initialValues.gender);
-    setPrimaryCarePhysician(initialValues.primaryCarePhysician);
     setErrors({});
   };
   const validations = {
-    name: [],
-    telephoneNumber: [],
-    insuranceCarrierID: [],
+    user: [{ type: "Required" }],
+    email: [{ type: "Required" }, { type: "Email" }],
+    address: [],
     dateOfBirth: [],
     gender: [],
-    primaryCarePhysician: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -87,12 +78,11 @@ export default function PatientCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
-          telephoneNumber,
-          insuranceCarrierID,
+          user,
+          email,
+          address,
           dateOfBirth,
           gender,
-          primaryCarePhysician,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -139,109 +129,104 @@ export default function PatientCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={false}
+        label="User"
+        isRequired={true}
         isReadOnly={false}
-        value={name}
+        value={user}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
-              telephoneNumber,
-              insuranceCarrierID,
+              user: value,
+              email,
+              address,
               dateOfBirth,
               gender,
-              primaryCarePhysician,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.user ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.user?.hasError) {
+            runValidationTasks("user", value);
           }
-          setName(value);
+          setUser(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("user", user)}
+        errorMessage={errors.user?.errorMessage}
+        hasError={errors.user?.hasError}
+        {...getOverrideProps(overrides, "user")}
       ></TextField>
       <TextField
-        label="Telephone number"
-        isRequired={false}
+        label="Email"
+        isRequired={true}
         isReadOnly={false}
-        value={telephoneNumber}
+        value={email}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              telephoneNumber: value,
-              insuranceCarrierID,
+              user,
+              email: value,
+              address,
               dateOfBirth,
               gender,
-              primaryCarePhysician,
             };
             const result = onChange(modelFields);
-            value = result?.telephoneNumber ?? value;
+            value = result?.email ?? value;
           }
-          if (errors.telephoneNumber?.hasError) {
-            runValidationTasks("telephoneNumber", value);
+          if (errors.email?.hasError) {
+            runValidationTasks("email", value);
           }
-          setTelephoneNumber(value);
+          setEmail(value);
         }}
-        onBlur={() => runValidationTasks("telephoneNumber", telephoneNumber)}
-        errorMessage={errors.telephoneNumber?.errorMessage}
-        hasError={errors.telephoneNumber?.hasError}
-        {...getOverrideProps(overrides, "telephoneNumber")}
+        onBlur={() => runValidationTasks("email", email)}
+        errorMessage={errors.email?.errorMessage}
+        hasError={errors.email?.hasError}
+        {...getOverrideProps(overrides, "email")}
       ></TextField>
       <TextField
-        label="Insurance carrier id"
+        label="Address"
         isRequired={false}
         isReadOnly={false}
-        value={insuranceCarrierID}
+        value={address}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              telephoneNumber,
-              insuranceCarrierID: value,
+              user,
+              email,
+              address: value,
               dateOfBirth,
               gender,
-              primaryCarePhysician,
             };
             const result = onChange(modelFields);
-            value = result?.insuranceCarrierID ?? value;
+            value = result?.address ?? value;
           }
-          if (errors.insuranceCarrierID?.hasError) {
-            runValidationTasks("insuranceCarrierID", value);
+          if (errors.address?.hasError) {
+            runValidationTasks("address", value);
           }
-          setInsuranceCarrierID(value);
+          setAddress(value);
         }}
-        onBlur={() =>
-          runValidationTasks("insuranceCarrierID", insuranceCarrierID)
-        }
-        errorMessage={errors.insuranceCarrierID?.errorMessage}
-        hasError={errors.insuranceCarrierID?.hasError}
-        {...getOverrideProps(overrides, "insuranceCarrierID")}
+        onBlur={() => runValidationTasks("address", address)}
+        errorMessage={errors.address?.errorMessage}
+        hasError={errors.address?.hasError}
+        {...getOverrideProps(overrides, "address")}
       ></TextField>
       <TextField
         label="Date of birth"
         isRequired={false}
         isReadOnly={false}
+        type="date"
         value={dateOfBirth}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              telephoneNumber,
-              insuranceCarrierID,
+              user,
+              email,
+              address,
               dateOfBirth: value,
               gender,
-              primaryCarePhysician,
             };
             const result = onChange(modelFields);
             value = result?.dateOfBirth ?? value;
@@ -265,12 +250,11 @@ export default function PatientCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name,
-              telephoneNumber,
-              insuranceCarrierID,
+              user,
+              email,
+              address,
               dateOfBirth,
               gender: value,
-              primaryCarePhysician,
             };
             const result = onChange(modelFields);
             value = result?.gender ?? value;
@@ -284,37 +268,6 @@ export default function PatientCreateForm(props) {
         errorMessage={errors.gender?.errorMessage}
         hasError={errors.gender?.hasError}
         {...getOverrideProps(overrides, "gender")}
-      ></TextField>
-      <TextField
-        label="Primary care physician"
-        isRequired={false}
-        isReadOnly={false}
-        value={primaryCarePhysician}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              name,
-              telephoneNumber,
-              insuranceCarrierID,
-              dateOfBirth,
-              gender,
-              primaryCarePhysician: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.primaryCarePhysician ?? value;
-          }
-          if (errors.primaryCarePhysician?.hasError) {
-            runValidationTasks("primaryCarePhysician", value);
-          }
-          setPrimaryCarePhysician(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("primaryCarePhysician", primaryCarePhysician)
-        }
-        errorMessage={errors.primaryCarePhysician?.errorMessage}
-        hasError={errors.primaryCarePhysician?.hasError}
-        {...getOverrideProps(overrides, "primaryCarePhysician")}
       ></TextField>
       <Flex
         justifyContent="space-between"

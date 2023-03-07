@@ -7,16 +7,180 @@
 /* eslint-disable */
 import * as React from "react";
 import {
+  Badge,
   Button,
+  Divider,
   Flex,
   Grid,
+  Icon,
+  ScrollView,
   SelectField,
+  Text,
   TextField,
+  useTheme,
 } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
 import { MedicalEncounter } from "../models";
 import { fetchByPath, validateField } from "./utils";
 import { DataStore } from "aws-amplify";
+function ArrayField({
+  items = [],
+  onChange,
+  label,
+  inputFieldRef,
+  children,
+  hasError,
+  setFieldValue,
+  currentFieldValue,
+  defaultFieldValue,
+  lengthLimit,
+  getBadgeText,
+  errorMessage,
+}) {
+  const labelElement = <Text>{label}</Text>;
+  const {
+    tokens: {
+      components: {
+        fieldmessages: { error: errorStyles },
+      },
+    },
+  } = useTheme();
+  const [selectedBadgeIndex, setSelectedBadgeIndex] = React.useState();
+  const [isEditing, setIsEditing] = React.useState();
+  React.useEffect(() => {
+    if (isEditing) {
+      inputFieldRef?.current?.focus();
+    }
+  }, [isEditing]);
+  const removeItem = async (removeIndex) => {
+    const newItems = items.filter((value, index) => index !== removeIndex);
+    await onChange(newItems);
+    setSelectedBadgeIndex(undefined);
+  };
+  const addItem = async () => {
+    if (
+      currentFieldValue !== undefined &&
+      currentFieldValue !== null &&
+      currentFieldValue !== "" &&
+      !hasError
+    ) {
+      const newItems = [...items];
+      if (selectedBadgeIndex !== undefined) {
+        newItems[selectedBadgeIndex] = currentFieldValue;
+        setSelectedBadgeIndex(undefined);
+      } else {
+        newItems.push(currentFieldValue);
+      }
+      await onChange(newItems);
+      setIsEditing(false);
+    }
+  };
+  const arraySection = (
+    <React.Fragment>
+      {!!items?.length && (
+        <ScrollView height="inherit" width="inherit" maxHeight={"7rem"}>
+          {items.map((value, index) => {
+            return (
+              <Badge
+                key={index}
+                style={{
+                  cursor: "pointer",
+                  alignItems: "center",
+                  marginRight: 3,
+                  marginTop: 3,
+                  backgroundColor:
+                    index === selectedBadgeIndex ? "#B8CEF9" : "",
+                }}
+                onClick={() => {
+                  setSelectedBadgeIndex(index);
+                  setFieldValue(items[index]);
+                  setIsEditing(true);
+                }}
+              >
+                {getBadgeText ? getBadgeText(value) : value.toString()}
+                <Icon
+                  style={{
+                    cursor: "pointer",
+                    paddingLeft: 3,
+                    width: 20,
+                    height: 20,
+                  }}
+                  viewBox={{ width: 20, height: 20 }}
+                  paths={[
+                    {
+                      d: "M10 10l5.09-5.09L10 10l5.09 5.09L10 10zm0 0L4.91 4.91 10 10l-5.09 5.09L10 10z",
+                      stroke: "black",
+                    },
+                  ]}
+                  ariaLabel="button"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    removeItem(index);
+                  }}
+                />
+              </Badge>
+            );
+          })}
+        </ScrollView>
+      )}
+      <Divider orientation="horizontal" marginTop={5} />
+    </React.Fragment>
+  );
+  if (lengthLimit !== undefined && items.length >= lengthLimit && !isEditing) {
+    return (
+      <React.Fragment>
+        {labelElement}
+        {arraySection}
+      </React.Fragment>
+    );
+  }
+  return (
+    <React.Fragment>
+      {labelElement}
+      {isEditing && children}
+      {!isEditing ? (
+        <>
+          <Button
+            onClick={() => {
+              setIsEditing(true);
+            }}
+          >
+            Add item
+          </Button>
+          {errorMessage && hasError && (
+            <Text color={errorStyles.color} fontSize={errorStyles.fontSize}>
+              {errorMessage}
+            </Text>
+          )}
+        </>
+      ) : (
+        <Flex justifyContent="flex-end">
+          {(currentFieldValue || isEditing) && (
+            <Button
+              children="Cancel"
+              type="button"
+              size="small"
+              onClick={() => {
+                setFieldValue(defaultFieldValue);
+                setIsEditing(false);
+                setSelectedBadgeIndex(undefined);
+              }}
+            ></Button>
+          )}
+          <Button
+            size="small"
+            variation="link"
+            isDisabled={hasError}
+            onClick={addItem}
+          >
+            {selectedBadgeIndex !== undefined ? "Save" : "Add"}
+          </Button>
+        </Flex>
+      )}
+      {arraySection}
+    </React.Fragment>
+  );
+}
 export default function MedicalEncounterCreateForm(props) {
   const {
     clearOnSuccess = true,
@@ -29,37 +193,19 @@ export default function MedicalEncounterCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    encounterDateTime: "",
-    practitionerTypeSeen: undefined,
-    patientComplaints: "",
-    vitalSigns: "",
-    practionerNotes: "",
-    labOrders: "",
-    pharmacyOrders: "",
+    date: "",
+    practitionerSeen: [],
+    complaints: "",
     diagnosis: "",
     treatmentPlan: "",
     referralToSpecialists: "",
     recommendedFollowUp: "",
-    dataTimeEncounterSubmitted: "",
-    employeeIDWhoSubmitted: "",
   };
-  const [encounterDateTime, setEncounterDateTime] = React.useState(
-    initialValues.encounterDateTime
+  const [date, setDate] = React.useState(initialValues.date);
+  const [practitionerSeen, setPractitionerSeen] = React.useState(
+    initialValues.practitionerSeen
   );
-  const [practitionerTypeSeen, setPractitionerTypeSeen] = React.useState(
-    initialValues.practitionerTypeSeen
-  );
-  const [patientComplaints, setPatientComplaints] = React.useState(
-    initialValues.patientComplaints
-  );
-  const [vitalSigns, setVitalSigns] = React.useState(initialValues.vitalSigns);
-  const [practionerNotes, setPractionerNotes] = React.useState(
-    initialValues.practionerNotes
-  );
-  const [labOrders, setLabOrders] = React.useState(initialValues.labOrders);
-  const [pharmacyOrders, setPharmacyOrders] = React.useState(
-    initialValues.pharmacyOrders
-  );
+  const [complaints, setComplaints] = React.useState(initialValues.complaints);
   const [diagnosis, setDiagnosis] = React.useState(initialValues.diagnosis);
   const [treatmentPlan, setTreatmentPlan] = React.useState(
     initialValues.treatmentPlan
@@ -70,51 +216,56 @@ export default function MedicalEncounterCreateForm(props) {
   const [recommendedFollowUp, setRecommendedFollowUp] = React.useState(
     initialValues.recommendedFollowUp
   );
-  const [dataTimeEncounterSubmitted, setDataTimeEncounterSubmitted] =
-    React.useState(initialValues.dataTimeEncounterSubmitted);
-  const [employeeIDWhoSubmitted, setEmployeeIDWhoSubmitted] = React.useState(
-    initialValues.employeeIDWhoSubmitted
-  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setEncounterDateTime(initialValues.encounterDateTime);
-    setPractitionerTypeSeen(initialValues.practitionerTypeSeen);
-    setPatientComplaints(initialValues.patientComplaints);
-    setVitalSigns(initialValues.vitalSigns);
-    setPractionerNotes(initialValues.practionerNotes);
-    setLabOrders(initialValues.labOrders);
-    setPharmacyOrders(initialValues.pharmacyOrders);
+    setDate(initialValues.date);
+    setPractitionerSeen(initialValues.practitionerSeen);
+    setCurrentPractitionerSeenValue(undefined);
+    setComplaints(initialValues.complaints);
     setDiagnosis(initialValues.diagnosis);
     setTreatmentPlan(initialValues.treatmentPlan);
     setReferralToSpecialists(initialValues.referralToSpecialists);
     setRecommendedFollowUp(initialValues.recommendedFollowUp);
-    setDataTimeEncounterSubmitted(initialValues.dataTimeEncounterSubmitted);
-    setEmployeeIDWhoSubmitted(initialValues.employeeIDWhoSubmitted);
     setErrors({});
   };
+  const [currentPractitionerSeenValue, setCurrentPractitionerSeenValue] =
+    React.useState(undefined);
+  const practitionerSeenRef = React.createRef();
+  const getDisplayValue = {
+    practitionerSeen: (r) => {
+      const enumDisplayValueMap = {
+        NURSE: "Nurse",
+        DOCTOR: "Doctor",
+        PHYSICIAN: "Physician",
+        PHYSICIAN_ASSISTANT: "Physician assistant",
+        PEDIATRIST: "Pediatrist",
+        ANESTHESIOLOGIST: "Anesthesiologist",
+        RADIOLOGIST: "Radiologist",
+        PSYCHOLOGIST: "Psychologist",
+        NEUROLOGIST: "Neurologist",
+        PSYCHIATRIST: "Psychiatrist",
+      };
+      return enumDisplayValueMap[r];
+    },
+  };
   const validations = {
-    encounterDateTime: [],
-    practitionerTypeSeen: [],
-    patientComplaints: [],
-    vitalSigns: [],
-    practionerNotes: [],
-    labOrders: [],
-    pharmacyOrders: [],
-    diagnosis: [],
+    date: [{ type: "Required" }],
+    practitionerSeen: [],
+    complaints: [],
+    diagnosis: [{ type: "Required" }],
     treatmentPlan: [],
     referralToSpecialists: [],
     recommendedFollowUp: [],
-    dataTimeEncounterSubmitted: [],
-    employeeIDWhoSubmitted: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -132,19 +283,13 @@ export default function MedicalEncounterCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          encounterDateTime,
-          practitionerTypeSeen,
-          patientComplaints,
-          vitalSigns,
-          practionerNotes,
-          labOrders,
-          pharmacyOrders,
+          date,
+          practitionerSeen,
+          complaints,
           diagnosis,
           treatmentPlan,
           referralToSpecialists,
           recommendedFollowUp,
-          dataTimeEncounterSubmitted,
-          employeeIDWhoSubmitted,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -191,302 +336,184 @@ export default function MedicalEncounterCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Encounter date time"
-        isRequired={false}
+        label="Date"
+        isRequired={true}
         isReadOnly={false}
         type="date"
-        value={encounterDateTime}
+        value={date}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              encounterDateTime: value,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
+              date: value,
+              practitionerSeen,
+              complaints,
               diagnosis,
               treatmentPlan,
               referralToSpecialists,
               recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
             };
             const result = onChange(modelFields);
-            value = result?.encounterDateTime ?? value;
+            value = result?.date ?? value;
           }
-          if (errors.encounterDateTime?.hasError) {
-            runValidationTasks("encounterDateTime", value);
+          if (errors.date?.hasError) {
+            runValidationTasks("date", value);
           }
-          setEncounterDateTime(value);
+          setDate(value);
         }}
-        onBlur={() =>
-          runValidationTasks("encounterDateTime", encounterDateTime)
-        }
-        errorMessage={errors.encounterDateTime?.errorMessage}
-        hasError={errors.encounterDateTime?.hasError}
-        {...getOverrideProps(overrides, "encounterDateTime")}
+        onBlur={() => runValidationTasks("date", date)}
+        errorMessage={errors.date?.errorMessage}
+        hasError={errors.date?.hasError}
+        {...getOverrideProps(overrides, "date")}
       ></TextField>
-      <SelectField
-        label="Practitioner type seen"
-        placeholder="Please select an option"
-        isDisabled={false}
-        value={practitionerTypeSeen}
-        onChange={(e) => {
-          let { value } = e.target;
+      <ArrayField
+        onChange={async (items) => {
+          let values = items;
           if (onChange) {
             const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen: value,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
+              date,
+              practitionerSeen: values,
+              complaints,
               diagnosis,
               treatmentPlan,
               referralToSpecialists,
               recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
             };
             const result = onChange(modelFields);
-            value = result?.practitionerTypeSeen ?? value;
+            values = result?.practitionerSeen ?? values;
           }
-          if (errors.practitionerTypeSeen?.hasError) {
-            runValidationTasks("practitionerTypeSeen", value);
-          }
-          setPractitionerTypeSeen(value);
+          setPractitionerSeen(values);
+          setCurrentPractitionerSeenValue(undefined);
         }}
-        onBlur={() =>
-          runValidationTasks("practitionerTypeSeen", practitionerTypeSeen)
-        }
-        errorMessage={errors.practitionerTypeSeen?.errorMessage}
-        hasError={errors.practitionerTypeSeen?.hasError}
-        {...getOverrideProps(overrides, "practitionerTypeSeen")}
+        currentFieldValue={currentPractitionerSeenValue}
+        label={"Practitioner seen"}
+        items={practitionerSeen}
+        hasError={errors?.practitionerSeen?.hasError}
+        errorMessage={errors?.practitionerSeen?.errorMessage}
+        getBadgeText={getDisplayValue.practitionerSeen}
+        setFieldValue={setCurrentPractitionerSeenValue}
+        inputFieldRef={practitionerSeenRef}
+        defaultFieldValue={undefined}
       >
-        <option
-          children="Physician"
-          value="PHYSICIAN"
-          {...getOverrideProps(overrides, "practitionerTypeSeenoption0")}
-        ></option>
-        <option
-          children="Nurse"
-          value="NURSE"
-          {...getOverrideProps(overrides, "practitionerTypeSeenoption1")}
-        ></option>
-        <option
-          children="Physician assistant"
-          value="PHYSICIAN_ASSISTANT"
-          {...getOverrideProps(overrides, "practitionerTypeSeenoption2")}
-        ></option>
-      </SelectField>
+        <SelectField
+          label="Practitioner seen"
+          placeholder="Please select an option"
+          isDisabled={false}
+          value={currentPractitionerSeenValue}
+          onChange={(e) => {
+            let { value } = e.target;
+            if (errors.practitionerSeen?.hasError) {
+              runValidationTasks("practitionerSeen", value);
+            }
+            setCurrentPractitionerSeenValue(value);
+          }}
+          onBlur={() =>
+            runValidationTasks("practitionerSeen", currentPractitionerSeenValue)
+          }
+          errorMessage={errors.practitionerSeen?.errorMessage}
+          hasError={errors.practitionerSeen?.hasError}
+          ref={practitionerSeenRef}
+          labelHidden={true}
+          {...getOverrideProps(overrides, "practitionerSeen")}
+        >
+          <option
+            children="Nurse"
+            value="NURSE"
+            {...getOverrideProps(overrides, "practitionerSeenoption0")}
+          ></option>
+          <option
+            children="Doctor"
+            value="DOCTOR"
+            {...getOverrideProps(overrides, "practitionerSeenoption1")}
+          ></option>
+          <option
+            children="Physician"
+            value="PHYSICIAN"
+            {...getOverrideProps(overrides, "practitionerSeenoption2")}
+          ></option>
+          <option
+            children="Physician assistant"
+            value="PHYSICIAN_ASSISTANT"
+            {...getOverrideProps(overrides, "practitionerSeenoption3")}
+          ></option>
+          <option
+            children="Pediatrist"
+            value="PEDIATRIST"
+            {...getOverrideProps(overrides, "practitionerSeenoption4")}
+          ></option>
+          <option
+            children="Anesthesiologist"
+            value="ANESTHESIOLOGIST"
+            {...getOverrideProps(overrides, "practitionerSeenoption5")}
+          ></option>
+          <option
+            children="Radiologist"
+            value="RADIOLOGIST"
+            {...getOverrideProps(overrides, "practitionerSeenoption6")}
+          ></option>
+          <option
+            children="Psychologist"
+            value="PSYCHOLOGIST"
+            {...getOverrideProps(overrides, "practitionerSeenoption7")}
+          ></option>
+          <option
+            children="Neurologist"
+            value="NEUROLOGIST"
+            {...getOverrideProps(overrides, "practitionerSeenoption8")}
+          ></option>
+          <option
+            children="Psychiatrist"
+            value="PSYCHIATRIST"
+            {...getOverrideProps(overrides, "practitionerSeenoption9")}
+          ></option>
+        </SelectField>
+      </ArrayField>
       <TextField
-        label="Patient complaints"
+        label="Complaints"
         isRequired={false}
         isReadOnly={false}
-        value={patientComplaints}
+        value={complaints}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints: value,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
+              date,
+              practitionerSeen,
+              complaints: value,
               diagnosis,
               treatmentPlan,
               referralToSpecialists,
               recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
             };
             const result = onChange(modelFields);
-            value = result?.patientComplaints ?? value;
+            value = result?.complaints ?? value;
           }
-          if (errors.patientComplaints?.hasError) {
-            runValidationTasks("patientComplaints", value);
+          if (errors.complaints?.hasError) {
+            runValidationTasks("complaints", value);
           }
-          setPatientComplaints(value);
+          setComplaints(value);
         }}
-        onBlur={() =>
-          runValidationTasks("patientComplaints", patientComplaints)
-        }
-        errorMessage={errors.patientComplaints?.errorMessage}
-        hasError={errors.patientComplaints?.hasError}
-        {...getOverrideProps(overrides, "patientComplaints")}
-      ></TextField>
-      <TextField
-        label="Vital signs"
-        isRequired={false}
-        isReadOnly={false}
-        value={vitalSigns}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns: value,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
-              diagnosis,
-              treatmentPlan,
-              referralToSpecialists,
-              recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
-            };
-            const result = onChange(modelFields);
-            value = result?.vitalSigns ?? value;
-          }
-          if (errors.vitalSigns?.hasError) {
-            runValidationTasks("vitalSigns", value);
-          }
-          setVitalSigns(value);
-        }}
-        onBlur={() => runValidationTasks("vitalSigns", vitalSigns)}
-        errorMessage={errors.vitalSigns?.errorMessage}
-        hasError={errors.vitalSigns?.hasError}
-        {...getOverrideProps(overrides, "vitalSigns")}
-      ></TextField>
-      <TextField
-        label="Practioner notes"
-        isRequired={false}
-        isReadOnly={false}
-        value={practionerNotes}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes: value,
-              labOrders,
-              pharmacyOrders,
-              diagnosis,
-              treatmentPlan,
-              referralToSpecialists,
-              recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
-            };
-            const result = onChange(modelFields);
-            value = result?.practionerNotes ?? value;
-          }
-          if (errors.practionerNotes?.hasError) {
-            runValidationTasks("practionerNotes", value);
-          }
-          setPractionerNotes(value);
-        }}
-        onBlur={() => runValidationTasks("practionerNotes", practionerNotes)}
-        errorMessage={errors.practionerNotes?.errorMessage}
-        hasError={errors.practionerNotes?.hasError}
-        {...getOverrideProps(overrides, "practionerNotes")}
-      ></TextField>
-      <TextField
-        label="Lab orders"
-        isRequired={false}
-        isReadOnly={false}
-        value={labOrders}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders: value,
-              pharmacyOrders,
-              diagnosis,
-              treatmentPlan,
-              referralToSpecialists,
-              recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
-            };
-            const result = onChange(modelFields);
-            value = result?.labOrders ?? value;
-          }
-          if (errors.labOrders?.hasError) {
-            runValidationTasks("labOrders", value);
-          }
-          setLabOrders(value);
-        }}
-        onBlur={() => runValidationTasks("labOrders", labOrders)}
-        errorMessage={errors.labOrders?.errorMessage}
-        hasError={errors.labOrders?.hasError}
-        {...getOverrideProps(overrides, "labOrders")}
-      ></TextField>
-      <TextField
-        label="Pharmacy orders"
-        isRequired={false}
-        isReadOnly={false}
-        value={pharmacyOrders}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders: value,
-              diagnosis,
-              treatmentPlan,
-              referralToSpecialists,
-              recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
-            };
-            const result = onChange(modelFields);
-            value = result?.pharmacyOrders ?? value;
-          }
-          if (errors.pharmacyOrders?.hasError) {
-            runValidationTasks("pharmacyOrders", value);
-          }
-          setPharmacyOrders(value);
-        }}
-        onBlur={() => runValidationTasks("pharmacyOrders", pharmacyOrders)}
-        errorMessage={errors.pharmacyOrders?.errorMessage}
-        hasError={errors.pharmacyOrders?.hasError}
-        {...getOverrideProps(overrides, "pharmacyOrders")}
+        onBlur={() => runValidationTasks("complaints", complaints)}
+        errorMessage={errors.complaints?.errorMessage}
+        hasError={errors.complaints?.hasError}
+        {...getOverrideProps(overrides, "complaints")}
       ></TextField>
       <TextField
         label="Diagnosis"
-        isRequired={false}
+        isRequired={true}
         isReadOnly={false}
         value={diagnosis}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
+              date,
+              practitionerSeen,
+              complaints,
               diagnosis: value,
               treatmentPlan,
               referralToSpecialists,
               recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
             };
             const result = onChange(modelFields);
             value = result?.diagnosis ?? value;
@@ -510,19 +537,13 @@ export default function MedicalEncounterCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
+              date,
+              practitionerSeen,
+              complaints,
               diagnosis,
               treatmentPlan: value,
               referralToSpecialists,
               recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
             };
             const result = onChange(modelFields);
             value = result?.treatmentPlan ?? value;
@@ -546,19 +567,13 @@ export default function MedicalEncounterCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
+              date,
+              practitionerSeen,
+              complaints,
               diagnosis,
               treatmentPlan,
               referralToSpecialists: value,
               recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
             };
             const result = onChange(modelFields);
             value = result?.referralToSpecialists ?? value;
@@ -584,19 +599,13 @@ export default function MedicalEncounterCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
+              date,
+              practitionerSeen,
+              complaints,
               diagnosis,
               treatmentPlan,
               referralToSpecialists,
               recommendedFollowUp: value,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted,
             };
             const result = onChange(modelFields);
             value = result?.recommendedFollowUp ?? value;
@@ -612,90 +621,6 @@ export default function MedicalEncounterCreateForm(props) {
         errorMessage={errors.recommendedFollowUp?.errorMessage}
         hasError={errors.recommendedFollowUp?.hasError}
         {...getOverrideProps(overrides, "recommendedFollowUp")}
-      ></TextField>
-      <TextField
-        label="Data time encounter submitted"
-        isRequired={false}
-        isReadOnly={false}
-        type="date"
-        value={dataTimeEncounterSubmitted}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
-              diagnosis,
-              treatmentPlan,
-              referralToSpecialists,
-              recommendedFollowUp,
-              dataTimeEncounterSubmitted: value,
-              employeeIDWhoSubmitted,
-            };
-            const result = onChange(modelFields);
-            value = result?.dataTimeEncounterSubmitted ?? value;
-          }
-          if (errors.dataTimeEncounterSubmitted?.hasError) {
-            runValidationTasks("dataTimeEncounterSubmitted", value);
-          }
-          setDataTimeEncounterSubmitted(value);
-        }}
-        onBlur={() =>
-          runValidationTasks(
-            "dataTimeEncounterSubmitted",
-            dataTimeEncounterSubmitted
-          )
-        }
-        errorMessage={errors.dataTimeEncounterSubmitted?.errorMessage}
-        hasError={errors.dataTimeEncounterSubmitted?.hasError}
-        {...getOverrideProps(overrides, "dataTimeEncounterSubmitted")}
-      ></TextField>
-      <TextField
-        label="Employee id who submitted"
-        isRequired={false}
-        isReadOnly={false}
-        type="number"
-        step="any"
-        value={employeeIDWhoSubmitted}
-        onChange={(e) => {
-          let value = isNaN(parseInt(e.target.value))
-            ? e.target.value
-            : parseInt(e.target.value);
-          if (onChange) {
-            const modelFields = {
-              encounterDateTime,
-              practitionerTypeSeen,
-              patientComplaints,
-              vitalSigns,
-              practionerNotes,
-              labOrders,
-              pharmacyOrders,
-              diagnosis,
-              treatmentPlan,
-              referralToSpecialists,
-              recommendedFollowUp,
-              dataTimeEncounterSubmitted,
-              employeeIDWhoSubmitted: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.employeeIDWhoSubmitted ?? value;
-          }
-          if (errors.employeeIDWhoSubmitted?.hasError) {
-            runValidationTasks("employeeIDWhoSubmitted", value);
-          }
-          setEmployeeIDWhoSubmitted(value);
-        }}
-        onBlur={() =>
-          runValidationTasks("employeeIDWhoSubmitted", employeeIDWhoSubmitted)
-        }
-        errorMessage={errors.employeeIDWhoSubmitted?.errorMessage}
-        hasError={errors.employeeIDWhoSubmitted?.hasError}
-        {...getOverrideProps(overrides, "employeeIDWhoSubmitted")}
       ></TextField>
       <Flex
         justifyContent="space-between"

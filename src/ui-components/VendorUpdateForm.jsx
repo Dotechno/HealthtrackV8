@@ -30,30 +30,21 @@ export default function VendorUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    vendorName: "",
-    vendorAddress: "",
-    typeOfEquipment: "",
-    preferredVendor: false,
+    name: "",
+    address: "",
+    preferred: false,
   };
-  const [vendorName, setVendorName] = React.useState(initialValues.vendorName);
-  const [vendorAddress, setVendorAddress] = React.useState(
-    initialValues.vendorAddress
-  );
-  const [typeOfEquipment, setTypeOfEquipment] = React.useState(
-    initialValues.typeOfEquipment
-  );
-  const [preferredVendor, setPreferredVendor] = React.useState(
-    initialValues.preferredVendor
-  );
+  const [name, setName] = React.useState(initialValues.name);
+  const [address, setAddress] = React.useState(initialValues.address);
+  const [preferred, setPreferred] = React.useState(initialValues.preferred);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = vendorRecord
       ? { ...initialValues, ...vendorRecord }
       : initialValues;
-    setVendorName(cleanValues.vendorName);
-    setVendorAddress(cleanValues.vendorAddress);
-    setTypeOfEquipment(cleanValues.typeOfEquipment);
-    setPreferredVendor(cleanValues.preferredVendor);
+    setName(cleanValues.name);
+    setAddress(cleanValues.address);
+    setPreferred(cleanValues.preferred);
     setErrors({});
   };
   const [vendorRecord, setVendorRecord] = React.useState(vendor);
@@ -66,19 +57,19 @@ export default function VendorUpdateForm(props) {
   }, [idProp, vendor]);
   React.useEffect(resetStateValues, [vendorRecord]);
   const validations = {
-    vendorName: [],
-    vendorAddress: [],
-    typeOfEquipment: [],
-    preferredVendor: [],
+    name: [],
+    address: [],
+    preferred: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -96,10 +87,9 @@ export default function VendorUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          vendorName,
-          vendorAddress,
-          typeOfEquipment,
-          preferredVendor,
+          name,
+          address,
+          preferred,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -147,112 +137,82 @@ export default function VendorUpdateForm(props) {
       {...rest}
     >
       <TextField
-        label="Vendor name"
+        label="Name"
         isRequired={false}
         isReadOnly={false}
-        value={vendorName}
+        value={name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName: value,
-              vendorAddress,
-              typeOfEquipment,
-              preferredVendor,
+              name: value,
+              address,
+              preferred,
             };
             const result = onChange(modelFields);
-            value = result?.vendorName ?? value;
+            value = result?.name ?? value;
           }
-          if (errors.vendorName?.hasError) {
-            runValidationTasks("vendorName", value);
+          if (errors.name?.hasError) {
+            runValidationTasks("name", value);
           }
-          setVendorName(value);
+          setName(value);
         }}
-        onBlur={() => runValidationTasks("vendorName", vendorName)}
-        errorMessage={errors.vendorName?.errorMessage}
-        hasError={errors.vendorName?.hasError}
-        {...getOverrideProps(overrides, "vendorName")}
+        onBlur={() => runValidationTasks("name", name)}
+        errorMessage={errors.name?.errorMessage}
+        hasError={errors.name?.hasError}
+        {...getOverrideProps(overrides, "name")}
       ></TextField>
       <TextField
-        label="Vendor address"
+        label="Address"
         isRequired={false}
         isReadOnly={false}
-        value={vendorAddress}
+        value={address}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              vendorName,
-              vendorAddress: value,
-              typeOfEquipment,
-              preferredVendor,
+              name,
+              address: value,
+              preferred,
             };
             const result = onChange(modelFields);
-            value = result?.vendorAddress ?? value;
+            value = result?.address ?? value;
           }
-          if (errors.vendorAddress?.hasError) {
-            runValidationTasks("vendorAddress", value);
+          if (errors.address?.hasError) {
+            runValidationTasks("address", value);
           }
-          setVendorAddress(value);
+          setAddress(value);
         }}
-        onBlur={() => runValidationTasks("vendorAddress", vendorAddress)}
-        errorMessage={errors.vendorAddress?.errorMessage}
-        hasError={errors.vendorAddress?.hasError}
-        {...getOverrideProps(overrides, "vendorAddress")}
-      ></TextField>
-      <TextField
-        label="Type of equipment"
-        isRequired={false}
-        isReadOnly={false}
-        value={typeOfEquipment}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              vendorName,
-              vendorAddress,
-              typeOfEquipment: value,
-              preferredVendor,
-            };
-            const result = onChange(modelFields);
-            value = result?.typeOfEquipment ?? value;
-          }
-          if (errors.typeOfEquipment?.hasError) {
-            runValidationTasks("typeOfEquipment", value);
-          }
-          setTypeOfEquipment(value);
-        }}
-        onBlur={() => runValidationTasks("typeOfEquipment", typeOfEquipment)}
-        errorMessage={errors.typeOfEquipment?.errorMessage}
-        hasError={errors.typeOfEquipment?.hasError}
-        {...getOverrideProps(overrides, "typeOfEquipment")}
+        onBlur={() => runValidationTasks("address", address)}
+        errorMessage={errors.address?.errorMessage}
+        hasError={errors.address?.hasError}
+        {...getOverrideProps(overrides, "address")}
       ></TextField>
       <SwitchField
-        label="Preferred vendor"
+        label="Preferred"
         defaultChecked={false}
         isDisabled={false}
-        isChecked={preferredVendor}
+        isChecked={preferred}
         onChange={(e) => {
           let value = e.target.checked;
           if (onChange) {
             const modelFields = {
-              vendorName,
-              vendorAddress,
-              typeOfEquipment,
-              preferredVendor: value,
+              name,
+              address,
+              preferred: value,
             };
             const result = onChange(modelFields);
-            value = result?.preferredVendor ?? value;
+            value = result?.preferred ?? value;
           }
-          if (errors.preferredVendor?.hasError) {
-            runValidationTasks("preferredVendor", value);
+          if (errors.preferred?.hasError) {
+            runValidationTasks("preferred", value);
           }
-          setPreferredVendor(value);
+          setPreferred(value);
         }}
-        onBlur={() => runValidationTasks("preferredVendor", preferredVendor)}
-        errorMessage={errors.preferredVendor?.errorMessage}
-        hasError={errors.preferredVendor?.hasError}
-        {...getOverrideProps(overrides, "preferredVendor")}
+        onBlur={() => runValidationTasks("preferred", preferred)}
+        errorMessage={errors.preferred?.errorMessage}
+        hasError={errors.preferred?.hasError}
+        {...getOverrideProps(overrides, "preferred")}
       ></SwitchField>
       <Flex
         justifyContent="space-between"

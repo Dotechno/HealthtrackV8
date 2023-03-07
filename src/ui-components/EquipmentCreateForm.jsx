@@ -33,10 +33,7 @@ export default function EquipmentCreateForm(props) {
     description: "",
     department: "",
     owned: false,
-    startDate: "",
-    endDate: "",
-    leasingCompany: "",
-    datePurchased: "",
+    leased: false,
   };
   const [type, setType] = React.useState(initialValues.type);
   const [description, setDescription] = React.useState(
@@ -44,24 +41,14 @@ export default function EquipmentCreateForm(props) {
   );
   const [department, setDepartment] = React.useState(initialValues.department);
   const [owned, setOwned] = React.useState(initialValues.owned);
-  const [startDate, setStartDate] = React.useState(initialValues.startDate);
-  const [endDate, setEndDate] = React.useState(initialValues.endDate);
-  const [leasingCompany, setLeasingCompany] = React.useState(
-    initialValues.leasingCompany
-  );
-  const [datePurchased, setDatePurchased] = React.useState(
-    initialValues.datePurchased
-  );
+  const [leased, setLeased] = React.useState(initialValues.leased);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setType(initialValues.type);
     setDescription(initialValues.description);
     setDepartment(initialValues.department);
     setOwned(initialValues.owned);
-    setStartDate(initialValues.startDate);
-    setEndDate(initialValues.endDate);
-    setLeasingCompany(initialValues.leasingCompany);
-    setDatePurchased(initialValues.datePurchased);
+    setLeased(initialValues.leased);
     setErrors({});
   };
   const validations = {
@@ -69,19 +56,17 @@ export default function EquipmentCreateForm(props) {
     description: [],
     department: [],
     owned: [],
-    startDate: [],
-    endDate: [],
-    leasingCompany: [],
-    datePurchased: [],
+    leased: [],
   };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -103,10 +88,7 @@ export default function EquipmentCreateForm(props) {
           description,
           department,
           owned,
-          startDate,
-          endDate,
-          leasingCompany,
-          datePurchased,
+          leased,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -165,10 +147,7 @@ export default function EquipmentCreateForm(props) {
               description,
               department,
               owned,
-              startDate,
-              endDate,
-              leasingCompany,
-              datePurchased,
+              leased,
             };
             const result = onChange(modelFields);
             value = result?.type ?? value;
@@ -196,10 +175,7 @@ export default function EquipmentCreateForm(props) {
               description: value,
               department,
               owned,
-              startDate,
-              endDate,
-              leasingCompany,
-              datePurchased,
+              leased,
             };
             const result = onChange(modelFields);
             value = result?.description ?? value;
@@ -227,10 +203,7 @@ export default function EquipmentCreateForm(props) {
               description,
               department: value,
               owned,
-              startDate,
-              endDate,
-              leasingCompany,
-              datePurchased,
+              leased,
             };
             const result = onChange(modelFields);
             value = result?.department ?? value;
@@ -258,10 +231,7 @@ export default function EquipmentCreateForm(props) {
               description,
               department,
               owned: value,
-              startDate,
-              endDate,
-              leasingCompany,
-              datePurchased,
+              leased,
             };
             const result = onChange(modelFields);
             value = result?.owned ?? value;
@@ -276,132 +246,34 @@ export default function EquipmentCreateForm(props) {
         hasError={errors.owned?.hasError}
         {...getOverrideProps(overrides, "owned")}
       ></SwitchField>
-      <TextField
-        label="Start date"
-        isRequired={false}
-        isReadOnly={false}
-        type="date"
-        value={startDate}
+      <SwitchField
+        label="Leased"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={leased}
         onChange={(e) => {
-          let { value } = e.target;
+          let value = e.target.checked;
           if (onChange) {
             const modelFields = {
               type,
               description,
               department,
               owned,
-              startDate: value,
-              endDate,
-              leasingCompany,
-              datePurchased,
+              leased: value,
             };
             const result = onChange(modelFields);
-            value = result?.startDate ?? value;
+            value = result?.leased ?? value;
           }
-          if (errors.startDate?.hasError) {
-            runValidationTasks("startDate", value);
+          if (errors.leased?.hasError) {
+            runValidationTasks("leased", value);
           }
-          setStartDate(value);
+          setLeased(value);
         }}
-        onBlur={() => runValidationTasks("startDate", startDate)}
-        errorMessage={errors.startDate?.errorMessage}
-        hasError={errors.startDate?.hasError}
-        {...getOverrideProps(overrides, "startDate")}
-      ></TextField>
-      <TextField
-        label="End date"
-        isRequired={false}
-        isReadOnly={false}
-        type="date"
-        value={endDate}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              type,
-              description,
-              department,
-              owned,
-              startDate,
-              endDate: value,
-              leasingCompany,
-              datePurchased,
-            };
-            const result = onChange(modelFields);
-            value = result?.endDate ?? value;
-          }
-          if (errors.endDate?.hasError) {
-            runValidationTasks("endDate", value);
-          }
-          setEndDate(value);
-        }}
-        onBlur={() => runValidationTasks("endDate", endDate)}
-        errorMessage={errors.endDate?.errorMessage}
-        hasError={errors.endDate?.hasError}
-        {...getOverrideProps(overrides, "endDate")}
-      ></TextField>
-      <TextField
-        label="Leasing company"
-        isRequired={false}
-        isReadOnly={false}
-        value={leasingCompany}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              type,
-              description,
-              department,
-              owned,
-              startDate,
-              endDate,
-              leasingCompany: value,
-              datePurchased,
-            };
-            const result = onChange(modelFields);
-            value = result?.leasingCompany ?? value;
-          }
-          if (errors.leasingCompany?.hasError) {
-            runValidationTasks("leasingCompany", value);
-          }
-          setLeasingCompany(value);
-        }}
-        onBlur={() => runValidationTasks("leasingCompany", leasingCompany)}
-        errorMessage={errors.leasingCompany?.errorMessage}
-        hasError={errors.leasingCompany?.hasError}
-        {...getOverrideProps(overrides, "leasingCompany")}
-      ></TextField>
-      <TextField
-        label="Date purchased"
-        isRequired={false}
-        isReadOnly={false}
-        value={datePurchased}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              type,
-              description,
-              department,
-              owned,
-              startDate,
-              endDate,
-              leasingCompany,
-              datePurchased: value,
-            };
-            const result = onChange(modelFields);
-            value = result?.datePurchased ?? value;
-          }
-          if (errors.datePurchased?.hasError) {
-            runValidationTasks("datePurchased", value);
-          }
-          setDatePurchased(value);
-        }}
-        onBlur={() => runValidationTasks("datePurchased", datePurchased)}
-        errorMessage={errors.datePurchased?.errorMessage}
-        hasError={errors.datePurchased?.hasError}
-        {...getOverrideProps(overrides, "datePurchased")}
-      ></TextField>
+        onBlur={() => runValidationTasks("leased", leased)}
+        errorMessage={errors.leased?.errorMessage}
+        hasError={errors.leased?.hasError}
+        {...getOverrideProps(overrides, "leased")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

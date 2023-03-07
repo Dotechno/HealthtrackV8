@@ -5,7 +5,7 @@
  **************************************************************************/
 
 import * as React from "react";
-import { GridProps, SelectFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { EscapeHatchProps } from "@aws-amplify/ui-react/internal";
 import { EquipmentMaintenance } from "../models";
 export declare type ValidationResponse = {
@@ -15,22 +15,22 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type EquipmentMaintenanceUpdateFormInputValues = {
     type?: string;
-    problem?: string;
-    status?: string;
+    description?: string;
+    status?: boolean;
     resolution?: string;
 };
 export declare type EquipmentMaintenanceUpdateFormValidationValues = {
     type?: ValidationFunction<string>;
-    problem?: ValidationFunction<string>;
-    status?: ValidationFunction<string>;
+    description?: ValidationFunction<string>;
+    status?: ValidationFunction<boolean>;
     resolution?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type EquipmentMaintenanceUpdateFormOverridesProps = {
     EquipmentMaintenanceUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     type?: PrimitiveOverrideProps<TextFieldProps>;
-    problem?: PrimitiveOverrideProps<TextFieldProps>;
-    status?: PrimitiveOverrideProps<SelectFieldProps>;
+    description?: PrimitiveOverrideProps<TextFieldProps>;
+    status?: PrimitiveOverrideProps<SwitchFieldProps>;
     resolution?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type EquipmentMaintenanceUpdateFormProps = React.PropsWithChildren<{
