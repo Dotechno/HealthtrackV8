@@ -2,6 +2,435 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const createVendor = /* GraphQL */ `
+  mutation CreateVendor(
+    $input: CreateVendorInput!
+    $condition: ModelVendorConditionInput
+  ) {
+    createVendor(input: $input, condition: $condition) {
+      id
+      name
+      address
+      preferred
+      equipmentID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateVendor = /* GraphQL */ `
+  mutation UpdateVendor(
+    $input: UpdateVendorInput!
+    $condition: ModelVendorConditionInput
+  ) {
+    updateVendor(input: $input, condition: $condition) {
+      id
+      name
+      address
+      preferred
+      equipmentID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteVendor = /* GraphQL */ `
+  mutation DeleteVendor(
+    $input: DeleteVendorInput!
+    $condition: ModelVendorConditionInput
+  ) {
+    deleteVendor(input: $input, condition: $condition) {
+      id
+      name
+      address
+      preferred
+      equipmentID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createEquipmentMaintenance = /* GraphQL */ `
+  mutation CreateEquipmentMaintenance(
+    $input: CreateEquipmentMaintenanceInput!
+    $condition: ModelEquipmentMaintenanceConditionInput
+  ) {
+    createEquipmentMaintenance(input: $input, condition: $condition) {
+      id
+      type
+      description
+      status
+      resolution
+      equipmentID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateEquipmentMaintenance = /* GraphQL */ `
+  mutation UpdateEquipmentMaintenance(
+    $input: UpdateEquipmentMaintenanceInput!
+    $condition: ModelEquipmentMaintenanceConditionInput
+  ) {
+    updateEquipmentMaintenance(input: $input, condition: $condition) {
+      id
+      type
+      description
+      status
+      resolution
+      equipmentID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteEquipmentMaintenance = /* GraphQL */ `
+  mutation DeleteEquipmentMaintenance(
+    $input: DeleteEquipmentMaintenanceInput!
+    $condition: ModelEquipmentMaintenanceConditionInput
+  ) {
+    deleteEquipmentMaintenance(input: $input, condition: $condition) {
+      id
+      type
+      description
+      status
+      resolution
+      equipmentID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createEquipmentOwned = /* GraphQL */ `
+  mutation CreateEquipmentOwned(
+    $input: CreateEquipmentOwnedInput!
+    $condition: ModelEquipmentOwnedConditionInput
+  ) {
+    createEquipmentOwned(input: $input, condition: $condition) {
+      id
+      datePurchased
+      warranty
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateEquipmentOwned = /* GraphQL */ `
+  mutation UpdateEquipmentOwned(
+    $input: UpdateEquipmentOwnedInput!
+    $condition: ModelEquipmentOwnedConditionInput
+  ) {
+    updateEquipmentOwned(input: $input, condition: $condition) {
+      id
+      datePurchased
+      warranty
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteEquipmentOwned = /* GraphQL */ `
+  mutation DeleteEquipmentOwned(
+    $input: DeleteEquipmentOwnedInput!
+    $condition: ModelEquipmentOwnedConditionInput
+  ) {
+    deleteEquipmentOwned(input: $input, condition: $condition) {
+      id
+      datePurchased
+      warranty
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createEquipmentLeased = /* GraphQL */ `
+  mutation CreateEquipmentLeased(
+    $input: CreateEquipmentLeasedInput!
+    $condition: ModelEquipmentLeasedConditionInput
+  ) {
+    createEquipmentLeased(input: $input, condition: $condition) {
+      id
+      startDate
+      endDate
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateEquipmentLeased = /* GraphQL */ `
+  mutation UpdateEquipmentLeased(
+    $input: UpdateEquipmentLeasedInput!
+    $condition: ModelEquipmentLeasedConditionInput
+  ) {
+    updateEquipmentLeased(input: $input, condition: $condition) {
+      id
+      startDate
+      endDate
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteEquipmentLeased = /* GraphQL */ `
+  mutation DeleteEquipmentLeased(
+    $input: DeleteEquipmentLeasedInput!
+    $condition: ModelEquipmentLeasedConditionInput
+  ) {
+    deleteEquipmentLeased(input: $input, condition: $condition) {
+      id
+      startDate
+      endDate
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createEquipment = /* GraphQL */ `
+  mutation CreateEquipment(
+    $input: CreateEquipmentInput!
+    $condition: ModelEquipmentConditionInput
+  ) {
+    createEquipment(input: $input, condition: $condition) {
+      id
+      type
+      description
+      department
+      owned
+      leased
+      Vendors {
+        nextToken
+        startedAt
+      }
+      EquipmentMaintenances {
+        nextToken
+        startedAt
+      }
+      EquipmentOwned {
+        id
+        datePurchased
+        warranty
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      EquipmentLeased {
+        id
+        startDate
+        endDate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      equipmentEquipmentOwnedId
+      equipmentEquipmentLeasedId
+    }
+  }
+`;
+export const updateEquipment = /* GraphQL */ `
+  mutation UpdateEquipment(
+    $input: UpdateEquipmentInput!
+    $condition: ModelEquipmentConditionInput
+  ) {
+    updateEquipment(input: $input, condition: $condition) {
+      id
+      type
+      description
+      department
+      owned
+      leased
+      Vendors {
+        nextToken
+        startedAt
+      }
+      EquipmentMaintenances {
+        nextToken
+        startedAt
+      }
+      EquipmentOwned {
+        id
+        datePurchased
+        warranty
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      EquipmentLeased {
+        id
+        startDate
+        endDate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      equipmentEquipmentOwnedId
+      equipmentEquipmentLeasedId
+    }
+  }
+`;
+export const deleteEquipment = /* GraphQL */ `
+  mutation DeleteEquipment(
+    $input: DeleteEquipmentInput!
+    $condition: ModelEquipmentConditionInput
+  ) {
+    deleteEquipment(input: $input, condition: $condition) {
+      id
+      type
+      description
+      department
+      owned
+      leased
+      Vendors {
+        nextToken
+        startedAt
+      }
+      EquipmentMaintenances {
+        nextToken
+        startedAt
+      }
+      EquipmentOwned {
+        id
+        datePurchased
+        warranty
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      EquipmentLeased {
+        id
+        startDate
+        endDate
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      equipmentEquipmentOwnedId
+      equipmentEquipmentLeasedId
+    }
+  }
+`;
+export const createLabTest = /* GraphQL */ `
+  mutation CreateLabTest(
+    $input: CreateLabTestInput!
+    $condition: ModelLabTestConditionInput
+  ) {
+    createLabTest(input: $input, condition: $condition) {
+      id
+      testTypeName
+      normalRange
+      abnormalRange
+      description
+      laborderID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateLabTest = /* GraphQL */ `
+  mutation UpdateLabTest(
+    $input: UpdateLabTestInput!
+    $condition: ModelLabTestConditionInput
+  ) {
+    updateLabTest(input: $input, condition: $condition) {
+      id
+      testTypeName
+      normalRange
+      abnormalRange
+      description
+      laborderID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteLabTest = /* GraphQL */ `
+  mutation DeleteLabTest(
+    $input: DeleteLabTestInput!
+    $condition: ModelLabTestConditionInput
+  ) {
+    deleteLabTest(input: $input, condition: $condition) {
+      id
+      testTypeName
+      normalRange
+      abnormalRange
+      description
+      laborderID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
 export const createServiceProvidedByClinic = /* GraphQL */ `
   mutation CreateServiceProvidedByClinic(
     $input: CreateServiceProvidedByClinicInput!
@@ -11,7 +440,7 @@ export const createServiceProvidedByClinic = /* GraphQL */ `
       id
       type
       description
-      billableCostForService
+      cost
       createdAt
       updatedAt
       _version
@@ -29,7 +458,7 @@ export const updateServiceProvidedByClinic = /* GraphQL */ `
       id
       type
       description
-      billableCostForService
+      cost
       createdAt
       updatedAt
       _version
@@ -47,358 +476,7 @@ export const deleteServiceProvidedByClinic = /* GraphQL */ `
       id
       type
       description
-      billableCostForService
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createLabTest = /* GraphQL */ `
-  mutation CreateLabTest(
-    $input: CreateLabTestInput!
-    $condition: ModelLabTestConditionInput
-  ) {
-    createLabTest(input: $input, condition: $condition) {
-      id
-      typeName
-      rangeOfNotNormalResults
-      laborderID
-      rangeOfNormalResults
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateLabTest = /* GraphQL */ `
-  mutation UpdateLabTest(
-    $input: UpdateLabTestInput!
-    $condition: ModelLabTestConditionInput
-  ) {
-    updateLabTest(input: $input, condition: $condition) {
-      id
-      typeName
-      rangeOfNotNormalResults
-      laborderID
-      rangeOfNormalResults
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteLabTest = /* GraphQL */ `
-  mutation DeleteLabTest(
-    $input: DeleteLabTestInput!
-    $condition: ModelLabTestConditionInput
-  ) {
-    deleteLabTest(input: $input, condition: $condition) {
-      id
-      typeName
-      rangeOfNotNormalResults
-      laborderID
-      rangeOfNormalResults
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createPrescription = /* GraphQL */ `
-  mutation CreatePrescription(
-    $input: CreatePrescriptionInput!
-    $condition: ModelPrescriptionConditionInput
-  ) {
-    createPrescription(input: $input, condition: $condition) {
-      id
-      physicianName
-      prescribedMedication
-      medicineDosage
-      frequencyOfMedication
-      datePrescriptionFilled
-      pharmacistWhoFilledPrescription
-      medicalencounterID
-      Prescription2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      prescriptionPrescription2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const updatePrescription = /* GraphQL */ `
-  mutation UpdatePrescription(
-    $input: UpdatePrescriptionInput!
-    $condition: ModelPrescriptionConditionInput
-  ) {
-    updatePrescription(input: $input, condition: $condition) {
-      id
-      physicianName
-      prescribedMedication
-      medicineDosage
-      frequencyOfMedication
-      datePrescriptionFilled
-      pharmacistWhoFilledPrescription
-      medicalencounterID
-      Prescription2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      prescriptionPrescription2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const deletePrescription = /* GraphQL */ `
-  mutation DeletePrescription(
-    $input: DeletePrescriptionInput!
-    $condition: ModelPrescriptionConditionInput
-  ) {
-    deletePrescription(input: $input, condition: $condition) {
-      id
-      physicianName
-      prescribedMedication
-      medicineDosage
-      frequencyOfMedication
-      datePrescriptionFilled
-      pharmacistWhoFilledPrescription
-      medicalencounterID
-      Prescription2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      prescriptionPrescription2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const createLabOrder = /* GraphQL */ `
-  mutation CreateLabOrder(
-    $input: CreateLabOrderInput!
-    $condition: ModelLabOrderConditionInput
-  ) {
-    createLabOrder(input: $input, condition: $condition) {
-      id
-      physicianName
-      type
-      date
-      technician
-      result
-      medicalencounterID
-      LabOrder2ServiceProvideByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      LabOrder2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      labOrderLabOrder2ServiceProvideByClinicId
-      labOrderLabOrder2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const updateLabOrder = /* GraphQL */ `
-  mutation UpdateLabOrder(
-    $input: UpdateLabOrderInput!
-    $condition: ModelLabOrderConditionInput
-  ) {
-    updateLabOrder(input: $input, condition: $condition) {
-      id
-      physicianName
-      type
-      date
-      technician
-      result
-      medicalencounterID
-      LabOrder2ServiceProvideByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      LabOrder2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      labOrderLabOrder2ServiceProvideByClinicId
-      labOrderLabOrder2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const deleteLabOrder = /* GraphQL */ `
-  mutation DeleteLabOrder(
-    $input: DeleteLabOrderInput!
-    $condition: ModelLabOrderConditionInput
-  ) {
-    deleteLabOrder(input: $input, condition: $condition) {
-      id
-      physicianName
-      type
-      date
-      technician
-      result
-      medicalencounterID
-      LabOrder2ServiceProvideByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      LabOrder2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      labOrderLabOrder2ServiceProvideByClinicId
-      labOrderLabOrder2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const createVitalSign = /* GraphQL */ `
-  mutation CreateVitalSign(
-    $input: CreateVitalSignInput!
-    $condition: ModelVitalSignConditionInput
-  ) {
-    createVitalSign(input: $input, condition: $condition) {
-      id
-      bodyTemperature
-      pulseRate
-      respirationRate
-      bloodPressure
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateVitalSign = /* GraphQL */ `
-  mutation UpdateVitalSign(
-    $input: UpdateVitalSignInput!
-    $condition: ModelVitalSignConditionInput
-  ) {
-    updateVitalSign(input: $input, condition: $condition) {
-      id
-      bodyTemperature
-      pulseRate
-      respirationRate
-      bloodPressure
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteVitalSign = /* GraphQL */ `
-  mutation DeleteVitalSign(
-    $input: DeleteVitalSignInput!
-    $condition: ModelVitalSignConditionInput
-  ) {
-    deleteVitalSign(input: $input, condition: $condition) {
-      id
-      bodyTemperature
-      pulseRate
-      respirationRate
-      bloodPressure
+      cost
       createdAt
       updatedAt
       _version
@@ -414,14 +492,7 @@ export const createWorkSchedule = /* GraphQL */ `
   ) {
     createWorkSchedule(input: $input, condition: $condition) {
       id
-      date
-      time
       physicianID
-      appointmentScheduled {
-        eventID
-        isReserved
-        period
-      }
       createdAt
       updatedAt
       _version
@@ -437,14 +508,7 @@ export const updateWorkSchedule = /* GraphQL */ `
   ) {
     updateWorkSchedule(input: $input, condition: $condition) {
       id
-      date
-      time
       physicianID
-      appointmentScheduled {
-        eventID
-        isReserved
-        period
-      }
       createdAt
       updatedAt
       _version
@@ -460,230 +524,7 @@ export const deleteWorkSchedule = /* GraphQL */ `
   ) {
     deleteWorkSchedule(input: $input, condition: $condition) {
       id
-      date
-      time
       physicianID
-      appointmentScheduled {
-        eventID
-        isReserved
-        period
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createAppointment = /* GraphQL */ `
-  mutation CreateAppointment(
-    $input: CreateAppointmentInput!
-    $condition: ModelAppointmentConditionInput
-  ) {
-    createAppointment(input: $input, condition: $condition) {
-      id
-      date
-      type
-      time {
-        eventID
-        isReserved
-        period
-      }
-      patientID
-      physicianID
-      Appointment2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      appointmentAppointment2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const updateAppointment = /* GraphQL */ `
-  mutation UpdateAppointment(
-    $input: UpdateAppointmentInput!
-    $condition: ModelAppointmentConditionInput
-  ) {
-    updateAppointment(input: $input, condition: $condition) {
-      id
-      date
-      type
-      time {
-        eventID
-        isReserved
-        period
-      }
-      patientID
-      physicianID
-      Appointment2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      appointmentAppointment2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const deleteAppointment = /* GraphQL */ `
-  mutation DeleteAppointment(
-    $input: DeleteAppointmentInput!
-    $condition: ModelAppointmentConditionInput
-  ) {
-    deleteAppointment(input: $input, condition: $condition) {
-      id
-      date
-      type
-      time {
-        eventID
-        isReserved
-        period
-      }
-      patientID
-      physicianID
-      Appointment2ServiceProvidedByClinic {
-        id
-        type
-        description
-        billableCostForService
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      appointmentAppointment2ServiceProvidedByClinicId
-    }
-  }
-`;
-export const createMedication = /* GraphQL */ `
-  mutation CreateMedication(
-    $input: CreateMedicationInput!
-    $condition: ModelMedicationConditionInput
-  ) {
-    createMedication(input: $input, condition: $condition) {
-      id
-      name
-      useOfMedication
-      recommendedDosage
-      recommendedFrequencyOfUse
-      potentialSideEffect
-      drugThatMayReactAdversely
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateMedication = /* GraphQL */ `
-  mutation UpdateMedication(
-    $input: UpdateMedicationInput!
-    $condition: ModelMedicationConditionInput
-  ) {
-    updateMedication(input: $input, condition: $condition) {
-      id
-      name
-      useOfMedication
-      recommendedDosage
-      recommendedFrequencyOfUse
-      potentialSideEffect
-      drugThatMayReactAdversely
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteMedication = /* GraphQL */ `
-  mutation DeleteMedication(
-    $input: DeleteMedicationInput!
-    $condition: ModelMedicationConditionInput
-  ) {
-    deleteMedication(input: $input, condition: $condition) {
-      id
-      name
-      useOfMedication
-      recommendedDosage
-      recommendedFrequencyOfUse
-      potentialSideEffect
-      drugThatMayReactAdversely
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createPhysicianSchedule = /* GraphQL */ `
-  mutation CreatePhysicianSchedule(
-    $input: CreatePhysicianScheduleInput!
-    $condition: ModelPhysicianScheduleConditionInput
-  ) {
-    createPhysicianSchedule(input: $input, condition: $condition) {
-      id
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updatePhysicianSchedule = /* GraphQL */ `
-  mutation UpdatePhysicianSchedule(
-    $input: UpdatePhysicianScheduleInput!
-    $condition: ModelPhysicianScheduleConditionInput
-  ) {
-    updatePhysicianSchedule(input: $input, condition: $condition) {
-      id
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deletePhysicianSchedule = /* GraphQL */ `
-  mutation DeletePhysicianSchedule(
-    $input: DeletePhysicianScheduleInput!
-    $condition: ModelPhysicianScheduleConditionInput
-  ) {
-    deletePhysicianSchedule(input: $input, condition: $condition) {
-      id
       createdAt
       updatedAt
       _version
@@ -701,15 +542,11 @@ export const createPhysician = /* GraphQL */ `
       id
       name
       cellPhoneNumber
-      schedule {
-        id
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      WorkSchedules {
+        nextToken
+        startedAt
       }
-      Physician2Appointment {
+      Appointments {
         nextToken
         startedAt
       }
@@ -718,7 +555,6 @@ export const createPhysician = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      physicianScheduleId
     }
   }
 `;
@@ -731,15 +567,11 @@ export const updatePhysician = /* GraphQL */ `
       id
       name
       cellPhoneNumber
-      schedule {
-        id
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      WorkSchedules {
+        nextToken
+        startedAt
       }
-      Physician2Appointment {
+      Appointments {
         nextToken
         startedAt
       }
@@ -748,7 +580,6 @@ export const updatePhysician = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      physicianScheduleId
     }
   }
 `;
@@ -761,15 +592,11 @@ export const deletePhysician = /* GraphQL */ `
       id
       name
       cellPhoneNumber
-      schedule {
-        id
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
+      WorkSchedules {
+        nextToken
+        startedAt
       }
-      Physician2Appointment {
+      Appointments {
         nextToken
         startedAt
       }
@@ -778,7 +605,567 @@ export const deletePhysician = /* GraphQL */ `
       _version
       _deleted
       _lastChangedAt
-      physicianScheduleId
+    }
+  }
+`;
+export const createAppointment = /* GraphQL */ `
+  mutation CreateAppointment(
+    $input: CreateAppointmentInput!
+    $condition: ModelAppointmentConditionInput
+  ) {
+    createAppointment(input: $input, condition: $condition) {
+      id
+      time
+      type
+      patientID
+      physicianID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      appointmentServiceProvidedByClinicId
+    }
+  }
+`;
+export const updateAppointment = /* GraphQL */ `
+  mutation UpdateAppointment(
+    $input: UpdateAppointmentInput!
+    $condition: ModelAppointmentConditionInput
+  ) {
+    updateAppointment(input: $input, condition: $condition) {
+      id
+      time
+      type
+      patientID
+      physicianID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      appointmentServiceProvidedByClinicId
+    }
+  }
+`;
+export const deleteAppointment = /* GraphQL */ `
+  mutation DeleteAppointment(
+    $input: DeleteAppointmentInput!
+    $condition: ModelAppointmentConditionInput
+  ) {
+    deleteAppointment(input: $input, condition: $condition) {
+      id
+      time
+      type
+      patientID
+      physicianID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      appointmentServiceProvidedByClinicId
+    }
+  }
+`;
+export const createLabOrder = /* GraphQL */ `
+  mutation CreateLabOrder(
+    $input: CreateLabOrderInput!
+    $condition: ModelLabOrderConditionInput
+  ) {
+    createLabOrder(input: $input, condition: $condition) {
+      id
+      physicianName
+      testType
+      testDate
+      technician
+      testResult
+      medicalencounterID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      LabTests {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      labOrderServiceProvidedByClinicId
+    }
+  }
+`;
+export const updateLabOrder = /* GraphQL */ `
+  mutation UpdateLabOrder(
+    $input: UpdateLabOrderInput!
+    $condition: ModelLabOrderConditionInput
+  ) {
+    updateLabOrder(input: $input, condition: $condition) {
+      id
+      physicianName
+      testType
+      testDate
+      technician
+      testResult
+      medicalencounterID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      LabTests {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      labOrderServiceProvidedByClinicId
+    }
+  }
+`;
+export const deleteLabOrder = /* GraphQL */ `
+  mutation DeleteLabOrder(
+    $input: DeleteLabOrderInput!
+    $condition: ModelLabOrderConditionInput
+  ) {
+    deleteLabOrder(input: $input, condition: $condition) {
+      id
+      physicianName
+      testType
+      testDate
+      technician
+      testResult
+      medicalencounterID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      LabTests {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      labOrderServiceProvidedByClinicId
+    }
+  }
+`;
+export const createPrescription = /* GraphQL */ `
+  mutation CreatePrescription(
+    $input: CreatePrescriptionInput!
+    $condition: ModelPrescriptionConditionInput
+  ) {
+    createPrescription(input: $input, condition: $condition) {
+      id
+      physicianName
+      medication
+      dosag
+      frequency
+      filledBy
+      dateFilled
+      medicalencounterID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      prescriptionServiceProvidedByClinicId
+    }
+  }
+`;
+export const updatePrescription = /* GraphQL */ `
+  mutation UpdatePrescription(
+    $input: UpdatePrescriptionInput!
+    $condition: ModelPrescriptionConditionInput
+  ) {
+    updatePrescription(input: $input, condition: $condition) {
+      id
+      physicianName
+      medication
+      dosag
+      frequency
+      filledBy
+      dateFilled
+      medicalencounterID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      prescriptionServiceProvidedByClinicId
+    }
+  }
+`;
+export const deletePrescription = /* GraphQL */ `
+  mutation DeletePrescription(
+    $input: DeletePrescriptionInput!
+    $condition: ModelPrescriptionConditionInput
+  ) {
+    deletePrescription(input: $input, condition: $condition) {
+      id
+      physicianName
+      medication
+      dosag
+      frequency
+      filledBy
+      dateFilled
+      medicalencounterID
+      ServiceProvidedByClinic {
+        id
+        type
+        description
+        cost
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      prescriptionServiceProvidedByClinicId
+    }
+  }
+`;
+export const createVitalSign = /* GraphQL */ `
+  mutation CreateVitalSign(
+    $input: CreateVitalSignInput!
+    $condition: ModelVitalSignConditionInput
+  ) {
+    createVitalSign(input: $input, condition: $condition) {
+      id
+      pulse
+      respirationRate
+      bloodPressure
+      temperature
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateVitalSign = /* GraphQL */ `
+  mutation UpdateVitalSign(
+    $input: UpdateVitalSignInput!
+    $condition: ModelVitalSignConditionInput
+  ) {
+    updateVitalSign(input: $input, condition: $condition) {
+      id
+      pulse
+      respirationRate
+      bloodPressure
+      temperature
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteVitalSign = /* GraphQL */ `
+  mutation DeleteVitalSign(
+    $input: DeleteVitalSignInput!
+    $condition: ModelVitalSignConditionInput
+  ) {
+    deleteVitalSign(input: $input, condition: $condition) {
+      id
+      pulse
+      respirationRate
+      bloodPressure
+      temperature
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const createMedicalEncounter = /* GraphQL */ `
+  mutation CreateMedicalEncounter(
+    $input: CreateMedicalEncounterInput!
+    $condition: ModelMedicalEncounterConditionInput
+  ) {
+    createMedicalEncounter(input: $input, condition: $condition) {
+      id
+      date
+      practitionerSeen
+      complaints
+      diagnosis
+      treatmentPlan
+      referralToSpecialists
+      recommendedFollowUp
+      patientID
+      VitalSign {
+        id
+        pulse
+        respirationRate
+        bloodPressure
+        temperature
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      Prescriptions {
+        nextToken
+        startedAt
+      }
+      LabOrders {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      medicalEncounterVitalSignId
+    }
+  }
+`;
+export const updateMedicalEncounter = /* GraphQL */ `
+  mutation UpdateMedicalEncounter(
+    $input: UpdateMedicalEncounterInput!
+    $condition: ModelMedicalEncounterConditionInput
+  ) {
+    updateMedicalEncounter(input: $input, condition: $condition) {
+      id
+      date
+      practitionerSeen
+      complaints
+      diagnosis
+      treatmentPlan
+      referralToSpecialists
+      recommendedFollowUp
+      patientID
+      VitalSign {
+        id
+        pulse
+        respirationRate
+        bloodPressure
+        temperature
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      Prescriptions {
+        nextToken
+        startedAt
+      }
+      LabOrders {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      medicalEncounterVitalSignId
+    }
+  }
+`;
+export const deleteMedicalEncounter = /* GraphQL */ `
+  mutation DeleteMedicalEncounter(
+    $input: DeleteMedicalEncounterInput!
+    $condition: ModelMedicalEncounterConditionInput
+  ) {
+    deleteMedicalEncounter(input: $input, condition: $condition) {
+      id
+      date
+      practitionerSeen
+      complaints
+      diagnosis
+      treatmentPlan
+      referralToSpecialists
+      recommendedFollowUp
+      patientID
+      VitalSign {
+        id
+        pulse
+        respirationRate
+        bloodPressure
+        temperature
+        createdAt
+        updatedAt
+        _version
+        _deleted
+        _lastChangedAt
+      }
+      Prescriptions {
+        nextToken
+        startedAt
+      }
+      LabOrders {
+        nextToken
+        startedAt
+      }
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+      medicalEncounterVitalSignId
+    }
+  }
+`;
+export const createMedication = /* GraphQL */ `
+  mutation CreateMedication(
+    $input: CreateMedicationInput!
+    $condition: ModelMedicationConditionInput
+  ) {
+    createMedication(input: $input, condition: $condition) {
+      id
+      name
+      usage
+      dosage
+      frequency
+      sideEffects
+      interactions
+      patientID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const updateMedication = /* GraphQL */ `
+  mutation UpdateMedication(
+    $input: UpdateMedicationInput!
+    $condition: ModelMedicationConditionInput
+  ) {
+    updateMedication(input: $input, condition: $condition) {
+      id
+      name
+      usage
+      dosage
+      frequency
+      sideEffects
+      interactions
+      patientID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
+    }
+  }
+`;
+export const deleteMedication = /* GraphQL */ `
+  mutation DeleteMedication(
+    $input: DeleteMedicationInput!
+    $condition: ModelMedicationConditionInput
+  ) {
+    deleteMedication(input: $input, condition: $condition) {
+      id
+      name
+      usage
+      dosage
+      frequency
+      sideEffects
+      interactions
+      patientID
+      createdAt
+      updatedAt
+      _version
+      _deleted
+      _lastChangedAt
     }
   }
 `;
@@ -836,156 +1223,6 @@ export const deleteInsuranceCarrier = /* GraphQL */ `
     }
   }
 `;
-export const createMedicalEncounter = /* GraphQL */ `
-  mutation CreateMedicalEncounter(
-    $input: CreateMedicalEncounterInput!
-    $condition: ModelMedicalEncounterConditionInput
-  ) {
-    createMedicalEncounter(input: $input, condition: $condition) {
-      id
-      encounterDateTime
-      practitionerTypeSeen
-      patientComplaints
-      vitalSigns
-      practionerNotes
-      labOrders
-      pharmacyOrders
-      diagnosis
-      treatmentPlan
-      referralToSpecialists
-      recommendedFollowUp
-      dataTimeEncounterSubmitted
-      employeeIDWhoSubmitted
-      patientID
-      MedicalEncounter2VitalSign {
-        id
-        bodyTemperature
-        pulseRate
-        respirationRate
-        bloodPressure
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      MedicalEncounter2LabOrder {
-        nextToken
-        startedAt
-      }
-      MedicalEncounter2Prescription {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      medicalEncounterMedicalEncounter2VitalSignId
-    }
-  }
-`;
-export const updateMedicalEncounter = /* GraphQL */ `
-  mutation UpdateMedicalEncounter(
-    $input: UpdateMedicalEncounterInput!
-    $condition: ModelMedicalEncounterConditionInput
-  ) {
-    updateMedicalEncounter(input: $input, condition: $condition) {
-      id
-      encounterDateTime
-      practitionerTypeSeen
-      patientComplaints
-      vitalSigns
-      practionerNotes
-      labOrders
-      pharmacyOrders
-      diagnosis
-      treatmentPlan
-      referralToSpecialists
-      recommendedFollowUp
-      dataTimeEncounterSubmitted
-      employeeIDWhoSubmitted
-      patientID
-      MedicalEncounter2VitalSign {
-        id
-        bodyTemperature
-        pulseRate
-        respirationRate
-        bloodPressure
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      MedicalEncounter2LabOrder {
-        nextToken
-        startedAt
-      }
-      MedicalEncounter2Prescription {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      medicalEncounterMedicalEncounter2VitalSignId
-    }
-  }
-`;
-export const deleteMedicalEncounter = /* GraphQL */ `
-  mutation DeleteMedicalEncounter(
-    $input: DeleteMedicalEncounterInput!
-    $condition: ModelMedicalEncounterConditionInput
-  ) {
-    deleteMedicalEncounter(input: $input, condition: $condition) {
-      id
-      encounterDateTime
-      practitionerTypeSeen
-      patientComplaints
-      vitalSigns
-      practionerNotes
-      labOrders
-      pharmacyOrders
-      diagnosis
-      treatmentPlan
-      referralToSpecialists
-      recommendedFollowUp
-      dataTimeEncounterSubmitted
-      employeeIDWhoSubmitted
-      patientID
-      MedicalEncounter2VitalSign {
-        id
-        bodyTemperature
-        pulseRate
-        respirationRate
-        bloodPressure
-        createdAt
-        updatedAt
-        _version
-        _deleted
-        _lastChangedAt
-      }
-      MedicalEncounter2LabOrder {
-        nextToken
-        startedAt
-      }
-      MedicalEncounter2Prescription {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      medicalEncounterMedicalEncounter2VitalSignId
-    }
-  }
-`;
 export const createPatient = /* GraphQL */ `
   mutation CreatePatient(
     $input: CreatePatientInput!
@@ -993,17 +1230,11 @@ export const createPatient = /* GraphQL */ `
   ) {
     createPatient(input: $input, condition: $condition) {
       id
-      name
-      telephoneNumber
-      insuranceCarrierID
+      user
+      address
       dateOfBirth
       gender
-      primaryCarePhysician
-      Patient2MedicalEncounters {
-        nextToken
-        startedAt
-      }
-      Patient2InsuranceCarrier {
+      InsuranceCarrier {
         id
         name
         address
@@ -1014,7 +1245,19 @@ export const createPatient = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
-      Patient2Physician {
+      Medications {
+        nextToken
+        startedAt
+      }
+      MedicalEncounters {
+        nextToken
+        startedAt
+      }
+      Appointments {
+        nextToken
+        startedAt
+      }
+      Physician {
         id
         name
         cellPhoneNumber
@@ -1023,19 +1266,16 @@ export const createPatient = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        physicianScheduleId
       }
-      Patient2Appointment {
-        nextToken
-        startedAt
-      }
+      cell
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      patientPatient2InsuranceCarrierId
-      patientPatient2PhysicianId
+      patientInsuranceCarrierId
+      patientPhysicianId
+      owner
     }
   }
 `;
@@ -1046,17 +1286,11 @@ export const updatePatient = /* GraphQL */ `
   ) {
     updatePatient(input: $input, condition: $condition) {
       id
-      name
-      telephoneNumber
-      insuranceCarrierID
+      user
+      address
       dateOfBirth
       gender
-      primaryCarePhysician
-      Patient2MedicalEncounters {
-        nextToken
-        startedAt
-      }
-      Patient2InsuranceCarrier {
+      InsuranceCarrier {
         id
         name
         address
@@ -1067,7 +1301,19 @@ export const updatePatient = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
-      Patient2Physician {
+      Medications {
+        nextToken
+        startedAt
+      }
+      MedicalEncounters {
+        nextToken
+        startedAt
+      }
+      Appointments {
+        nextToken
+        startedAt
+      }
+      Physician {
         id
         name
         cellPhoneNumber
@@ -1076,19 +1322,16 @@ export const updatePatient = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        physicianScheduleId
       }
-      Patient2Appointment {
-        nextToken
-        startedAt
-      }
+      cell
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      patientPatient2InsuranceCarrierId
-      patientPatient2PhysicianId
+      patientInsuranceCarrierId
+      patientPhysicianId
+      owner
     }
   }
 `;
@@ -1099,17 +1342,11 @@ export const deletePatient = /* GraphQL */ `
   ) {
     deletePatient(input: $input, condition: $condition) {
       id
-      name
-      telephoneNumber
-      insuranceCarrierID
+      user
+      address
       dateOfBirth
       gender
-      primaryCarePhysician
-      Patient2MedicalEncounters {
-        nextToken
-        startedAt
-      }
-      Patient2InsuranceCarrier {
+      InsuranceCarrier {
         id
         name
         address
@@ -1120,7 +1357,19 @@ export const deletePatient = /* GraphQL */ `
         _deleted
         _lastChangedAt
       }
-      Patient2Physician {
+      Medications {
+        nextToken
+        startedAt
+      }
+      MedicalEncounters {
+        nextToken
+        startedAt
+      }
+      Appointments {
+        nextToken
+        startedAt
+      }
+      Physician {
         id
         name
         cellPhoneNumber
@@ -1129,234 +1378,15 @@ export const deletePatient = /* GraphQL */ `
         _version
         _deleted
         _lastChangedAt
-        physicianScheduleId
       }
-      Patient2Appointment {
-        nextToken
-        startedAt
-      }
+      cell
       createdAt
       updatedAt
       _version
       _deleted
       _lastChangedAt
-      patientPatient2InsuranceCarrierId
-      patientPatient2PhysicianId
-    }
-  }
-`;
-export const createEquipmentMaintenance = /* GraphQL */ `
-  mutation CreateEquipmentMaintenance(
-    $input: CreateEquipmentMaintenanceInput!
-    $condition: ModelEquipmentMaintenanceConditionInput
-  ) {
-    createEquipmentMaintenance(input: $input, condition: $condition) {
-      id
-      type
-      problem
-      status
-      resolution
-      equipmentID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateEquipmentMaintenance = /* GraphQL */ `
-  mutation UpdateEquipmentMaintenance(
-    $input: UpdateEquipmentMaintenanceInput!
-    $condition: ModelEquipmentMaintenanceConditionInput
-  ) {
-    updateEquipmentMaintenance(input: $input, condition: $condition) {
-      id
-      type
-      problem
-      status
-      resolution
-      equipmentID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteEquipmentMaintenance = /* GraphQL */ `
-  mutation DeleteEquipmentMaintenance(
-    $input: DeleteEquipmentMaintenanceInput!
-    $condition: ModelEquipmentMaintenanceConditionInput
-  ) {
-    deleteEquipmentMaintenance(input: $input, condition: $condition) {
-      id
-      type
-      problem
-      status
-      resolution
-      equipmentID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createEquipment = /* GraphQL */ `
-  mutation CreateEquipment(
-    $input: CreateEquipmentInput!
-    $condition: ModelEquipmentConditionInput
-  ) {
-    createEquipment(input: $input, condition: $condition) {
-      id
-      type
-      description
-      department
-      owned
-      startDate
-      endDate
-      leasingCompany
-      datePurchased
-      Equipment2EquipmentMaintenance {
-        nextToken
-        startedAt
-      }
-      Equipment2Vendor {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const updateEquipment = /* GraphQL */ `
-  mutation UpdateEquipment(
-    $input: UpdateEquipmentInput!
-    $condition: ModelEquipmentConditionInput
-  ) {
-    updateEquipment(input: $input, condition: $condition) {
-      id
-      type
-      description
-      department
-      owned
-      startDate
-      endDate
-      leasingCompany
-      datePurchased
-      Equipment2EquipmentMaintenance {
-        nextToken
-        startedAt
-      }
-      Equipment2Vendor {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const deleteEquipment = /* GraphQL */ `
-  mutation DeleteEquipment(
-    $input: DeleteEquipmentInput!
-    $condition: ModelEquipmentConditionInput
-  ) {
-    deleteEquipment(input: $input, condition: $condition) {
-      id
-      type
-      description
-      department
-      owned
-      startDate
-      endDate
-      leasingCompany
-      datePurchased
-      Equipment2EquipmentMaintenance {
-        nextToken
-        startedAt
-      }
-      Equipment2Vendor {
-        nextToken
-        startedAt
-      }
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-    }
-  }
-`;
-export const createVendor = /* GraphQL */ `
-  mutation CreateVendor(
-    $input: CreateVendorInput!
-    $condition: ModelVendorConditionInput
-  ) {
-    createVendor(input: $input, condition: $condition) {
-      id
-      name
-      address
-      equipment
-      preferred
-      equipmentID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const updateVendor = /* GraphQL */ `
-  mutation UpdateVendor(
-    $input: UpdateVendorInput!
-    $condition: ModelVendorConditionInput
-  ) {
-    updateVendor(input: $input, condition: $condition) {
-      id
-      name
-      address
-      equipment
-      preferred
-      equipmentID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
-      owner
-    }
-  }
-`;
-export const deleteVendor = /* GraphQL */ `
-  mutation DeleteVendor(
-    $input: DeleteVendorInput!
-    $condition: ModelVendorConditionInput
-  ) {
-    deleteVendor(input: $input, condition: $condition) {
-      id
-      name
-      address
-      equipment
-      preferred
-      equipmentID
-      createdAt
-      updatedAt
-      _version
-      _deleted
-      _lastChangedAt
+      patientInsuranceCarrierId
+      patientPhysicianId
       owner
     }
   }
