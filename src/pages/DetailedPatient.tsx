@@ -36,7 +36,7 @@ import {
   getHeaderCounterText,
   getTextFilterCounterText,
   paginationAriaLabels,
-} from 'src/components/i18n-strings';
+} from '../components/i18n-strings';
 import ToolsContent from '../components/commons/tools-content';
 
 import '../styles/base.scss';
