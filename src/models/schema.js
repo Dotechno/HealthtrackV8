@@ -1890,21 +1890,6 @@ export const schema = {
         }
     },
     "nonModels": {
-        "Week": {
-            "name": "Week",
-            "fields": {
-                "weekDays": {
-                    "name": "weekDays",
-                    "isArray": true,
-                    "type": {
-                        "nonModel": "Day"
-                    },
-                    "isRequired": false,
-                    "attributes": [],
-                    "isArrayNullable": true
-                }
-            }
-        },
         "Day": {
             "name": "Day",
             "fields": {
@@ -1937,8 +1922,23 @@ export const schema = {
                     "attributes": []
                 }
             }
+        },
+        "Week": {
+            "name": "Week",
+            "fields": {
+                "weekDays": {
+                    "name": "weekDays",
+                    "isArray": true,
+                    "type": {
+                        "nonModel": "Day"
+                    },
+                    "isRequired": false,
+                    "attributes": [],
+                    "isArrayNullable": true
+                }
+            }
         }
     },
-    "codegenVersion": "3.3.5",
+    "codegenVersion": "3.3.6",
     "version": "d1bd97102fb091ecabc9fa0e53199ae2"
 };

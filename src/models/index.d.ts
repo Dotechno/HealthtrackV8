@@ -21,18 +21,6 @@ export enum InsuranceCarrierStatus {
   DIFFICULT_TO_GET_PAYMENTS = "DIFFICULT_TO_GET_PAYMENTS"
 }
 
-type EagerWeek = {
-  readonly weekDays?: (Day | null)[] | null;
-}
-
-type LazyWeek = {
-  readonly weekDays?: (Day | null)[] | null;
-}
-
-export declare type Week = LazyLoading extends LazyLoadingDisabled ? EagerWeek : LazyWeek
-
-export declare const Week: (new (init: ModelInit<Week>) => Week)
-
 type EagerDay = {
   readonly id: string;
   readonly isReserved: boolean;
@@ -50,6 +38,18 @@ type LazyDay = {
 export declare type Day = LazyLoading extends LazyLoadingDisabled ? EagerDay : LazyDay
 
 export declare const Day: (new (init: ModelInit<Day>) => Day)
+
+type EagerWeek = {
+  readonly weekDays?: (Day | null)[] | null;
+}
+
+type LazyWeek = {
+  readonly weekDays?: (Day | null)[] | null;
+}
+
+export declare type Week = LazyLoading extends LazyLoadingDisabled ? EagerWeek : LazyWeek
+
+export declare const Week: (new (init: ModelInit<Week>) => Week)
 
 type EagerVendor = {
   readonly [__modelMeta__]: {
