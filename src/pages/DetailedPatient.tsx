@@ -38,7 +38,7 @@ import {
   getHeaderCounterText,
   getTextFilterCounterText,
   paginationAriaLabels,
-} from 'src/components/i18n-strings';
+} from '../components/i18n-strings';
 import ToolsContent from '../components/commons/tools-content';
 import { logsTableAriaLabels } from '../components/commons/details-hub'
 import '../../styles/base.scss';
