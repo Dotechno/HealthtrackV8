@@ -18,6 +18,7 @@ import Pharmacist from './pages/Pharmacist';
 import Patient from './pages/ElectronicPatientRecord';
 import '@cloudscape-design/global-styles/index.css';
 import InsuranceBilling from './pages/InsuranceBilling';
+import DetailsView from './pages/DetailedPatient';
 
 Amplify.configure(awsExports);
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: '/insurancebilling',
         element: <InsuranceBilling />,
+      },
+      {
+        path: '/patientdetails',
+        element: <DetailsView />,
       },
       {
         path: '/nurse',

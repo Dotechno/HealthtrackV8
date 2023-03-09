@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT-0
 import React, { forwardRef } from 'react';
 import { AppLayout, Badge, Box, Button, Link, SpaceBetween } from '@cloudscape-design/components';
-import { appLayoutAriaLabels } from '../../i18n-strings';
+
 
 // backward compatibility
 export * from './index';
@@ -58,7 +58,7 @@ export const TableEmptyState = ({ resourceName }) => (
 );
 
 export const CustomAppLayout = forwardRef((props, ref) => {
-  return <AppLayout ref={ref} {...props} headerSelector="#header" ariaLabels={appLayoutAriaLabels} />;
+  return <AppLayout ref={ref} {...props} headerSelector="#header"  />;
 });
 
 export const CounterLink = ({ children }) => {

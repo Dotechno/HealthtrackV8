@@ -19,6 +19,7 @@ import {
 } from '@cloudscape-design/components';
 import Admin from './Admin';
 import InsuranceBilling from './InsuranceBilling';
+import DetailsView from './DetailedPatient';
 
 const components = {
     SignUp: { FormFields: customSignUpFields },
@@ -43,6 +44,7 @@ function Nav() {
                 }
             >
                 <ColumnLayout>
+                    <Link to="/patientdetails">Detailed Patient View</Link>
                     <Link to="/admin">Administrator</Link>
                     <Link to="/nurse">Electronic Patient Record</Link>
                     <Link to="/physician">Physician Scheduler</Link>
@@ -64,6 +66,7 @@ export function Router({ user }: RouterProps) {
                     {({ user }: RouterProps) => (
                         <Routes>
                             <Route path="/" element={<Nav />} />
+                            <Route path="/patientdetails" element={<DetailsView/>}/>
                             <Route
                                 path="/nurse"
                                 element={<Nurse user={user} />}
