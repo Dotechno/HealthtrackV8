@@ -30,22 +30,17 @@ import {
     PageHeader,
     SettingsDetails,
 } from '../components/common-components';
+import { Navigation, TableEmptyState, TableNoMatchState, InfoLink, Notifications } from '../components/commons/common-components';
 import {
-    Navigation,
-    TableEmptyState,
-    TableNoMatchState,
-    InfoLink,
-    Notifications,
-} from '../components/commons/common-components';
-import {
-    appLayoutAriaLabels,
-    getHeaderCounterText,
-    getTextFilterCounterText,
-    paginationAriaLabels,
-} from '../components/i18n-strings';
+  appLayoutAriaLabels,
+  getHeaderCounterText,
+  getTextFilterCounterText,
+  paginationAriaLabels,
+} from 'src/components/i18n-strings';
 import ToolsContent from '../components/commons/tools-content';
 
 import '../styles/base.scss';
+
 
 const Details = ({ loadHelpPanelContent }: any) => {
 
