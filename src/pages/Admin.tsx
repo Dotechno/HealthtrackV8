@@ -14,6 +14,8 @@ import { AppLayout, Container } from '@cloudscape-design/components';
 import { Patient } from '../models';
 import { DataStore } from 'aws-amplify';
 
+import DetailsView from './DetailedPatient';
+
 export interface AdminProps {
     user?: AmplifyUser;
     signOut?: (event?: AuthEventData) => void;
@@ -28,12 +30,19 @@ function Admin({ user }: AdminProps) {
     const [toolsOpen, setToolsOpen] = useState(false);
     const [page, setPage] = useState<string>('nurse');
 
+    function showView() {
+        // show DetailsView
+        return (<section>
+            <DetailsView />
+        </section>);
+    }
+
     function switchView() {
         switch (page) {
             case 'nurse':
                 return (<Container>
                     <Nurse user={user} />
-                    </Container>);
+                </Container>);
             case 'technician':
                 return <Technician user={user} />;
             case 'pharmacist':
@@ -78,9 +87,11 @@ function Admin({ user }: AdminProps) {
                 </>
             }
             content={
+
                 <>
-                    {switchView()}
-                </>
+                {showView()}
+                 </>
+
             }
             tools={<>Tools panel</>}
             navigationOpen={navigationOpen}
