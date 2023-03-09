@@ -6,36 +6,34 @@
 
 /* eslint-disable */
 import * as React from "react";
-import { Button, Flex, Grid } from "@aws-amplify/ui-react";
+import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { getOverrideProps } from "@aws-amplify/ui-react/internal";
-import { PhysicianSchedule } from "../models";
 import { fetchByPath, validateField } from "./utils";
-import { DataStore } from "aws-amplify";
-export default function PhysicianScheduleCreateForm(props) {
-  const {
-    clearOnSuccess = true,
-    onSuccess,
-    onError,
-    onSubmit,
-    onValidate,
-    onChange,
-    overrides,
-    ...rest
-  } = props;
-  const initialValues = {};
+export default function RetrievePrescription(props) {
+  const { onSubmit, onValidate, onChange, overrides, ...rest } = props;
+  const initialValues = {
+    PrescriptionID: "",
+  };
+  const [PrescriptionID, setPrescriptionID] = React.useState(
+    initialValues.PrescriptionID
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
+    setPrescriptionID(initialValues.PrescriptionID);
     setErrors({});
   };
-  const validations = {};
+  const validations = {
+    PrescriptionID: [],
+  };
   const runValidationTasks = async (
     fieldName,
     currentValue,
     getDisplayValue
   ) => {
-    const value = getDisplayValue
-      ? getDisplayValue(currentValue)
-      : currentValue;
+    const value =
+      currentValue && getDisplayValue
+        ? getDisplayValue(currentValue)
+        : currentValue;
     let validationResponse = validateField(value, validations[fieldName]);
     const customValidator = fetchByPath(onValidate, fieldName);
     if (customValidator) {
@@ -52,7 +50,9 @@ export default function PhysicianScheduleCreateForm(props) {
       padding="20px"
       onSubmit={async (event) => {
         event.preventDefault();
-        let modelFields = {};
+        const modelFields = {
+          PrescriptionID,
+        };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
             if (Array.isArray(modelFields[fieldName])) {
@@ -72,31 +72,34 @@ export default function PhysicianScheduleCreateForm(props) {
         if (validationResponses.some((r) => r.hasError)) {
           return;
         }
-        if (onSubmit) {
-          modelFields = onSubmit(modelFields);
-        }
-        try {
-          Object.entries(modelFields).forEach(([key, value]) => {
-            if (typeof value === "string" && value.trim() === "") {
-              modelFields[key] = undefined;
-            }
-          });
-          await DataStore.save(new PhysicianSchedule(modelFields));
-          if (onSuccess) {
-            onSuccess(modelFields);
-          }
-          if (clearOnSuccess) {
-            resetStateValues();
-          }
-        } catch (err) {
-          if (onError) {
-            onError(modelFields, err.message);
-          }
-        }
+        await onSubmit(modelFields);
       }}
-      {...getOverrideProps(overrides, "PhysicianScheduleCreateForm")}
+      {...getOverrideProps(overrides, "RetrievePrescription")}
       {...rest}
     >
+      <TextField
+        label="PrescriptionID"
+        isRequired={false}
+        value={PrescriptionID}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              PrescriptionID: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.PrescriptionID ?? value;
+          }
+          if (errors.PrescriptionID?.hasError) {
+            runValidationTasks("PrescriptionID", value);
+          }
+          setPrescriptionID(value);
+        }}
+        onBlur={() => runValidationTasks("PrescriptionID", PrescriptionID)}
+        errorMessage={errors.PrescriptionID?.errorMessage}
+        hasError={errors.PrescriptionID?.hasError}
+        {...getOverrideProps(overrides, "PrescriptionID")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

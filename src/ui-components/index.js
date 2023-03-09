@@ -7,6 +7,7 @@
 export { default as studioTheme } from "./studioTheme";
 export { default as EquipmentMaintenanceUpdateForm } from "./EquipmentMaintenanceUpdateForm";
 export { default as VendorUpdateForm } from "./VendorUpdateForm";
+export { default as RetrievePrescription } from "./RetrievePrescription";
 export { default as VendorCreateForm } from "./VendorCreateForm";
 export { default as MedicalEncounterUpdateForm } from "./MedicalEncounterUpdateForm";
 export { default as LabOrderUpdateForm } from "./LabOrderUpdateForm";
